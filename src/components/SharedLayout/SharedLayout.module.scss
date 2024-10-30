@@ -1,0 +1,39 @@
+header {
+
+    width: 100vw;
+
+    margin: 0 auto;
+
+    .headerContainer {
+
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        height: 100px;
+
+        padding: 0 30px;
+
+        .navList {
+
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+    
+            gap: 20px;
+    
+            padding: 3px 0;
+    
+            .navItem {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+
+    }
+
+}
