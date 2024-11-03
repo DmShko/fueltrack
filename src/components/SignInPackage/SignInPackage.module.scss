@@ -1,0 +1,48 @@
+.container {
+
+    padding: 10px;
+
+    .formWrapper {
+
+        width: 200px;
+
+        padding: 5px;
+
+        margin: 0 auto;
+
+        background-color: lightgray;
+        border-radius: 8px;
+
+        .formTitle {
+
+            font-size: 15px;
+            color: gray;
+
+            margin: 0;
+        }
+
+        input {
+                
+           height: 25px;
+
+           margin-bottom: 5px;
+
+           border: 0;
+           border-radius: 6px;
+        }
+
+        input:focus {
+                
+            outline: unset;
+        }
+
+        .form {
+            
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+    }
+
+}

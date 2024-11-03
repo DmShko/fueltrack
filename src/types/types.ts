@@ -14,3 +14,20 @@ export interface Track {
 export interface TracksInitialState {
     fuelDays: Track []
 };
+
+// modal types
+
+export interface TracksModalProps {
+    openClose: Function
+    selectedDayDrive: Function
+    pillNameReset: Function
+  };
+
+// new date types
+
+export interface newDateType {
+    timedata: string
+    datedata: string
+    yeardata: number
+    dateSeconds: string
+  };

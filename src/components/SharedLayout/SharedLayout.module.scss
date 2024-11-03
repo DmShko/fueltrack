@@ -2,9 +2,9 @@ header {
 
     width: 100vw;
 
-    margin: 0 auto;
+    margin: 0  auto 40px auto;
 
-    .headerContainer {
+    .container {
 
         display: flex;
         flex-direction: row;
@@ -15,22 +15,76 @@ header {
 
         padding: 0 30px;
 
+        background: linear-gradient(white 70%,  #aab1f8 25%);
+
+        .time {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: start;
+
+            font-size: 12px;
+            width:fit-content;
+            height: fit-content;
+            
+            color: lightgray;
+
+            .today {
+                margin: 0;
+            }
+
+            p {
+                margin: 0;
+            }
+        }
+
+        .logo {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center; 
+
+            font-size: 25px;
+
+            .logoLeft {
+                color: rgb(60, 47, 231);
+            }
+
+            .logoRight {
+                color: rgb(219, 183, 20);
+            }
+        }
+
         .navList {
 
             display: flex;
             flex-direction: row;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-end;
+
+            height: 100%;
     
-            gap: 20px;
+            gap: 2px;
     
-            padding: 3px 0;
+            padding: 0;
+
+            margin: 0;
     
             .navItem {
+                
                 display: flex;
                 flex-direction: row;
                 justify-content: space-between;
                 align-items: center;
+
+                padding: 0 3px;
+
+                border-left: solid 1px rgb(60, 47, 231);
+                border-right: solid 1px rgb(60, 47, 231);
+                border-bottom: solid 2px rgb(60, 47, 231);
+
+                border-radius: 0 0 6px 6px;
+             
             }
         }
 
