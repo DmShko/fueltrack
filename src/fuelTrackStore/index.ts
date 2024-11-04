@@ -11,10 +11,12 @@ import storage from 'redux-persist/lib/storage' // defaults to localStorage for 
 
 // my reducers
 import trackReducer from './trackSlice.ts';
+import signUpReducer from './signUpSlice.ts';
 
 const rootReducer = combineReducers({
   
   ser: trackReducer,
+  signUp: signUpReducer,
  
 });
 

@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 // style
 import si from './SignUpPackage.module.scss'
 
-// import singInAPI from "../../API/signInAPI";
+import singUpAPI from "../../API/signUpAPI";
 
 // own dispatch hook
 import { useAppDispatch, useAppSelector } from "../../app.hooks"; 
@@ -21,64 +21,52 @@ import { useAppDispatch, useAppSelector } from "../../app.hooks";
 
 const SignUp = () => {
 
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
 
-  // const tokenSelector = useAppSelector(state => state.signIn.token);
+  const isSignUpSelector = useAppSelector(state => state.signUp.isSignUp);
+  const signUpMessageSelector = useAppSelector(state => state.signUp.message);
+  const logOutMessageSelector = useAppSelector(state => state.logout.message);
+  const reVerifyMessageSelector = useAppSelector(state => state.reVerify.message);
 
-  // open/close alert modal window
-  const [alertModalToggle, setAlertModalToggle] = useState(false);
+  const [reVerifyMessage, setReVerifyMessage] = useState('');
 
-  // useEffect(() => {
+  useEffect(() => {
   
-  //   if(isLogInSelector) {
-
-  //     navigate('/courses');
-  //     dispatch(changeSingIn({operation: 'changeIsLogIn', data: false}));
-
-  //   }; 
-   
-  // },[isLogInSelector]);
-
-  // useEffect(() => {
-  
-  //   if(tokenSelector !== '') dispatch(changeLogout({operation: 'changeIsLogout', data: false}));
-   
-  // },[tokenSelector]);
-
-  // useEffect(() => {
-  
-  //   if(isLogOutSelector) dispatch(changeSingIn({operation: 'clearToken', data: ''}));
+    if(isLogOutSelector) dispatch(changeSingIn({operation: 'clearToken', data: ''}));
     
-  // },[isLogOutSelector]);
+  },[isLogOutSelector]);
 
-  // useEffect(() => {
+  useEffect(() => {
   
-  //   if(signInMessageSelector !== '' || logOutMessageSelector !== '') {
+    if(signUpMessageSelector !== '' || reVerifyMessageSelector !== '' || logOutMessageSelector !== '' || reVerifyMessage != '' || reVerifyMessageSelector !== '') {
 
-  //     setAlertModalToggle(true);
+      setAlertModalToggle(true);
 
-  //     // clear timer and close modalAlert window
-  //     const alertHandler = () => {
+      // clear timer and close modalAlert window
+      const alertHandler = () => {
 
-  //       // close modalAlert window 
-  //       setAlertModalToggle(false);
+        // close modalAlert window 
+        setAlertModalToggle(false);
 
-  //       clearTimeout(timout);
+        clearTimeout(timout);
 
-  //       dispatch(changeSingUp({operation: 'clearMessage', data: ''}));
-  //       dispatch(changeSingIn({operation: 'clearMessage', data: ''}));
-  //       dispatch(changeLogout({operation: 'clearMessage', data: ''}));
+        dispatch(changeSingIn({operation: 'clearMessage', data: ''}));
+        dispatch(changeSingUp({operation: 'clearMessage', data: ''}));
+        dispatch(changeLogout({operation: 'clearMessage', data: ''}));
+        dispatch(changeReVerify({operation: 'clearMessage', data: ''}));
 
-  //     };
+        setReVerifyMessage('');
 
-  //     // start timer and open modalAlert window
-  //     const timout = window.setTimeout(alertHandler, 3000);
+      };
 
-  //   };
+      // start timer and open modalAlert window
+      const timout = window.setTimeout(alertHandler, 3000);
+
+    };
     
-  // },[signInMessageSelector, logOutMessageSelector]);
+  },[signUpMessageSelector, logOutMessageSelector, reVerifyMessage, reVerifyMessageSelector]);
 
   // const errorMessagesTrans = (data: string) => { 
 
@@ -87,7 +75,7 @@ const SignUp = () => {
   //   switch(data) {
 
   //     case 'email':
-  //       languageSelector === 'En' ? message = 'Invalid email' : message = 'Невірний формат пошти';
+  //       languageSelector === 'En' ? message = 'Invalid email': message = 'Невірний формат пошти';
   //     break;
 
   //     case 'emailReq':
@@ -100,6 +88,18 @@ const SignUp = () => {
 
   //     case 'passportReq':
   //       languageSelector === 'En' ? message = 'Password field is required': message = "Пароль обов'язковий";
+  //     break;
+
+  //     case 'passportRep':
+  //       languageSelector === 'En' ? message = 'Must be 8 characters or more': message = "Має бути від 8 символів";
+  //     break;
+
+  //     case 'passportRepReq':
+  //       languageSelector === 'En' ? message = 'RepeatPassword field is required': message = "Повторіть пароль";
+  //     break;
+
+  //     case 'passportMatch':
+  //       languageSelector === 'En' ? message = 'Passwords must match': message = "Паролі мають збігатися";
   //     break;
 
   //     default:
@@ -139,15 +139,15 @@ const SignUp = () => {
     },
     onSubmit: (values, { resetForm }) => {
 
-      // if(values.password === values.repeatPassword) {
-      //   dispatch(singUpAPI({
-      //     name: values.name,
-      //     email: values.email,
-      //     password: values.password
-      //   }));
-      // };
+      if(values.password === values.repeatPassword) {
+        dispatch(singUpAPI({
+          name: values.name,
+          email: values.email,
+          password: values.password
+        }));
+      };
 
-      // if(isSignUpSelector) resetForm();
+      if(isSignUpSelector) resetForm();
       
     },
   });
