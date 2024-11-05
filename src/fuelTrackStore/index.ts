@@ -12,12 +12,17 @@ import storage from 'redux-persist/lib/storage' // defaults to localStorage for 
 // my reducers
 import trackReducer from './trackSlice.ts';
 import signUpReducer from './signUpSlice.ts';
+import signInReducer from './signInSlice.ts';
+import logOutReducer from './logOutSlice.ts';
+import reVerifyReducer from './reVerifySlice.ts';
 
 const rootReducer = combineReducers({
   
   ser: trackReducer,
   signUp: signUpReducer,
- 
+  signIn: signInReducer,
+  logOut: logOutReducer,
+  reVerify: reVerifyReducer,
 });
 
 const persistConfig = {

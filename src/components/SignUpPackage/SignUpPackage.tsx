@@ -10,6 +10,11 @@ import si from './SignUpPackage.module.scss'
 
 import singUpAPI from "../../API/signUpAPI";
 
+import { changeSingIn } from "../../fuelTrackStore/signInSlice"; 
+import { changeSingUp } from "../../fuelTrackStore/signUpSlice";  
+import { changeLogout } from "../../fuelTrackStore/logOutSlice"; 
+import { changeReVerify } from "../../fuelTrackStore/reVerifySlice";
+
 // own dispatch hook
 import { useAppDispatch, useAppSelector } from "../../app.hooks"; 
 
@@ -27,7 +32,8 @@ const SignUp = () => {
 
   const isSignUpSelector = useAppSelector(state => state.signUp.isSignUp);
   const signUpMessageSelector = useAppSelector(state => state.signUp.message);
-  const logOutMessageSelector = useAppSelector(state => state.logout.message);
+  const logOutMessageSelector = useAppSelector(state => state.logOut.message);
+  const isLogOutSelector = useAppSelector(state => state.logOut.isLogout);
   const reVerifyMessageSelector = useAppSelector(state => state.reVerify.message);
 
   const [reVerifyMessage, setReVerifyMessage] = useState('');
@@ -42,13 +48,13 @@ const SignUp = () => {
   
     if(signUpMessageSelector !== '' || reVerifyMessageSelector !== '' || logOutMessageSelector !== '' || reVerifyMessage != '' || reVerifyMessageSelector !== '') {
 
-      setAlertModalToggle(true);
+      // setAlertModalToggle(true);
 
       // clear timer and close modalAlert window
       const alertHandler = () => {
 
         // close modalAlert window 
-        setAlertModalToggle(false);
+        // setAlertModalToggle(false);
 
         clearTimeout(timout);
 
@@ -219,7 +225,7 @@ const SignUp = () => {
           />
           </div>
 
-          <button type="submit" className={si.courseButton} title='SignIn'>{'Увійти'}</button>
+          <button type="submit" className={si.courseButton} title='SignIn'>{'Створити'}</button>
 
         </form>
 
