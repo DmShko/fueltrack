@@ -6,7 +6,7 @@ import { SignUpArgs } from '../types/authTypes'
 import { SignUpRes } from '../types/authTypes'
 
 // const URL = 'https://pill-server.onrender.com/api/auth/signup';
-const URL='http://localhost:3000';
+const URL='http://localhost:3000/api/auth/signup';
 
 // createAsyncThunk<return data type, arg type, rejectValue type>
 export const singUpAPI = createAsyncThunk<SignUpRes, SignUpArgs, {rejectValue: string}>(
@@ -21,6 +21,7 @@ export const singUpAPI = createAsyncThunk<SignUpRes, SignUpArgs, {rejectValue: s
       // ...
     })
     .catch((error) => {
+
       return rejectWithValue(error.response.data.message)
     });
 });

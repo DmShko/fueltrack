@@ -4,8 +4,8 @@ import axios from "axios";
 // types
 import { LogoutArgs } from '../types/authTypes';
 
-// const URL='https://pill-server.onrender.com/api/auth/logout/';
-const URL='http://localhost:3000';
+// const URL='https://pill-server.onrender.com/api/auth/logout';
+const URL='http://localhost:3000/api/auth/logout';
 
 // createAsyncThunk<return data type, arg type, rejectValue type>
 export const logOutAPI = createAsyncThunk<any, LogoutArgs,{rejectValue: string}>(
