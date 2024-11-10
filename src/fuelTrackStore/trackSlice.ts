@@ -3,11 +3,17 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 // custom types
 import {
   TracksInitialState,
-  ActionTracks
+  ActionTracks,
+  LightModeAction,
+  LightModeType,
+  LangType,
+  LangModeAction,
 } from "../types/types";
 
 const TracksInitialState: TracksInitialState = {
   fuelDays: [],
+  lightMode: LightModeType.light,
+  language: LangType.en
 };
 
 const trackSlice = createSlice({
@@ -26,9 +32,21 @@ const trackSlice = createSlice({
                 default:
                 break;
             }
-        }
+        },
+
+        changeLightMode(state, action: PayloadAction<LightModeAction>) {
+      
+          state.lightMode = action.payload.data;
+    
+        },
+
+        changeLangMode(state, action: PayloadAction<LangModeAction>) {
+      
+          state.language = action.payload.data;
+    
+        },
     }
 });
 
-export const {tracks,} = trackSlice.actions;
+export const {tracks, changeLightMode, changeLangMode} = trackSlice.actions;
 export default trackSlice.reducer;

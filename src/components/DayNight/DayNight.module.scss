@@ -1,0 +1,38 @@
+.container {
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 5px;
+
+    .day{
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        width: 20px;
+        height: 20px;
+
+        border-radius: 8px 0 0 8px;
+
+        background-color: lightgray;
+    }
+
+    .night{
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        width: 20px;
+        height: 20px;
+
+        border-radius: 0 8px 8px 0;
+
+        background-color: lightgray;
+    }
+
+}

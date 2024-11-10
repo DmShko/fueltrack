@@ -15,7 +15,7 @@ header {
 
         padding: 0 30px;
 
-        background: linear-gradient(white 70%,  #aab1f8 25%);
+        background: linear-gradient(white 70%, #aab1f8 25%);
 
         .time {
             display: flex;
@@ -77,6 +77,8 @@ header {
                 justify-content: space-between;
                 align-items: center;
 
+                font-size: 14px;
+
                 padding: 0 3px;
 
                 border-left: solid 1px rgb(60, 47, 231);
@@ -84,9 +86,17 @@ header {
                 border-bottom: solid 2px rgb(60, 47, 231);
 
                 border-radius: 0 0 6px 6px;
-             
+
             }
         }
+
+        .out {
+            color: white; 
+
+            padding: 5px;
+
+            background-color: gray;
+         }
 
     }
 

@@ -6,14 +6,18 @@ import { useFormik } from "formik";
 import * as Yup from 'yup';
 
 // style
-import si from './SignInPackage.module.scss'
+import si from './SignInPackage.module.scss';
 
-// import singInAPI from "../../API/signInAPI";
+import singInAPI from "../../API/signInAPI";
 
 // own dispatch hook
 import { useAppDispatch, useAppSelector } from "../../app.hooks"; 
 
+import { changeSingIn } from '../../fuelTrackStore/signInSlice'; 
+
 // images
+import Info from '../SvgComponents/Info/Info';
+import Enter from '../SvgComponents/Enter/Enter';
 // import Mail from "../SvgComponents/Courses/Mail";
 // import Lock from "../SvgComponents/Courses/Lock";
 // import Horn from '../SvgComponents/Courses/Modal/Horn'; 
@@ -26,20 +30,22 @@ const SignIn = () => {
   const navigate = useNavigate();
 
   // const tokenSelector = useAppSelector(state => state.signIn.token);
+  const isSignInSelector = useAppSelector(state => state.signIn.isLogIn);
+  // const isLogOutSelector = useAppSelector(state => state.logOut.isLogout);
 
   // open/close alert modal window
   const [alertModalToggle, setAlertModalToggle] = useState(false);
 
-  // useEffect(() => {
+  useEffect(() => {
   
-  //   if(isLogInSelector) {
+    if(isSignInSelector) {
 
-  //     navigate('/courses');
-  //     dispatch(changeSingIn({operation: 'changeIsLogIn', data: false}));
+      navigate('/');
+      dispatch(changeSingIn({operation: 'changeIsLogIn', data: true}));
 
-  //   }; 
+    };
    
-  // },[isLogInSelector]);
+  },[isSignInSelector]);
 
   // useEffect(() => {
   
@@ -130,12 +136,12 @@ const SignIn = () => {
       password: '',
     },
     onSubmit: (values, { resetForm }) => {
-      // dispatch(singInAPI({
-      //   email: values.email,
-      //   password: values.password
-      // }));
+      dispatch(singInAPI({
+        email: values.email,
+        password: values.password
+      }));
 
-      // if(isLogInSelector) resetForm();
+      if(isSignInSelector) resetForm();
 
     },
   });
@@ -160,7 +166,7 @@ const SignIn = () => {
 
           <h1 className={si.formTitle}>{'Вхід'}</h1>
 
-          <p className={si.formTitle}>{'Будь ласка, заповніть поля нижче для входу в особистий кабінет'}</p>   
+          <div className={si.formInfo}><Info/><p>{'Будь ласка, заповніть поля нижче для входу в особистий кабінет'}</p></div>
 
           <div className={si.itemLabel}> <label htmlFor="email"></label>
 
@@ -170,6 +176,7 @@ const SignIn = () => {
             type="text"
             onChange={formik.handleChange}
             value={formik.values.email}
+            placeholder="Your email"
             // style={lightModeSelector === 'dark' ? {backgroundColor: 'rgb(39, 29, 92)'} : {backgroundColor: 'white'}}
           />
           </div>
@@ -181,11 +188,12 @@ const SignIn = () => {
             type="password"
             onChange={formik.handleChange}
             value={formik.values.password}
+            placeholder="Password"
             // style={lightModeSelector === 'dark' ? {backgroundColor: 'rgb(39, 29, 92)'} : {backgroundColor: 'white'}}
           />
           </div>
 
-          <button type="submit" className={si.courseButton} title='SignIn'>{'Увійти'}</button>
+          <button type="submit" className={si.courseButton} title='SignIn'><Enter/></button>
 
         </form>
 

@@ -4,6 +4,16 @@ import { Suspense } from "react";
 
 import sh from './SharedLayout.module.scss';
 
+// own dispatch hook
+import { useAppDispatch, useAppSelector } from "../../app.hooks"; 
+
+import logoutAPI from "../../API/logOutAPI";
+
+import { changeLogout } from '../../fuelTrackStore/logOutSlice';
+import { changeSingIn }  from '../../fuelTrackStore/signInSlice'; 
+
+import DayNight  from '../DayNight/DayNight';
+
 // images
 import BallOfWool from '../SvgComponents/Logo/BallOfWool';
 
@@ -11,9 +21,29 @@ import BallOfWool from '../SvgComponents/Logo/BallOfWool';
 import { newDateType } from '../../types/types'
 
 const SharedLayout: FC = () => {
+
+    const tokenSelector = useAppSelector(state => state.signIn.token);
+    const isLogOutSelector = useAppSelector(state => state.logOut.isLogout);
+
+    const dispatch = useAppDispatch();
   
     const [ timeValue, setTimeValue ]= useState({time: new Date()});
     const [ newDateObj, setNewDateObj ]= useState<newDateType>();
+
+    useEffect(() => {
+  
+      if(tokenSelector !== '') dispatch(changeLogout({operation: 'changeIsLogout', data: false}));
+     
+    },[tokenSelector]);
+  
+    useEffect(() => {
+    
+      if(isLogOutSelector) {
+        dispatch(changeSingIn({operation: 'clearToken', data: ''}));
+        dispatch(changeSingIn({operation: 'changeIsLogIn', data: false}));
+      }
+      
+    },[isLogOutSelector]);
 
     useEffect(() => {
 
@@ -52,6 +82,10 @@ const SharedLayout: FC = () => {
        
     },[newDateObj]);
 
+    const logout = () => {
+      dispatch(logoutAPI({token: tokenSelector,}));
+    };
+
     return (
         <>
           <header className={sh.header}>
@@ -68,15 +102,19 @@ const SharedLayout: FC = () => {
               </ul>
 
               <div className={sh.time}><p className={sh.today}>{'Today'}</p><p>{newDateObj !== undefined ? `${newDateObj.datedata}.${newDateObj.yeardata} ${newDateObj?.timedata}:${newDateObj.dateSeconds}`: ''}</p></div>
-              
-              <ul className={sh.navList}>
+              <DayNight/>
+              {!tokenSelector && <ul className={sh.navList}>
                 <li className={sh.navItem}>
-                  <NavLink to={"/SignIn"} style={{color: 'white'}}>signIn</NavLink>
+                  <NavLink to={"/signIn"} style={{color: 'white'}}>signIn</NavLink>
                 </li>
                 <li className={sh.navItem}>
-                  <NavLink to={"/SignUp"} style={{color: 'white'}}>signUp</NavLink>
+                  <NavLink to={"/signUp"} style={{color: 'white'}}>signUp</NavLink>
                 </li>
-              </ul>
+              </ul> 
+              }
+
+              {tokenSelector && <button className={sh.out} type="button" onClick={logout}>Вийти</button>
+              }
             </div>
           </header>
     

@@ -6,12 +6,14 @@
 
         width: 200px;
 
-        padding: 5px;
+        padding: 10px;
 
         margin: 0 auto;
 
         background-color: lightgray;
         border-radius: 8px;
+
+        box-shadow: 1px 1px 4px 1px rgb(61, 61, 61);
 
         .formTitle {
 
@@ -19,30 +21,100 @@
             color: gray;
 
             margin: 0;
+
         }
 
-        input {
-                
-           height: 25px;
+        .formInfo {
 
-           margin-bottom: 5px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
 
-           border: 0;
-           border-radius: 6px;
-        }
+            height: 50px;
 
-        input:focus {
-                
-            outline: unset;
-        }
+            width: 100%;
 
-        .form {
+            margin: 5px 0;
+
+            font-size: 12px;
+
+            background-color: rgb(219, 183, 20);
+            border-radius: 8px;
+
             
+            p {
+                margin: 0;
+            }
+        }
+
+        .itemLabel {
+
+            input {
+  
+                height: 25px;
+     
+                margin-bottom: 5px;
+     
+                border: 0;
+                border-radius: 6px;
+             }
+     
+             input:focus {
+                     
+                 outline: unset;
+             }
+        }
+        
+
+        form {
+            
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            gap: 5px;
+
+            padding: 10px;
+
+        }
+
+        .passgen {
+
             display: flex;
             justify-content: center;
             align-items: center;
+
+            margin-bottom: 5px;
+
+            a {
+                font-size: 12px;
+            }
+    
+            a:hover {
+                color: gray;
+                cursor: pointer;
+            }
+
         }
 
-    }
+        button {
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            width: 32px;
+            height: 32px;
+            
+            border-radius: 8px;
+        }
+
+        button:focus {
+            outline: none;
+        }
+
+    } 
 
 }

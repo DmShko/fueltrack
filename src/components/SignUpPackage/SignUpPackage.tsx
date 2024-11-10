@@ -6,7 +6,7 @@ import { useFormik } from "formik";
 import * as Yup from 'yup';
 
 // style
-import si from './SignUpPackage.module.scss'
+import su from './SignUpPackage.module.scss'
 
 import singUpAPI from "../../API/signUpAPI";
 
@@ -19,10 +19,10 @@ import { changeReVerify } from "../../fuelTrackStore/reVerifySlice";
 import { useAppDispatch, useAppSelector } from "../../app.hooks"; 
 
 // images
-// import Mail from "../SvgComponents/Courses/Mail";
-// import Lock from "../SvgComponents/Courses/Lock";
-// import Horn from '../SvgComponents/Courses/Modal/Horn'; 
-// import Loading from '../SvgComponents/Courses/Loading/Loading';
+import Pointer from '../SvgComponents/Pointer/Pointer';
+import Add from '../SvgComponents/Add/Add';
+import Info from '../SvgComponents/Info/Info';
+import RoadSign from '../SvgComponents/RoadSign/RoadSign';
 
 const SignUp = () => {
 
@@ -35,6 +35,8 @@ const SignUp = () => {
   const logOutMessageSelector = useAppSelector(state => state.logOut.message);
   const isLogOutSelector = useAppSelector(state => state.logOut.isLogout);
   const reVerifyMessageSelector = useAppSelector(state => state.reVerify.message);
+  const lightModeSelector = useAppSelector(state => state.ser.lightMode);
+  const languageSelector = useAppSelector(state => state.ser.language);
 
   const [reVerifyMessage, setReVerifyMessage] = useState('');
 
@@ -48,13 +50,8 @@ const SignUp = () => {
   
     if(signUpMessageSelector !== '' || reVerifyMessageSelector !== '' || logOutMessageSelector !== '' || reVerifyMessage != '' || reVerifyMessageSelector !== '') {
 
-      // setAlertModalToggle(true);
-
       // clear timer and close modalAlert window
       const alertHandler = () => {
-
-        // close modalAlert window 
-        // setAlertModalToggle(false);
 
         clearTimeout(timout);
 
@@ -74,79 +71,101 @@ const SignUp = () => {
     
   },[signUpMessageSelector, logOutMessageSelector, reVerifyMessage, reVerifyMessageSelector]);
 
-  // const errorMessagesTrans = (data: string) => { 
+  const errorMessagesTrans = (data: string) => { 
 
-  //   let message = '';
+    let message = '';
 
-  //   switch(data) {
+    switch(data) {
 
-  //     case 'email':
-  //       languageSelector === 'En' ? message = 'Invalid email': message = 'Невірний формат пошти';
-  //     break;
+      case 'company':
+        languageSelector === 'En' ? message = 'Invalid company name': message = 'Невірний формат назви компанії';
+      break;
 
-  //     case 'emailReq':
-  //       languageSelector === 'En' ? message = 'Email field is required': message = "Пошта обов'язкова";
-  //     break;
+      case 'companyReq':
+        languageSelector === 'En' ? message = 'Company field is required': message = 'Зазначте назву компанії';
+      break;
 
-  //     case 'passport':
-  //       languageSelector === 'En' ? message = 'Must be 8 characters or more': message = "Має бути від 8 символів";
-  //     break;
+      case 'nameReq':
+        languageSelector === 'En' ? message = 'Name field is required': message = "Ім'я обов'язкове";
+      break;
 
-  //     case 'passportReq':
-  //       languageSelector === 'En' ? message = 'Password field is required': message = "Пароль обов'язковий";
-  //     break;
+      case 'email':
+        languageSelector === 'En' ? message = 'Invalid email': message = 'Невірний формат пошти';
+      break;
 
-  //     case 'passportRep':
-  //       languageSelector === 'En' ? message = 'Must be 8 characters or more': message = "Має бути від 8 символів";
-  //     break;
+      case 'emailReq':
+        languageSelector === 'En' ? message = 'Email field is required': message = "Пошта обов'язкова";
+      break;
 
-  //     case 'passportRepReq':
-  //       languageSelector === 'En' ? message = 'RepeatPassword field is required': message = "Повторіть пароль";
-  //     break;
+      case 'passport':
+        languageSelector === 'En' ? message = 'Must be 8 characters or more': message = "Має бути від 8 символів";
+      break;
 
-  //     case 'passportMatch':
-  //       languageSelector === 'En' ? message = 'Passwords must match': message = "Паролі мають збігатися";
-  //     break;
+      case 'passportReq':
+        languageSelector === 'En' ? message = 'Password field is required': message = "Пароль обов'язковий";
+      break;
 
-  //     default:
-  //       break;
-  //   }
+      case 'passportRep':
+        languageSelector === 'En' ? message = 'Must be 8 characters or more': message = "Має бути від 8 символів";
+      break;
 
-  //   return message;
+      case 'passportRepReq':
+        languageSelector === 'En' ? message = 'RepeatPassword field is required': message = "Повторіть пароль";
+      break;
+
+      case 'passportMatch':
+        languageSelector === 'En' ? message = 'Passwords must match': message = "Паролі мають збігатися";
+      break;
+
+      default:
+        break;
+    }
+
+    return message;
     
-  // };
+  };
 
   const formik = useFormik({
 
       //yup stored own validate functions (for email, password...etc)
       validationSchema: Yup.object({
+        company: Yup.string()
+          .matches(
+            /\w{0}[0-9a-zA-Za-яА-Я]/,
+            { message: errorMessagesTrans('company')}
+          )
+          .required(errorMessagesTrans('companyReq')),
+        name: Yup.string().required(errorMessagesTrans('nameReq')),
         email: Yup.string()
           .matches(
             /\w{0}[0-9a-zA-Za-яА-Я@-_]+@\w{0}[a-zA-Za-яА-Я]+\.\w{0}[a-zA-Za-яА-Я]/,
-            // { message: errorMessagesTrans('email')}
-          ),
-          // .required(errorMessagesTrans('emailReq'))
-        password: Yup.string(),
-          // .min(8, errorMessagesTrans('passport'))
-          // .required(errorMessagesTrans('passportReq')),
+            { message: errorMessagesTrans('email')}
+          )
+          .required(errorMessagesTrans('emailReq')),
+        password: Yup.string()
+          .min(8, errorMessagesTrans('passport'))
+          .required(errorMessagesTrans('passportReq')),
         repeatPassword: Yup.string()
-          // .min(8, errorMessagesTrans('passportRep'))
-          // .required(errorMessagesTrans('passportRepReq'))
-          // .oneOf([Yup.ref('password')], errorMessagesTrans('passportMatch')),
+          .min(8, errorMessagesTrans('passportRep'))
+          .required(errorMessagesTrans('passportRepReq'))
+          .oneOf([Yup.ref('password')], errorMessagesTrans('passportMatch')),
                             // ,null^
       }
     ),
 
     initialValues: {
+      company: '',
       name: '',
       email: '',
       password: '',
       repeatPassword: '',
     },
+    
     onSubmit: (values, { resetForm }) => {
 
       if(values.password === values.repeatPassword) {
         dispatch(singUpAPI({
+          company: values.company,
           name: values.name,
           email: values.email,
           password: values.password
@@ -158,40 +177,56 @@ const SignUp = () => {
     },
   });
 
+  const dis = () => {
+
+    let status = false;
+
+    if(formik.errors.company || formik.errors.email || formik.errors.password || formik.errors.repeatPassword) {
+      status = true; 
+    }
+
+    return status;
+  };
+
   return (
     
-    <div className={si.container}>
+    <div className={su.container}>
 
-      <div className={si.formWrapper}>
+      <div className={su.formWrapper}>
 
         <form onSubmit={formik.handleSubmit}>
 
-          <div className={si.messageContainer} style={formik.errors.email || formik.errors.password ? {width: '230px', } : {width: '0'}}>
+          <h1 className={su.formTitle}>{'Реєстрація'}</h1>
 
-            <div className={si.curtain}>
+          {formik.errors.company ? <div className={su.formInfo}><Info/><p>{`${formik.errors.company}`}</p></div> : formik.errors.name ? <div className={su.formInfo}><Info/><p>{`${formik.errors.name}`}</p></div> : formik.errors.email ? <div className={su.formInfo}><Info/><p>{`${formik.errors.email}`}</p></div> : formik.errors.password ? <div className={su.formInfo}><Info/><p>{`${formik.errors.password}`}</p></div> : formik.errors.repeatPassword ? <div className={su.formInfo}><Info/><p>{`${formik.errors.repeatPassword}`}</p></div> : <RoadSign/>}
 
-              {/* <p>{formik.errors.email ? formik.errors.email : formik.errors.password ? formik.errors.password : signInMessageSelector}</p> */}
+          <div className={su.itemLabel}> <label htmlFor="company"></label>
+            <input
+              id="company"
+              name="company"
+              type="text"
+              onChange={formik.handleChange}
+              value={formik.values.company}
+              placeholder="Company name"
+              style={formik.errors.company ? lightModeSelector === 'dark' ?  {backgroundColor: 'rgb(39, 29, 92)', outline: 'solid 1px lightcoral'} : {backgroundColor: 'white', outline: 'solid 1px lightcoral'} 
+              : lightModeSelector === 'dark' ?  {backgroundColor: 'rgb(39, 29, 92)', outline: 'none'} : {backgroundColor: 'white', outline: 'none'}}
+            />   
+          </div> 
 
-            </div>
-
-          </div>
-
-          <h1 className={si.formTitle}>{'Реєстрація'}</h1>
-
-          <p className={si.formTitle}>{'Будь ласка, заповніть поля нижче для реєстрації'}</p>
-
-          <div className={si.itemLabel}> <label htmlFor="name"></label>
+          <div className={su.itemLabel}> <label htmlFor="name"></label>
             <input
               id="name"
               name="name"
               type="text"
               onChange={formik.handleChange}
               value={formik.values.name}
-              // style={lightModeSelector === 'dark' ? {backgroundColor: 'rgb(39, 29, 92)'} : {backgroundColor: 'white'}}
+              placeholder="Your name"
+              style={formik.errors.name ? lightModeSelector === 'dark' ?  {backgroundColor: 'rgb(39, 29, 92)', outline: 'solid 1px lightcoral'} : {backgroundColor: 'white', outline: 'solid 1px lightcoral'} 
+              : lightModeSelector === 'dark' ?  {backgroundColor: 'rgb(39, 29, 92)', outline: 'none'} : {backgroundColor: 'white', outline: 'none'}}
             />   
           </div>   
 
-          <div className={si.itemLabel}> <label htmlFor="email"></label>
+          <div className={su.itemLabel}> <label htmlFor="email"></label>
 
           <input
             id="email"
@@ -199,37 +234,48 @@ const SignUp = () => {
             type="text"
             onChange={formik.handleChange}
             value={formik.values.email}
-            // style={lightModeSelector === 'dark' ? {backgroundColor: 'rgb(39, 29, 92)'} : {backgroundColor: 'white'}}
+            placeholder="Your email"
+            style={formik.errors.email ? lightModeSelector === 'dark' ?  {backgroundColor: 'rgb(39, 29, 92)', outline: 'solid 1px lightcoral'} : {backgroundColor: 'white', outline: 'solid 1px lightcoral'} 
+              : lightModeSelector === 'dark' ?  {backgroundColor: 'rgb(39, 29, 92)', outline: 'none'} : {backgroundColor: 'white', outline: 'none'}}
           />
           </div>
 
-          <div className={si.itemLabel}> <label htmlFor="password"></label>
+          <div className={su.passgen}>
+            <a onClick={() => window.open("https://dmshko.github.io/password_generator/", '_blank')}>Password generator</a>
+            <Pointer/>
+          </div>
+
+          <div className={su.itemLabel}> <label htmlFor="password"></label>
           <input
             id="password"
             name="password"
             type="password"
             onChange={formik.handleChange}
             value={formik.values.password}
-            // style={lightModeSelector === 'dark' ? {backgroundColor: 'rgb(39, 29, 92)'} : {backgroundColor: 'white'}}
+            placeholder="Password"
+            style={formik.errors.password ? lightModeSelector === 'dark' ?  {backgroundColor: 'rgb(39, 29, 92)', outline: 'solid 1px lightcoral'} : {backgroundColor: 'white', outline: 'solid 1px lightcoral'} 
+              : lightModeSelector === 'dark' ?  {backgroundColor: 'rgb(39, 29, 92)', outline: 'none'} : {backgroundColor: 'white', outline: 'none'}}
           />
           </div>
 
-          <div className={si.itemLabel}><label htmlFor="repeatPassword"></label>
+          <div className={su.itemLabel}><label htmlFor="repeatPassword"></label>
           <input
             id="repeatPassword"
             name="repeatPassword"
             type="password"
             onChange={formik.handleChange}
             value={formik.values.repeatPassword}
-            // style={lightModeSelector === 'dark' ? {backgroundColor: 'rgb(39, 29, 92)'} : {backgroundColor: 'white'}}
+            placeholder="Yes) Again"
+            style={formik.errors.repeatPassword ? lightModeSelector === 'dark' ?  {backgroundColor: 'rgb(39, 29, 92)', outline: 'solid 1px lightcoral'} : {backgroundColor: 'white', outline: 'solid 1px lightcoral'} 
+              : lightModeSelector === 'dark' ?  {backgroundColor: 'rgb(39, 29, 92)', outline: 'none'} : {backgroundColor: 'white', outline: 'none'}}
           />
           </div>
 
-          <button type="submit" className={si.courseButton} title='SignIn'>{'Створити'}</button>
+          <button type="submit" title='SignUp' disabled={dis()} style={dis() ?{backgroundColor: "lightcoral"} : {backgroundColor: "lightgreen"}}><Add/></button>
 
         </form>
 
-        <p className={si.switch} onClick={() => navigate('/signup')}>{'Створити'}</p>
+        <p className={su.switch} onClick={() => navigate('/signup')}>{'Увійти'}</p>
 
       </div>
 

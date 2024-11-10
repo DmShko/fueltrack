@@ -13,6 +13,8 @@
         background-color: lightgray;
         border-radius: 8px;
 
+        box-shadow: 1px 1px 4px 1px rgb(61, 61, 61);
+
         .formTitle {
 
             font-size: 15px;
@@ -36,11 +38,49 @@
             outline: unset;
         }
 
-        .form {
+        .formInfo {
+
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+
+            height: 50px;
+
+            padding: 3px;
+
+            font-size: 12px;
+
+            background-color: rgb(219, 183, 20);
+            border-radius: 8px;
+
+            p {
+                margin: 0;
+            }
+        }
+
+        form {
             
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            gap: 5px;
+
+            padding: 10px;
+        }
+
+        button {
+
             display: flex;
             justify-content: center;
             align-items: center;
+
+            width: 32px;
+            height: 32px;
+            
+            border-radius: 8px;
         }
 
     }

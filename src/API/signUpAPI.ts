@@ -21,7 +21,6 @@ export const singUpAPI = createAsyncThunk<SignUpRes, SignUpArgs, {rejectValue: s
       // ...
     })
     .catch((error) => {
-
       return rejectWithValue(error.response.data.message)
     });
 });
