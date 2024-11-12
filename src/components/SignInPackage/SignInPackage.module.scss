@@ -24,30 +24,32 @@
         }
 
         input {
-                
-           height: 25px;
-
-           margin-bottom: 5px;
-
-           border: 0;
-           border-radius: 6px;
-        }
-
-        input:focus {
-                
-            outline: unset;
-        }
+  
+            height: 25px;
+ 
+            margin-bottom: 5px;
+ 
+            border: 0;
+            border-radius: 6px;
+         }
+ 
+         input:focus {
+                 
+             outline: unset;
+         }
 
         .formInfo {
 
             display: flex;
             flex-direction: row;
-            justify-content: center;
+            justify-content: space-around;
             align-items: center;
 
             height: 50px;
 
-            padding: 3px;
+            width: 100%;
+
+            margin: 5px 0;
 
             font-size: 12px;
 
@@ -81,6 +83,10 @@
             height: 32px;
             
             border-radius: 8px;
+        }
+
+        button:focus {
+            outline: none;
         }
 
     }

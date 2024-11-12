@@ -7,12 +7,66 @@
     border: solid 1px lightblue;
     border-radius: 8px;
 
+    background-color: white;
+
+    box-shadow: 1px 1px 4px 1px rgb(61, 61, 61);
+
+    .toggleStatictic {
+        margin-bottom: 20px;
+    }
+
     .monthStatistic {
 
         display: flex;
         justify-content: space-between;
-        flex-direction: row;
+        flex-direction: column;
         align-items: center;
+
+        width: 50%;
+
+        .list {
+            width: 90%;
+
+            height: 100px;
+        }
+
+        .dashboard {
+
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+
+            width: 90%;
+
+            button {
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                
+                width: 70px;
+            }
+
+        }
+
+        .parameter {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            
+            width: 90%;
+            height: 30px;
+
+            padding: 5px 10px;
+
+            border-bottom: dashed 1px #454c1c;
+
+            p {
+                font-weight: 600;
+            }
+        }
     }
 
     .currentStatistic {

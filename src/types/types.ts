@@ -5,6 +5,7 @@ export interface ActionTracks {
 }
 
 export interface Track {
+    id: string
     fuel: string
     price: string
     kmDay: string
