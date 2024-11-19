@@ -4,24 +4,24 @@ import { FC, useEffect, PropsWithChildren } from "react";
 const modalRoot = document.querySelector('#root-modal') as HTMLElement;
 
 // own dispatch hook
-// import { useAppSelector } from "../../app.hooks";
+import { useAppSelector } from "../../app.hooks";
 
-import tm from './TracksModal.module.scss'
+import trm from './TrackModal.module.scss'
 
-import { TracksModalProps } from '../../types/types';
+import { TrackModalProps } from '../../types/types';
 
-const TracksModal: FC<PropsWithChildren<TracksModalProps>> = ({ children, openClose }) => {
+const TrackModal: FC<PropsWithChildren<TrackModalProps>> = ({ children, openClose }) => {
 
-  //   const lightModeSelector = useAppSelector(state => state.tm.lightMode);
+  const lightModeSelector = useAppSelector(state => state.ser.lightMode);
 
   useEffect(() => {
 
     document.body.style.overflow = 'hidden'
-    
+
     return () => {
       document.body.style.overflow = 'scroll'
     };
-   // eslint-disable-next-line
+ 
   }, []);
 
   // close modal window by click on backdrob
@@ -35,9 +35,9 @@ const TracksModal: FC<PropsWithChildren<TracksModalProps>> = ({ children, openCl
   };
 
 return createPortal(
-    <div className={tm.backdrop} onClick={clickBackdrob} style={{top: `${window.scrollY}px`}}>
+    <div className={trm.backdrop} onClick={clickBackdrob} style={{top: `${window.scrollY}px`}}>
 
-        <div className={tm.container}>
+        <div className={trm.container} style={lightModeSelector === 'dark' ? {backgroundColor: 'rgb(39, 29, 92)', border: '2px solid lightgray'} : {backgroundColor: 'white'}}>
             { children }
         </div>
         
@@ -45,4 +45,4 @@ return createPortal(
   )
 };
 
-export default TracksModal;
+export default TrackModal;

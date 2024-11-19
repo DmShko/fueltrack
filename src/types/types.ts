@@ -4,13 +4,35 @@ export interface ActionTracks {
     key: string
 }
 
+export enum PayType {
+    own = 'own', 
+    company = 'company',
+};
+
 export interface Track {
-    id: string
-    fuel: string
+    _id: string
+    liters: string
+    marck: string
     price: string
-    kmDay: string
-    kmMounth: string
+    km: string
+    pay: PayType
+    date: string
 }
+
+export interface TrackModalProps {
+    openClose: Function
+};
+
+export interface AddTrackArgs {
+    data: Track
+    token: string
+};
+
+export interface addTrackInitialState {
+    isLoading: boolean,
+    error: string,
+    token: string,
+};
 
 export interface TracksInitialState {
     fuelDays: Track []

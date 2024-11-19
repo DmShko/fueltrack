@@ -2,7 +2,7 @@
 
     height: fit-content;
 
-    padding: 10px;
+    padding: 20px;
    
     border: solid 1px lightblue;
     border-radius: 8px;
@@ -10,6 +10,7 @@
     background-color: white;
 
     box-shadow: 1px 1px 4px 1px rgb(61, 61, 61);
+
 
     .toggleStatictic {
         margin-bottom: 20px;
@@ -66,6 +67,7 @@
             p {
                 font-weight: 600;
             }
+            
         }
     }
 
@@ -93,6 +95,46 @@
     
         }    
 
+    }
+
+}
+
+input {
+
+    height: 20px;
+
+    border: none;
+    border-radius: 6px;
+
+    background-color: lightgray;
+}   
+
+input:focus {
+
+   outline: none;
+}
+
+.modDashboard {
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    gap: 10px;
+
+    button {
+
+        text-align: center;
+
+        width: 80px;
+
+        padding: 3px;
+
+        background-color: lightgray;
+
+        p{
+            margin: 0 auto;
+        }
     }
 
 }
