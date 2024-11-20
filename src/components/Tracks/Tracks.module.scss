@@ -27,8 +27,32 @@
 
         .list {
             width: 90%;
-
             height: 100px;
+
+            padding: 3px 5px;
+
+            margin: 0 0 10px 0;
+
+            border: solid 1px lightblue;
+
+            overflow-y: scroll;
+
+            .item {
+
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                padding: 3px;
+
+                list-style: none;
+
+                height: 20px;
+                background-color: rgb(238, 238, 238);
+
+                color: #1C274C;
+
+            }
         }
 
         .dashboard {
@@ -40,6 +64,8 @@
 
             width: 90%;
 
+            margin-bottom: 20px;
+
             button {
 
                 display: flex;
@@ -47,6 +73,24 @@
                 align-items: center;
                 
                 width: 70px;
+
+                box-shadow: inset 1px -2px 4px -2px rgb(61, 61, 61);
+
+                color: #1C274C;
+
+                font-weight: 700;
+                font-size: 14px;    
+            }
+
+            button:active {
+
+                box-shadow: inset 1px 1px 4px 1px rgb(61, 61, 61);
+            }
+
+            button:focus {
+
+                outline: none;
+             
             }
 
         }

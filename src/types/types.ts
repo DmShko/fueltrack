@@ -28,14 +28,27 @@ export interface AddTrackArgs {
     token: string
 };
 
+export interface GetTrackArgs {
+
+    token: string
+};
+
 export interface addTrackInitialState {
     isLoading: boolean,
     error: string,
     token: string,
 };
 
-export interface TracksInitialState {
+export interface getTrackInitialState {
+
     fuelDays: Track []
+    isLoading: boolean,
+    error: string,
+    token: string,
+};
+
+export interface TracksInitialState {
+   
     lightMode: LightModeType
     language: LangType
 };

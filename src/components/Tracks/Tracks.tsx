@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 
 import Calendar from 'react-calendar';
 
@@ -17,6 +17,7 @@ import TrackModal from "../TrackModal/TrackModal";
 
 // API
 import addTrackAPI from '../../API/addTrackAPI';
+import getTrackAPI from '../../API/getTrackAPI';
 
 // types import
 import { PayType } from '../../types/types.ts';
@@ -52,7 +53,11 @@ const Tracks: FC = () => {
   // open/close modal window
   const [modalToggle, setModalToggle] = useState(false);
 
-  const tracksSelector = useAppSelector(state => state.ser.fuelDays)
+  const tracksSelector = useAppSelector(state => state.getTrack.fuelDays)
+
+  useEffect(() => {
+    if(tokenSelector !== '') dispatch(getTrackAPI({token: tokenSelector}));
+  },[tokenSelector])
 
   const changeStatisticMenu = (evt: React.MouseEvent<HTMLElement>) => {
     if (evt.target as HTMLButtonElement === evt.currentTarget as HTMLButtonElement) setToggleMenu(state => !state)
@@ -245,7 +250,7 @@ const Tracks: FC = () => {
 
               tracksSelector.map(element => {
               
-                return <li className={tr.item} id={nanoid()}  key={element._id}></li>
+                return <li className={tr.item} id={nanoid()}  key={element._id}>{element.date.split(' ').splice(1, 2).join(' ')}</li>
 
             }): 'no tracks'}
           </ul>

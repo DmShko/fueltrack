@@ -5,7 +5,7 @@ import addTrackAPI  from '../API/addTrackAPI';
 // types
 import { addTrackInitialState } from '../types/types';
 
-const addCourseSliceInitialState: addTrackInitialState = {
+const addTrackSliceInitialState: addTrackInitialState = {
 
   isLoading: false,
   error: '',
@@ -15,7 +15,7 @@ const addCourseSliceInitialState: addTrackInitialState = {
 
 const addTrackSlice = createSlice({
   name: 'addCourse',
-  initialState: addCourseSliceInitialState,
+  initialState: addTrackSliceInitialState,
 
   reducers: {
     

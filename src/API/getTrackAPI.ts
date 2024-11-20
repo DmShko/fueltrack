@@ -2,23 +2,24 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 // types
-import { AddTrackArgs } from '../types/types';
+import { GetTrackArgs } from '../types/types';
 
 // const URL='https://pill-server.onrender.com/api/auth/logout';
 const URL='http://localhost:3000/api/track/';
 
 // createAsyncThunk<return data type, arg type, rejectValue type>
-export const addtrackAPI = createAsyncThunk<any, AddTrackArgs,{rejectValue: string}>(
-  'addtrack/AddTrackAPIs', 
+export const getTrackAPI = createAsyncThunk<any, GetTrackArgs,{rejectValue: string}>(
+  'getTrack/getTrackAPIs', 
   async function (arg, {rejectWithValue}) { 
  
     const options = {
+
       headers: {'Authorization':`Bearer ${arg.token}`},
-      data: arg.data,
+
     }; 
   
    // axios.post<URL type, response type, config type>
-   return await axios.post<string, any>(URL, options)
+   return await axios.get<string, any>(URL, options)
     .then((res) => {
       // Signed up 
       return res;
@@ -36,4 +37,4 @@ export const addtrackAPI = createAsyncThunk<any, AddTrackArgs,{rejectValue: stri
     });
 });
 
-export default addtrackAPI;
+export default getTrackAPI;

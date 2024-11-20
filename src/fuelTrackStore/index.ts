@@ -15,7 +15,8 @@ import signUpReducer from './signUpSlice.ts';
 import signInReducer from './signInSlice.ts';
 import logOutReducer from './logOutSlice.ts';
 import reVerifyReducer from './reVerifySlice.ts';
-import addTrackReducer from './addTrack.ts';
+import addTrackReducer from './addTrackSlice.ts';
+import getTrackReducer from './getTrackSlice.ts';
 
 const rootReducer = combineReducers({
   
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   logOut: logOutReducer,
   reVerify: reVerifyReducer,
   addTrack: addTrackReducer,
+  getTrack: getTrackReducer,
 });
 
 const persistConfig = {
