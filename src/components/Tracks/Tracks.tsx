@@ -20,7 +20,7 @@ import addTrackAPI from '../../API/addTrackAPI';
 import getTrackAPI from '../../API/getTrackAPI';
 
 // types import
-import { PayType } from '../../types/types.ts';
+import { PayType, Track } from '../../types/types.ts';
 
 // images
 import Rest from '../SvgComponents/Rest/Rest';
@@ -29,6 +29,7 @@ import GasStation from '../SvgComponents/GasStation/GasStation';
 import Card from '../SvgComponents/Card/Card';
 import Distance from '../SvgComponents/Distance/Distance';
 import Mark from '../SvgComponents/Mark/Mark';
+import Burn from '../SvgComponents/Burn/Burn';
 
 import { useAppDispatch } from "../../app.hooks"; 
 
@@ -46,6 +47,7 @@ const Tracks: FC = () => {
   const [value, onChange] = useState<Value>(new Date());
   const [toggleMenu, setToggleMenu] = useState(true);
   const [paySelect, setPaySelect ]= useState('company');
+  const [selectedElement, setSelectedElement ]= useState<Track>();
 
   const languageSelector = useAppSelector(state => state.ser.language);
   const tokenSelector = useAppSelector(state => state.signIn.token);
@@ -111,6 +113,14 @@ const Tracks: FC = () => {
         languageSelector === 'En' ? message = 'Km field is required': message = "Відстань обов'язковs";
       break;
 
+      case 'burn':
+        languageSelector === 'En' ? message = 'Must be numbers': message = "Мають бути цифри";
+      break;
+
+      case 'burnReq':
+        languageSelector === 'En' ? message = 'Burn field is required': message = "Використано обов'язковs";
+      break;
+
       default:
         break;
     }
@@ -148,6 +158,12 @@ const Tracks: FC = () => {
         { message: errorMessagesTrans('km')}
       )
       .required(errorMessagesTrans('kmReq')),
+      burn: Yup.string()
+      .matches(
+        /\w{0}[0-9]/,
+        { message: errorMessagesTrans('L')}
+      )
+      .required(errorMessagesTrans('burnReq')),
     }),
 
     initialValues: {
@@ -155,6 +171,7 @@ const Tracks: FC = () => {
       marck: '',
       price: '',
       km: '',
+      burn: '',
     },
     onSubmit: (values, { resetForm }) => {
   
@@ -166,6 +183,7 @@ const Tracks: FC = () => {
          price: values.price,
          km: values.km,
          pay: paySelect as PayType,
+         burn: values.burn,
          date: `${value}`,
         }, token: tokenSelector}));
       } 
@@ -173,6 +191,14 @@ const Tracks: FC = () => {
 
     },
   });
+
+  const searchDay = (evt: React.MouseEvent<HTMLLIElement>) => {
+   
+    setSelectedElement(tracksSelector.find(element => 
+      element._id === evt.currentTarget.id
+    ));
+
+  };
  
   return (
 
@@ -219,6 +245,16 @@ const Tracks: FC = () => {
           
             </input></div>
 
+            <div className={tr.data}><p>Використано</p>
+            <input 
+                id="burn"
+                name="burn"
+                type="burn"
+                onChange={formik.handleChange}
+                value={formik.values.burn}>
+          
+            </input></div>
+
             <div className={tr.data}><p>За власний рахунок</p><input type='checkbox' id='typeOfPay' onClick={pay}></input></div>
 
             <div className={tr.modDashboard}>
@@ -250,17 +286,19 @@ const Tracks: FC = () => {
 
               tracksSelector.map(element => {
               
-                return <li className={tr.item} id={nanoid()}  key={element._id}>{element.date.split(' ').splice(1, 2).join(' ')}</li>
+                return <li className={tr.item} id={element._id}  key={nanoid()} onClick={searchDay}>{element.date.split(' ').splice(1, 2).join(' ')}</li>
 
             }): 'no tracks'}
           </ul>
 
-          <div className={tr.parameter}><GasStation/><p>L</p></div>
-          <div className={tr.parameter}><Distance/><p>KM</p></div>
-          <div className={tr.parameter}><Mark/></div>
-          <div className={tr.parameter}><Rest/><p>L</p></div>
-          <div className={tr.parameter}><Wallet/><p>$</p></div>
-          <div className={tr.parameter}><Card/><p>$</p></div>
+          <div className={tr.parameter}><GasStation width='50px'/><p className={tr.value}>{selectedElement?.liters}</p><p>L</p></div>
+          <div className={tr.parameter}><Distance width='50px'/><p className={tr.value}>{selectedElement?.km}</p><p>KM</p></div>
+          <div className={tr.parameter}><Mark width='50px'/><p className={tr.value}>{selectedElement?.marck}</p><p>Type</p></div>
+          <div className={tr.parameter}><Burn width='50px'/><p className={tr.value}>{selectedElement?.burn}</p><p>L</p></div>
+          <div className={tr.parameter}><Rest width='50px'/><p className={tr.rest}>{selectedElement?.liters !== undefined && selectedElement?.burn !== undefined ?
+            (Number(selectedElement?.liters) - Number(selectedElement?.burn)).toString() : ''}</p><p>L</p></div>
+          <div className={tr.parameter}><Wallet width='50px'/><p className={tr.value}>{selectedElement?.price}</p><p>$</p></div>
+          <div className={tr.parameter}><Card width='50px'/><p className={tr.value}>{selectedElement?.pay}</p><p>$</p></div>
 
         </div>
       </div>  

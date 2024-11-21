@@ -16,6 +16,7 @@ export interface Track {
     price: string
     km: string
     pay: PayType
+    burn: string
     date: string
 }
 
