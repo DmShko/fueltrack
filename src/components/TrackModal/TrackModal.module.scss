@@ -27,9 +27,17 @@
         
         border-radius: 8px;
         background-color: white;
+        background-image: url('../../images/wheel-svgrepo-com.svg');
+        background-size: cover;
 
         p {
+
+            width: fit-content;
+
+            font-weight: 600;
+
             margin: 0;
+            background-color: white;
         }    
 
         input {

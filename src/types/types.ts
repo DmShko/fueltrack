@@ -1,7 +1,6 @@
 export interface ActionTracks {
     mode: string
     data: string
-    key: string
 }
 
 export enum PayType {
@@ -29,23 +28,34 @@ export interface AddTrackArgs {
     token: string
 };
 
+export interface DeleteTrackArgs {
+    id: string
+    token: string
+};
+
 export interface GetTrackArgs {
 
     token: string
 };
 
 export interface addTrackInitialState {
-    isLoading: boolean,
-    error: string,
-    token: string,
+    isLoading: boolean
+    isAdd: boolean
+    error: string
+};
+
+export interface deleteTrackInitialState {
+    isLoading: boolean
+    isDeleted: boolean
+    error: string
 };
 
 export interface getTrackInitialState {
 
     fuelDays: Track []
-    isLoading: boolean,
-    error: string,
-    token: string,
+    isLoading: boolean
+    error: string
+    token: string
 };
 
 export interface TracksInitialState {

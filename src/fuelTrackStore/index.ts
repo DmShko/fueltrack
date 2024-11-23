@@ -17,6 +17,7 @@ import logOutReducer from './logOutSlice.ts';
 import reVerifyReducer from './reVerifySlice.ts';
 import addTrackReducer from './addTrackSlice.ts';
 import getTrackReducer from './getTrackSlice.ts';
+import deleteTrackReducer from './deleteTrackSlice.ts'
 
 const rootReducer = combineReducers({
   
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
   reVerify: reVerifyReducer,
   addTrack: addTrackReducer,
   getTrack: getTrackReducer,
+  delTrack: deleteTrackReducer,
 });
 
 const persistConfig = {

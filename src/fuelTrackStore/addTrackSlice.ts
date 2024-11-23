@@ -9,12 +9,12 @@ const addTrackSliceInitialState: addTrackInitialState = {
 
   isLoading: false,
   error: '',
-  token: '',
+  isAdd: false
  
 };
 
 const addTrackSlice = createSlice({
-  name: 'addCourse',
+  name: 'addTracks',
   initialState: addTrackSliceInitialState,
 
   reducers: {
@@ -25,19 +25,20 @@ const addTrackSlice = createSlice({
     builder => {
       builder.addCase(addTrackAPI.pending, (state) => {
         state.isLoading = true; state.error = '';
+        state.isAdd = false;
       });
             
-      builder.addCase(addTrackAPI.fulfilled, (state, action) => {
+      builder.addCase(addTrackAPI.fulfilled, (state) => {
 
         state.isLoading = false;
-        state.token = action.payload.data.token;
-
+        state.isAdd = true;
         // some actions with 'action'...
       });
             
       builder.addCase(addTrackAPI.rejected, (state, action) => {
                     
         state.isLoading = false;
+        state.isAdd = false;
         state.error = action.payload as string;
         
       });

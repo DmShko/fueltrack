@@ -18,6 +18,7 @@ import TrackModal from "../TrackModal/TrackModal";
 // API
 import addTrackAPI from '../../API/addTrackAPI';
 import getTrackAPI from '../../API/getTrackAPI';
+import deleteTrackAPI from '../../API/deleteTrackAPI';
 
 // types import
 import { PayType, Track } from '../../types/types.ts';
@@ -48,9 +49,12 @@ const Tracks: FC = () => {
   const [toggleMenu, setToggleMenu] = useState(true);
   const [paySelect, setPaySelect ]= useState('company');
   const [selectedElement, setSelectedElement ]= useState<Track>();
+  const [buttonClickName, setButtonClickName ]= useState('');
 
   const languageSelector = useAppSelector(state => state.ser.language);
   const tokenSelector = useAppSelector(state => state.signIn.token);
+  const deletedSelector = useAppSelector(state => state.delTrack.isDeleted);
+  const addSelector = useAppSelector(state => state.addTrack.isAdd);
 
   // open/close modal window
   const [modalToggle, setModalToggle] = useState(false);
@@ -59,15 +63,18 @@ const Tracks: FC = () => {
 
   useEffect(() => {
     if(tokenSelector !== '') dispatch(getTrackAPI({token: tokenSelector}));
-  },[tokenSelector])
+  },[tokenSelector, deletedSelector, addSelector]);
 
   const changeStatisticMenu = (evt: React.MouseEvent<HTMLElement>) => {
     if (evt.target as HTMLButtonElement === evt.currentTarget as HTMLButtonElement) setToggleMenu(state => !state)
   }
 
-  const openModal = () => {
+  const openModal = (evt: React.MouseEvent<HTMLButtonElement>) => {
     // toggle modal window
     setModalToggle(state => !state);
+
+    if(evt !== undefined) setButtonClickName(evt.currentTarget.name);
+    
   }
 
   const pay = (evt: React.MouseEvent<HTMLInputElement>) => {
@@ -199,6 +206,12 @@ const Tracks: FC = () => {
     ));
 
   };
+
+  const deleteElement = () => {
+    if (selectedElement !== undefined) {
+      dispatch(deleteTrackAPI({id: selectedElement?._id, token: tokenSelector}));
+    }
+  };
  
   return (
 
@@ -258,8 +271,8 @@ const Tracks: FC = () => {
             <div className={tr.data}><p>За власний рахунок</p><input type='checkbox' id='typeOfPay' onClick={pay}></input></div>
 
             <div className={tr.modDashboard}>
-              <button type='submit'>Load</button>
-              <button>Change</button>
+              <button type='submit' disabled={buttonClickName === 'new'? false : true}>Load</button>
+              <button type='submit' disabled={buttonClickName === 'change'? false : true}>Change</button>
             </div>
           </form>
 
@@ -276,17 +289,18 @@ const Tracks: FC = () => {
         <div className={tr.monthStatistic}>
 
           <div className={tr.dashboard}>
-            <button onClick={openModal} style={{backgroundColor: 'lightgreen'}}>New</button>
-            <button style={{backgroundColor: '#ffea2d'}}>Change</button>
-            <button style={{backgroundColor: 'lightcoral'}}>Delete</button>
+            <button name='new' onClick={openModal} style={{backgroundColor: 'lightgreen'}}>New</button>
+            <button name='change' onClick={openModal} style={{backgroundColor: '#ffea2d'}}>Change</button>
+            <button onClick={deleteElement} disabled={selectedElement !== undefined? false : true} style={selectedElement !== undefined ? {backgroundColor: 'lightcoral'} : {backgroundColor: 'lightgray'}}>Delete</button>
           </div>
-
+        
           <ul className={tr.list}>
             { tracksSelector.length != 0 ?
 
               tracksSelector.map(element => {
               
-                return <li className={tr.item} id={element._id}  key={nanoid()} onClick={searchDay}>{element.date.split(' ').splice(1, 2).join(' ')}</li>
+                return <li className={tr.item} id={element._id}  key={nanoid()} onClick={searchDay}
+                style={element._id === selectedElement?._id ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'lightgray'}}>{element.date.split(' ').splice(1, 2).join(' ')}</li>
 
             }): 'no tracks'}
           </ul>

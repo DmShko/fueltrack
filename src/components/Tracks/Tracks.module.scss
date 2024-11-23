@@ -8,6 +8,8 @@
     border-radius: 8px;
 
     background-color: white;
+   
+    background-position: left;
 
     box-shadow: 1px 1px 4px 1px rgb(61, 61, 61);
 
@@ -45,6 +47,8 @@
 
                 padding: 3px;
 
+                margin-bottom: 3px;
+
                 list-style: none;
 
                 height: 20px;
@@ -52,6 +56,10 @@
 
                 color: #1C274C;
 
+            }
+
+            .item:hover {
+                cursor: pointer;
             }
         }
 
