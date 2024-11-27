@@ -1,6 +1,6 @@
 export interface ActionTracks {
     mode: string
-    data: string
+    data: {id: string, value: boolean}
 }
 
 export enum PayType {
@@ -17,6 +17,7 @@ export interface Track {
     pay: PayType
     burn: string
     date: string
+    selected: boolean
 }
 
 export interface TrackModalProps {
@@ -29,6 +30,11 @@ export interface AddTrackArgs {
 };
 
 export interface DeleteTrackArgs {
+    id: string
+    token: string
+};
+
+export interface GetTrackByIdArgs {
     id: string
     token: string
 };
@@ -53,6 +59,14 @@ export interface deleteTrackInitialState {
 export interface getTrackInitialState {
 
     fuelDays: Track []
+    isLoading: boolean
+    error: string
+    token: string
+};
+
+export interface getTrackByIdInitialState {
+
+    dayById: Track
     isLoading: boolean
     error: string
     token: string
@@ -91,9 +105,15 @@ export interface TracksModalProps {
 };
 
 // new date types
-export interface newDateType {
+export interface NewDateType {
     timedata: string
     datedata: string
     yeardata: number
     dateSeconds: string
 };
+
+export interface ModalPropsTypes {
+    elementName: Track | undefined
+    buttonName: string
+    value: Date | null | [Date | null, Date | null]
+}

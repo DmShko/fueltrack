@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import getTrackAPI  from '../API/getTrackAPI';
 
 // types
-import { getTrackInitialState, ActionTracks, } from '../types/types';
+import { getTrackInitialState, ActionTracks, Track} from '../types/types';
 
 const getTrackSliceInitialState: getTrackInitialState = {
 
@@ -25,6 +25,15 @@ const getTrackSlice = createSlice({
                 // clear all tracks
                 case "clearTrack":
                 state.fuelDays = [];
+                break;
+                case "selectedTrack":
+
+                const  filterTracks = state.fuelDays.filter(element => element._id !== action.payload.data.id);
+                const  changedTrack = state.fuelDays.find(element =>  element._id === action.payload.data.id);
+
+                if(changedTrack !== undefined)
+              
+                  state.fuelDays = [...filterTracks, {...changedTrack, selected: action.payload.data.value}];
                 break;
                 default:
                 break;

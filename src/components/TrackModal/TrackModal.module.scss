@@ -30,20 +30,29 @@
         background-image: url('../../images/wheel-svgrepo-com.svg');
         background-size: cover;
 
-        p {
+        form {
 
-            width: fit-content;
+            padding: 10px;
+            
+            background-color: lightgray;
 
-            font-weight: 600;
+            border-radius: 8px;
 
-            margin: 0;
-            background-color: white;
-        }    
+            p {
 
-        input {
-            margin-bottom: 10px;
+                width: fit-content;
+    
+                font-weight: 600;
+    
+                margin: 0;
+                
+            }    
+    
+            input {
+                margin-bottom: 10px;
+                background-color: white
+            }
         }
-       
     };
 
 };

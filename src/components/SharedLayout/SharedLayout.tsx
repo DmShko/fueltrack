@@ -18,7 +18,7 @@ import DayNight  from '../DayNight/DayNight';
 import BallOfWool from '../SvgComponents/Logo/BallOfWool';
 
 // types
-import { newDateType } from '../../types/types'
+import { NewDateType } from '../../types/types'
 
 const SharedLayout: FC = () => {
 
@@ -28,7 +28,7 @@ const SharedLayout: FC = () => {
     const dispatch = useAppDispatch();
   
     const [ timeValue, setTimeValue ]= useState({time: new Date()});
-    const [ newDateObj, setNewDateObj ]= useState<newDateType>();
+    const [ newDateObj, setNewDateObj ]= useState<NewDateType>();
 
     useEffect(() => {
   

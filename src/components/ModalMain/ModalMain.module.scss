@@ -1,0 +1,215 @@
+.container {
+
+    height: fit-content;
+
+    padding: 20px;
+   
+    border: solid 1px lightblue;
+    border-radius: 8px;
+
+    background-color: white;
+   
+    background-position: left;
+
+    box-shadow: 1px 1px 4px 1px rgb(61, 61, 61);
+
+
+    .toggleStatictic {
+        margin-bottom: 20px;
+    }
+
+    .monthStatistic {
+
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        align-items: center;
+
+        width: 50%;
+
+        .list {
+            width: 90%;
+            height: 100px;
+
+            padding: 3px 5px;
+
+            margin: 0 0 10px 0;
+
+            border: solid 1px lightblue;
+
+            overflow-y: scroll;
+
+            .item {
+
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                padding: 3px;
+
+                margin-bottom: 3px;
+
+                list-style: none;
+
+                height: 20px;
+                background-color: rgb(238, 238, 238);
+
+                color: #1C274C;
+
+            }
+
+            .item:hover {
+                cursor: pointer;
+            }
+        }
+
+        .dashboard {
+
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+
+            width: 90%;
+
+            margin-bottom: 20px;
+
+            button {
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                
+                width: 70px;
+
+                box-shadow: inset 1px -2px 4px -2px rgb(61, 61, 61);
+
+                color: #1C274C;
+
+                font-weight: 700;
+                font-size: 14px;    
+            }
+
+            button:active {
+
+                box-shadow: inset 1px 1px 4px 1px rgb(61, 61, 61);
+            }
+
+            button:focus {
+
+                outline: none;
+             
+            }
+
+        }
+
+        .parameter {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            
+            width: 90%;
+            height: 30px;
+
+            padding: 5px 10px;
+
+            border-bottom: dashed 1px #454c1c;
+
+            p {
+
+                margin: 0;
+
+                width: 50px;
+                font-weight: 600;
+            }
+
+            .value {
+
+                width: 100px;
+
+                font-size: 20px;
+                font-weight: 600;
+
+                color: rgb(85, 47, 173);
+            }
+
+            .rest {
+                width: 100px;
+
+                font-size: 20px;
+                font-weight: 600;
+
+                color: olive;
+            }
+            
+        }
+    }
+
+    .currentStatistic {
+
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+        align-items: center;
+
+        .toggleStatictic {
+            display: flex;
+            justify-content: space-between;
+            flex-direction: row;
+            align-items: center; 
+        }
+
+        .dayStatistic {
+            padding: 10px;
+        }
+
+        .calendar {
+
+            border: unset;
+    
+        }    
+
+    }
+
+}
+
+input {
+
+    height: 20px;
+
+    border: none;
+    border-radius: 6px;
+
+    background-color: lightgray;
+}   
+
+input:focus {
+
+   outline: none;
+}
+
+.modDashboard {
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    gap: 10px;
+
+    button {
+
+        text-align: center;
+
+        width: 80px;
+
+        padding: 3px;
+
+        background-color: lightgray;
+
+        p{
+            margin: 0 auto;
+        }
+    }
+
+}
