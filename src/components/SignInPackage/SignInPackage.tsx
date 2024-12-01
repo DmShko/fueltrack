@@ -22,10 +22,6 @@ import { changeLogout } from "../../fuelTrackStore/logOutSlice";
 import Info from '../SvgComponents/Info/Info';
 import Enter from '../SvgComponents/Enter/Enter';
 import RoadSign from '../SvgComponents/RoadSign/RoadSign';
-// import Mail from "../SvgComponents/Courses/Mail";
-// import Lock from "../SvgComponents/Courses/Lock";
-// import Horn from '../SvgComponents/Courses/Modal/Horn'; 
-// import Loading from '../SvgComponents/Courses/Loading/Loading';
 
 const SignIn = () => {
 
@@ -49,6 +45,7 @@ const SignIn = () => {
 
       navigate('/tracks');
       dispatch(changeSingIn({operation: 'changeIsLogIn', data: false}));
+      dispatch(changeLogout({operation: 'changeIsLogout', data: false}));
 
     }; 
    

@@ -9,11 +9,12 @@ import { useAppDispatch, useAppSelector } from "../../app.hooks";
 
 // API
 import addTrackAPI from '../../API/addTrackAPI';
+import putTrackAPI from '../../API/putTrackAPI';
 
 // types import
 import { PayType, ModalPropsTypes } from '../../types/types.ts';
 
-const ModalMain: FC<PropsWithoutRef<ModalPropsTypes>> = ({buttonName, elementName, value}) => {
+const ModalMain: FC<PropsWithoutRef<ModalPropsTypes>> = ({buttonName, elementName, value, selectedId}) => {
 
     
     const dispatch = useAppDispatch();
@@ -25,7 +26,6 @@ const ModalMain: FC<PropsWithoutRef<ModalPropsTypes>> = ({buttonName, elementNam
       evt.currentTarget.checked === true ?
       setPaySelect(PayType.own) : setPaySelect(PayType.company);
     }
-
 
     const errorMessagesTrans = (data: string) => { 
 
@@ -118,7 +118,7 @@ const ModalMain: FC<PropsWithoutRef<ModalPropsTypes>> = ({buttonName, elementNam
           .required(errorMessagesTrans('burnReq')),
         }),
     
-        initialValues: elementName !== undefined && buttonName === 'change'?
+        initialValues: elementName !== undefined && elementName.selected === true && buttonName === 'change'?
           {
             liters: elementName.liters,
             marck: elementName.marck,
@@ -137,18 +137,37 @@ const ModalMain: FC<PropsWithoutRef<ModalPropsTypes>> = ({buttonName, elementNam
         onSubmit: (values, { resetForm }) => {
       
           if (value !== null) {
-            dispatch(addTrackAPI({data: {
-             _id: nanoid(),
-             liters: values.liters,
-             marck: values.marck,
-             price: values.price,
-             km: values.km,
-             pay: paySelect as PayType,
-             burn: values.burn,
-             date: `${value}`,
-             selected: false,
-            }, token: tokenSelector}));
-          } 
+            if(buttonName === 'new') {
+
+              dispatch(addTrackAPI({data: {
+                _id: nanoid(),
+                liters: values.liters,
+                marck: values.marck,
+                price: values.price,
+                km: values.km,
+                pay: paySelect as PayType,
+                burn: values.burn,
+                date: `${value}`,
+                selected: false,
+                }, token: tokenSelector}));
+
+            } else {
+
+              dispatch(putTrackAPI({id: selectedId, token: tokenSelector, data: {
+                _id: selectedId,
+                liters: values.liters,
+                marck: values.marck,
+                price: values.price,
+                km: values.km,
+                pay: paySelect as PayType,
+                burn: values.burn,
+                date: `${value}`,
+                selected: false,
+                }}));
+
+            };
+              
+          };
           resetForm();
     
         },

@@ -164,11 +164,35 @@
             padding: 10px;
         }
 
-        .calendar {
+        .calendarContainer {
 
-            border: unset;
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+
+            gap: 20px;
+
+            .completeTitle {
+
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center; 
+
+                width: 100%;
+
+                font-size: 12px;
+                font-weight: 700;
+
+            }
+
+             .calendar {
+
+               border: unset;
     
-        }    
+            } 
+        }
+          
 
     }
 

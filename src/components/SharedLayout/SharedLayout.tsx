@@ -1,5 +1,5 @@
 import { FC, useState, useEffect } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { Suspense } from "react";
 
 import sh from './SharedLayout.module.scss';
@@ -8,6 +8,8 @@ import sh from './SharedLayout.module.scss';
 import { useAppDispatch, useAppSelector } from "../../app.hooks"; 
 
 import logoutAPI from "../../API/logOutAPI";
+
+import { tracks } from '../../fuelTrackStore/getTrackSlice.ts'
 
 import { changeLogout } from '../../fuelTrackStore/logOutSlice';
 import { changeSingIn }  from '../../fuelTrackStore/signInSlice'; 
@@ -26,11 +28,17 @@ const SharedLayout: FC = () => {
     const isLogOutSelector = useAppSelector(state => state.logOut.isLogout);
 
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
   
     const [ timeValue, setTimeValue ]= useState({time: new Date()});
     const [ newDateObj, setNewDateObj ]= useState<NewDateType>();
 
     useEffect(() => {
+  
+      if(tokenSelector !== '') dispatch(changeLogout({operation: 'changeIsLogout', data: false}));
+     
+    },[tokenSelector]);useEffect(() => {
   
       if(tokenSelector !== '') dispatch(changeLogout({operation: 'changeIsLogout', data: false}));
      
@@ -41,6 +49,11 @@ const SharedLayout: FC = () => {
       if(isLogOutSelector) {
         dispatch(changeSingIn({operation: 'clearToken', data: ''}));
         dispatch(changeSingIn({operation: 'changeIsLogIn', data: false}));
+
+        dispatch(tracks({mode: 'resetSelected', data: {id: '', value: false}}));
+        dispatch(tracks({mode: 'clearSelectedDay', data: {id: '', value: false}}));
+
+        navigate('/signIn');
       }
       
     },[isLogOutSelector]);
@@ -93,10 +106,10 @@ const SharedLayout: FC = () => {
             <div className={sh.container}>
               <NavLink to="/"><div className={sh.logo}><p className={sh.logoLeft}>Fuel</p><p className={sh.logoRight}>Track</p><BallOfWool /></div></NavLink>
               <ul className={sh.navList}>
-                <li className={sh.navItem}>
+                {tokenSelector && <li className={sh.navItem} style={location.pathname === '/tracks' ? {color: 'white', borderColor: 'gray'} : {color: 'white'}}>
                   <NavLink to={"/tracks"} style={{color: 'white'}}>tracks</NavLink>
-                </li>
-                <li className={sh.navItem}>
+                </li>}
+                <li className={sh.navItem} style={location.pathname === '/information' ? {color: 'white', borderColor: 'gray'} : {color: 'white'}}>
                   <NavLink to={"/information"} style={{color: 'white'}}>information</NavLink>
                 </li>
               </ul>
@@ -104,10 +117,10 @@ const SharedLayout: FC = () => {
               <div className={sh.time}><p className={sh.today}>{'Today'}</p><p>{newDateObj !== undefined ? `${newDateObj.datedata}.${newDateObj.yeardata} ${newDateObj?.timedata}:${newDateObj.dateSeconds}`: ''}</p></div>
               <DayNight/>
               {!tokenSelector && <ul className={sh.navList}>
-                <li className={sh.navItem}>
+                <li className={sh.navItem} style={location.pathname === '/signIn' ? {color: 'white', borderColor: 'gray'} : {color: 'white'}}>
                   <NavLink to={"/signIn"} style={{color: 'white'}}>signIn</NavLink>
                 </li>
-                <li className={sh.navItem}>
+                <li className={sh.navItem} style={location.pathname === '/signUp' ? {color: 'white', borderColor: 'gray'} : {color: 'white'}}>
                   <NavLink to={"/signUp"} style={{color: 'white'}}>signUp</NavLink>
                 </li>
               </ul> 

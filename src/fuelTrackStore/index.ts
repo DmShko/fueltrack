@@ -19,6 +19,7 @@ import addTrackReducer from './addTrackSlice.ts';
 import getTrackReducer from './getTrackSlice.ts';
 import deleteTrackReducer from './deleteTrackSlice.ts';
 import getTrackByIdReducer from './getTrackByIdSlice.ts';
+import putTrackSlice from './putTrackSlice.ts';
 
 const rootReducer = combineReducers({
   
@@ -31,6 +32,7 @@ const rootReducer = combineReducers({
   getTrack: getTrackReducer,
   delTrack: deleteTrackReducer,
   getTrackById: getTrackByIdReducer,
+  patchTrack: putTrackSlice,
 });
 
 const persistConfig = {

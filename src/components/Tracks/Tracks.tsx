@@ -12,14 +12,10 @@ import { useAppSelector } from "../../app.hooks";
 import TrackModal from "../TrackModal/TrackModal";
 
 // API
-import getTrackByIdAPI from '../../API/getTrackByIdAPI';
 import getTrackAPI from '../../API/getTrackAPI';
 import deleteTrackAPI from '../../API/deleteTrackAPI';
 
 import ModalMain from '../ModalMain/ModalMain.tsx';
-
-// types import
-import { Track } from '../../types/types.ts';
 
 // images
 import Rest from '../SvgComponents/Rest/Rest';
@@ -47,19 +43,17 @@ const Tracks: FC = () => {
 
   const [value, onChange] = useState<Value>(new Date());
   const [toggleMenu, setToggleMenu] = useState(true);
-  const [toggleSelected, setToggleSelected] = useState(false);
   
-  const [selectedElement, setSelectedElement ]= useState<Track>();
   const [buttonClickName, setButtonClickName ]= useState('');
 
   const tokenSelector = useAppSelector(state => state.signIn.token);
   const deletedSelector = useAppSelector(state => state.delTrack.isDeleted);
   const addSelector = useAppSelector(state => state.addTrack.isAdd);
+  const tracksSelector = useAppSelector(state => state.getTrack.fuelDays);
+  const selectedDaySelector = useAppSelector(state => state.getTrack.selectedDay);
 
   // open/close modal window
   const [modalToggle, setModalToggle] = useState(false);
-
-  const tracksSelector = useAppSelector(state => state.getTrack.fuelDays);
 
   useEffect(() => {
     if(tokenSelector !== '') {
@@ -67,22 +61,6 @@ const Tracks: FC = () => {
     } 
 
   },[tokenSelector, deletedSelector, addSelector]);
-
-  useEffect(() => {
-
-    if(selectedElement !== undefined)
-      dispatch(getTrackByIdAPI({id: selectedElement?._id, token: tokenSelector}));
-      setToggleSelected(state => !state);
-
-  },[selectedElement]);
-
-  useEffect(() => {
-
-    if(selectedElement !== undefined)
-     
-      dispatch(tracks({mode: 'selectedTrack', data: {id: selectedElement?._id, value: toggleSelected}}))
-
-  },[toggleSelected]);
 
   const changeStatisticMenu = (evt: React.MouseEvent<HTMLElement>) => {
     if (evt.target as HTMLButtonElement === evt.currentTarget as HTMLButtonElement) setToggleMenu(state => !state)
@@ -97,17 +75,24 @@ const Tracks: FC = () => {
   }
 
   const searchDay = (evt: React.MouseEvent<HTMLLIElement>) => {
+
+    dispatch(tracks({mode: 'selectedTrack', data: {id: evt.currentTarget.id, value: true}}))
+
+  };
+
+  const searchSelected= (id: string) => {
+
+    if(selectedDaySelector._id === id)
     
-    setSelectedElement(tracksSelector.find(element => 
-      element._id === evt.currentTarget.id
-    ));
+      return selectedDaySelector.selected
 
   };
 
   const deleteElement = () => {
-    if (selectedElement !== undefined) {
-      dispatch(deleteTrackAPI({id: selectedElement?._id, token: tokenSelector}));
-    }
+   
+    if(selectedDaySelector.selected !== false)
+      dispatch(deleteTrackAPI({id: selectedDaySelector?._id, token: tokenSelector}));
+    
   };
  
   return (
@@ -116,7 +101,7 @@ const Tracks: FC = () => {
   
       {modalToggle && <TrackModal openClose={openModal}>
         
-          <ModalMain buttonName={buttonClickName} elementName={selectedElement} value={value}/>
+          <ModalMain buttonName={buttonClickName} elementName={selectedDaySelector} value={value} selectedId={selectedDaySelector._id}/>
 
         </TrackModal>
       }
@@ -126,14 +111,22 @@ const Tracks: FC = () => {
       </div>
 
       <div className={tr.currentStatistic}>
-        <Calendar className={tr.calendar} maxDate={new Date} showNeighboringMonth={false} onChange={onChange} value={value}/>
-        
+
+        <div className={tr.calendarContainer}>
+          <Calendar className={tr.calendar} maxDate={new Date} showNeighboringMonth={false} onChange={onChange} value={value}/>
+          <div className={tr.complete} style={{height: '30px', width: '100%', borderRadius: '8px', background: `linear-gradient(to right, yellowGreen, lightgray ${Number(selectedDaySelector.burn) * 100 / Number(selectedDaySelector.liters)}%)`}}></div>
+          <div className={tr.completeTitle}>
+            <div>{`${Math.round(Number(selectedDaySelector.burn) * 100 / Number(selectedDaySelector.liters))}%`}</div> 
+            <div>{'100%'}</div> 
+          </div>
+        </div>
+       
         <div className={tr.monthStatistic}>
 
           <div className={tr.dashboard}>
             <button name='new' onClick={openModal} style={{backgroundColor: 'lightgreen'}}>New</button>
-            <button name='change' onClick={openModal} style={{backgroundColor: '#ffea2d'}}>Change</button>
-            <button onClick={deleteElement} disabled={selectedElement !== undefined? false : true} style={selectedElement !== undefined ? {backgroundColor: 'lightcoral'} : {backgroundColor: 'lightgray'}}>Delete</button>
+            <button name='change' onClick={openModal} style={selectedDaySelector.selected !== false ? {backgroundColor: '#ffea2d'} : {backgroundColor: 'lightgray'}}>Change</button>
+            <button onClick={deleteElement} disabled={selectedDaySelector !== undefined? false : true} style={selectedDaySelector.selected !== false ? {backgroundColor: 'lightcoral'} : {backgroundColor: 'lightgray'}}>Delete</button>
           </div>
         
           <ul className={tr.list}>
@@ -142,19 +135,19 @@ const Tracks: FC = () => {
               tracksSelector.map(element => {
               
                 return <li className={tr.item} id={element._id}  key={nanoid()} onClick={searchDay}
-                style={element._id === selectedElement?._id ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'lightgray'}}>{element.date.split(' ').splice(1, 2).join(' ')}</li>
+                style={searchSelected(element._id) ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'lightgray'}}>{element.date.split(' ').splice(1, 2).join(' ')}</li>
 
             }): 'no tracks'}
           </ul>
 
-          <div className={tr.parameter}><GasStation width='50px'/><p className={tr.value}>{selectedElement?.liters}</p><p>L</p></div>
-          <div className={tr.parameter}><Distance width='50px'/><p className={tr.value}>{selectedElement?.km}</p><p>KM</p></div>
-          <div className={tr.parameter}><Mark width='50px'/><p className={tr.value}>{selectedElement?.marck}</p><p>Type</p></div>
-          <div className={tr.parameter}><Burn width='50px'/><p className={tr.value}>{selectedElement?.burn}</p><p>L</p></div>
-          <div className={tr.parameter}><Rest width='50px'/><p className={tr.rest}>{selectedElement?.liters !== undefined && selectedElement?.burn !== undefined ?
-            (Number(selectedElement?.liters) - Number(selectedElement?.burn)).toString() : ''}</p><p>L</p></div>
-          <div className={tr.parameter}><Wallet width='50px'/><p className={tr.value}>{selectedElement?.price}</p><p>$</p></div>
-          <div className={tr.parameter}><Card width='50px'/><p className={tr.value}>{selectedElement?.pay}</p><p>$</p></div>
+          <div className={tr.parameter}><GasStation width='50px'/><p className={tr.value}>{selectedDaySelector?.liters}</p><p>L</p></div>
+          <div className={tr.parameter}><Distance width='50px'/><p className={tr.value}>{selectedDaySelector?.km}</p><p>KM</p></div>
+          <div className={tr.parameter}><Mark width='50px'/><p className={tr.value}>{selectedDaySelector?.marck}</p><p>Type</p></div>
+          <div className={tr.parameter}><Burn width='50px'/><p className={tr.value}>{selectedDaySelector?.burn}</p><p>L</p></div>
+          <div className={tr.parameter}><Rest width='50px'/><p className={tr.rest}>{selectedDaySelector?.liters !== undefined && selectedDaySelector?.burn !== undefined ?
+            (Number(selectedDaySelector?.liters) - Number(selectedDaySelector?.burn)).toString() : ''}</p><p>L</p></div>
+          <div className={tr.parameter}><Wallet width='50px'/><p className={tr.value}>{selectedDaySelector?.price}</p><p>$</p></div>
+          <div className={tr.parameter}><Card width='50px'/><p className={tr.value}>{selectedDaySelector?.pay}</p><p>$</p></div>
 
         </div>
       </div>  

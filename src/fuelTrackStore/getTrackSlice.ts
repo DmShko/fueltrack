@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import getTrackAPI  from '../API/getTrackAPI';
 
 // types
-import { getTrackInitialState, ActionTracks, Track} from '../types/types';
+import { getTrackInitialState, ActionTracks, PayType} from '../types/types';
 
 const getTrackSliceInitialState: getTrackInitialState = {
 
@@ -11,6 +11,18 @@ const getTrackSliceInitialState: getTrackInitialState = {
   error: '',
   token: '',
   fuelDays: [],
+  selectedDay: 
+  {
+    _id: '',
+    liters: '',
+    marck: '',
+    price: '',
+    km: '',
+    pay: PayType.company,
+    burn: '',
+    date: '',
+    selected: false,
+  }
 };
 
 const getTrackSlice = createSlice({
@@ -26,14 +38,39 @@ const getTrackSlice = createSlice({
                 case "clearTrack":
                 state.fuelDays = [];
                 break;
+                // clear all tracks
+                case "clearSelectedDay":
+                  state.selectedDay = {
+                    _id: '',
+                    liters: '',
+                    marck: '',
+                    price: '',
+                    km: '',
+                    pay: PayType.company,
+                    burn: '',
+                    date: '',
+                    selected: false,
+                  };
+                  break;
+                // reset all selected fields
+                case "resetSelected":
+                state.fuelDays.map(element => element.selected = false);
+                break;
                 case "selectedTrack":
+                // reset all selected
+                state.fuelDays.map(element => element.selected = false);
 
-                const  filterTracks = state.fuelDays.filter(element => element._id !== action.payload.data.id);
                 const  changedTrack = state.fuelDays.find(element =>  element._id === action.payload.data.id);
 
+                state.fuelDays.map(element => 
+                  {
+                    if(element._id === action.payload.data.id) element.selected = action.payload.data.value;
+                      
+                  });
+
                 if(changedTrack !== undefined)
-              
-                  state.fuelDays = [...filterTracks, {...changedTrack, selected: action.payload.data.value}];
+                  state.selectedDay = changedTrack;  
+
                 break;
                 default:
                 break;

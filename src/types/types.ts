@@ -44,6 +44,12 @@ export interface GetTrackArgs {
     token: string
 };
 
+export interface PutTrackArgs {
+    id: string
+    token: string
+    data: Track
+};
+
 export interface addTrackInitialState {
     isLoading: boolean
     isAdd: boolean
@@ -56,9 +62,15 @@ export interface deleteTrackInitialState {
     error: string
 };
 
+export interface patchTrackInitialState {
+    isLoading: boolean
+    error: string
+};
+
 export interface getTrackInitialState {
 
     fuelDays: Track []
+    selectedDay: Track
     isLoading: boolean
     error: string
     token: string
@@ -116,4 +128,5 @@ export interface ModalPropsTypes {
     elementName: Track | undefined
     buttonName: string
     value: Date | null | [Date | null, Date | null]
+    selectedId: string
 }
