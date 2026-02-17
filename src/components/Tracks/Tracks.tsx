@@ -76,7 +76,9 @@ const Tracks: FC = () => {
 
   const searchDay = (evt: React.MouseEvent<HTMLLIElement>) => {
 
-    dispatch(tracks({mode: 'selectedTrack', data: {id: evt.currentTarget.id, value: true}}))
+    
+    !selectedDaySelector.selected ? dispatch(tracks({mode: 'selectedTrack', data: {id: evt.currentTarget.id, value: true}})) :
+    dispatch(tracks({mode: 'selectedTrack', data: {id: evt.currentTarget.id, value: false}}));
 
   };
 
@@ -110,7 +112,7 @@ const Tracks: FC = () => {
         <button onClick={changeStatisticMenu}>{toggleMenu === true ? 'Others' : 'My'}</button>
       </div>
 
-      <div className={tr.currentStatistic}>
+      {toggleMenu && <div className={tr.currentStatistic}>
 
         <div className={tr.calendarContainer}>
           <Calendar className={tr.calendar} maxDate={new Date} showNeighboringMonth={false} onChange={onChange} value={value}/>
@@ -150,7 +152,7 @@ const Tracks: FC = () => {
           <div className={tr.parameter}><Card width='50px'/><p className={tr.value}>{selectedDaySelector?.pay}</p><p>$</p></div>
 
         </div>
-      </div>  
+      </div>}  
 
     </div>
   )

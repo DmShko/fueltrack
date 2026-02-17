@@ -54,10 +54,12 @@ const signUpSlice = createSlice({
             
       builder.addCase(singUpAPI.rejected, (state, action) => {
                     
-        state.isLoading = false; state.isSignUp = false;
+        state.isLoading = false; 
+        state.isSignUp = false;
        
         if(action.payload) {
           state.message = action.payload as string;
+          console.log(state.message)
         } else {
           state.message = 'The server is not responding. Check your internet connection.';
         };

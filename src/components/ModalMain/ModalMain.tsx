@@ -116,6 +116,7 @@ const ModalMain: FC<PropsWithoutRef<ModalPropsTypes>> = ({buttonName, elementNam
             { message: errorMessagesTrans('L')}
           )
           .required(errorMessagesTrans('burnReq')),
+          selected: Yup.boolean()
         }),
     
         initialValues: elementName !== undefined && elementName.selected === true && buttonName === 'change'?
@@ -125,6 +126,7 @@ const ModalMain: FC<PropsWithoutRef<ModalPropsTypes>> = ({buttonName, elementNam
             price: elementName.price,
             km: elementName.km,
             burn: elementName.burn,
+            selected: elementName.selected,
           }:
           {
             liters: '',
@@ -132,6 +134,7 @@ const ModalMain: FC<PropsWithoutRef<ModalPropsTypes>> = ({buttonName, elementNam
             price: '',
             km: '',
             burn: '',
+            selected: '',
           },
     
         onSubmit: (values, { resetForm }) => {
