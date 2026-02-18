@@ -8,11 +8,12 @@ import { ActionSignIn } from '../types/authTypes';
 
 const singInSliceInitialState: SingInInitialState = {
 
+  company: '',
   isLoading: false,
   isLogIn: false,
   message: '',
   token: '',
- 
+  id: '',
 };
 
 const singInSlice = createSlice({
@@ -46,6 +47,8 @@ const singInSlice = createSlice({
 
         state.isLoading = false;
         state.token = action.payload.data.token;
+        state.company = action.payload.data.company;
+        state.id = action.payload.data.id;
         state.isLogIn = true;
         state.message = 'User is logined';
         // some actions with 'action'...

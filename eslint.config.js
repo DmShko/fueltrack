@@ -23,6 +23,9 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
+      'no-nested-ternary': 'error',
+      '@stylistic/multiline-ternary': ['error', 'always-multiline'],
+      'no-unneeded-ternary': 'error',
     },
   },
 )

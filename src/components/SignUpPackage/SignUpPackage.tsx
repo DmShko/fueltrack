@@ -159,16 +159,18 @@ const SignUp = () => {
       email: '',
       password: '',
       repeatPassword: '',
+      bossId:'',
     },
     
     onSubmit: (values, { resetForm }) => {
-
+      
       if(values.password === values.repeatPassword) {
         dispatch(singUpAPI({
           company: values.company,
           name: values.name,
           email: values.email,
-          password: values.password
+          password: values.password,
+          bossId:'',
         }));
       };
 

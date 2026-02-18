@@ -10,6 +10,7 @@ import tr from './Tracks.module.scss';
 import { useAppSelector } from "../../app.hooks"; 
 
 import TrackModal from "../TrackModal/TrackModal";
+import Collaborator from '../Collaborators/Collaborators.tsx';
 
 // API
 import getTrackAPI from '../../API/getTrackAPI';
@@ -153,6 +154,8 @@ const Tracks: FC = () => {
 
         </div>
       </div>}  
+
+      {!toggleMenu && <Collaborator/>}
 
     </div>
   )

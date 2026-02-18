@@ -1,9 +1,18 @@
 /**Async */
-export interface SignUpArgs {
+  export interface SignUpArgs {
     company: string
     name: string
     email: string
     password: string
+    bossId: string
+  };
+
+  export interface ColabsArea {
+   
+    name: string
+    email: string
+    password: string
+   
   };
 
   export interface SignInArgs {
@@ -34,6 +43,8 @@ export interface SignUpArgs {
   export interface SignInRes {
     data: {
       token: string
+      company: string
+      id: string
     }
   };
 
@@ -51,11 +62,12 @@ export interface SingUpInitialState {
 // type for itialState
 export interface SingInInitialState {
 
+  company: string
   isLoading: boolean
   isLogIn: boolean
   message: string
   token: string
-
+  id: string
 };
 
 export interface LogoutInitialState {
