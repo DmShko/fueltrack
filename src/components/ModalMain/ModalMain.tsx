@@ -135,7 +135,7 @@ const ModalMain: FC<PropsWithoutRef<ModalPropsTypes>> = ({ buttonName, elementNa
         burn: '',
         selected: '',
       },
-
+      
     onSubmit: (values, { resetForm }) => {
 
       if (value !== null) {
@@ -143,7 +143,7 @@ const ModalMain: FC<PropsWithoutRef<ModalPropsTypes>> = ({ buttonName, elementNa
 
           dispatch(addTrackAPI({
             data: {
-              _id: nanoid(),
+              _id: nanoid(24), // 24 elements in id
               liters: values.liters,
               marck: values.marck,
               price: values.price,

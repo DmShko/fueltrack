@@ -26,6 +26,8 @@ import Card from '../SvgComponents/Card/Card';
 import Distance from '../SvgComponents/Distance/Distance';
 import Mark from '../SvgComponents/Mark/Mark';
 import Burn from '../SvgComponents/Burn/Burn';
+import User from '../SvgComponents/User/User';
+import Users from '../SvgComponents/Users/Users.tsx';
 
 import { useAppDispatch } from "../../app.hooks"; 
 
@@ -110,7 +112,7 @@ const Tracks: FC = () => {
       }
 
       <div className={tr.toggleStatictic}>
-        <button onClick={changeStatisticMenu}>{toggleMenu === true ? 'Others' : 'My'}</button>
+        <button onClick={changeStatisticMenu}>{toggleMenu === true ? <Users width={'30px'} height={'30px'}/> : <User width={'30px'} height={'30px'}/>}</button>
       </div>
 
       {toggleMenu && <div className={tr.currentStatistic}>

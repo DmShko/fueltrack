@@ -3,6 +3,16 @@ export interface ActionTracks {
     data: {id: string, value: boolean}
 }
 
+export interface ActionCollabsData {
+    id: string
+    value: boolean
+}
+
+export interface ActionCollabs {
+    mode: string
+    data: ActionCollabsData
+}
+
 export enum PayType {
     own = 'own', 
     company = 'company',
@@ -17,6 +27,21 @@ export interface Track {
     pay: PayType
     burn: string
     date: string
+    selected: boolean
+}
+
+export interface Collab {
+    _id: string
+    name: string
+    liters: string
+    marck: string
+    price: string
+    km: string
+    pay: PayType
+    burn: string
+    date: string
+    email: string
+    verify: boolean
     selected: boolean
 }
 
@@ -35,6 +60,11 @@ export interface DeleteTrackArgs {
 };
 
 export interface GetTrackByIdArgs {
+    id: string
+    token: string
+};
+
+export interface GetCollabsByIdArgs {
     id: string
     token: string
 };
@@ -79,6 +109,14 @@ export interface getTrackInitialState {
 export interface getTrackByIdInitialState {
 
     dayById: Track
+    isLoading: boolean
+    error: string
+    token: string
+};
+
+export interface getCollabsByIdInitialState {
+
+    collabsById: Collab[]
     isLoading: boolean
     error: string
     token: string

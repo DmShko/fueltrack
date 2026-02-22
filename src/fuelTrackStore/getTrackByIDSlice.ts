@@ -19,6 +19,7 @@ const getTrackByIdSliceInitialState: getTrackByIdInitialState = {
     pay: PayType.company,
     burn: '',
     date: '',
+    selected: false,
   },
 };
 

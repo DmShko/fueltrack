@@ -2,14 +2,15 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 // types
-import { GetTrackByIdArgs } from '../types/types';
+import { GetCollabsByIdArgs } from '../types/types';
 
 // const URL='https://pill-server.onrender.com/api/auth/logout';
-const URL='http://localhost:3000/api/track';
+const URL='http://localhost:3000/api/collabo';
 
 // createAsyncThunk<return data type, arg type, rejectValue type>
-export const getTrackByIdAPI = createAsyncThunk<any, GetTrackByIdArgs,{rejectValue: string}>(
-  'getTrackById/getTrackByIdAPI', 
+export const getCollabsByIdAPI = createAsyncThunk<any, GetCollabsByIdArgs,{rejectValue: string}>(
+  'getCollabsById/getCollabsByIdAPIs', 
+
   async function (arg, {rejectWithValue}) { 
  
     const options = {
@@ -19,8 +20,9 @@ export const getTrackByIdAPI = createAsyncThunk<any, GetTrackByIdArgs,{rejectVal
     }; 
   
    // axios.post<URL type, response type, config type>
-   return await axios.get<string, any>(`${URL}?id=${arg.id}`, options)
+   return await axios.get<string, any>(`${URL}/${arg.id}`, options)
     .then((res) => {
+     
       // Signed up 
       return res;
       // ...
@@ -37,4 +39,4 @@ export const getTrackByIdAPI = createAsyncThunk<any, GetTrackByIdArgs,{rejectVal
     });
 });
 
-export default getTrackByIdAPI;
+export default getCollabsByIdAPI;

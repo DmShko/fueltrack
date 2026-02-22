@@ -4,22 +4,20 @@ import axios from "axios";
 // types
 import { PutTrackArgs } from '../types/types';
 
-const URL='http://localhost:3000/api/track/';
+const URL='http://localhost:3000/api/track';
 
 // createAsyncThunk<return data type, arg type, rejectValue type>
 export const putTrackAPI = createAsyncThunk<any, PutTrackArgs, {rejectValue: string}>(
   'putTracks/putTrackAPI', 
   async function (arg, {rejectWithValue}) {
   
-    const config = {
-
+    const options = {
       headers: {'Authorization':`Bearer ${arg.token}`},
       data: arg.data,
-
-    };   
-
+    }; 
+    
    // axios.post<URL type, response type, config type>
-   return await axios.put<string, any>(`${URL}?id=${arg.id}`, config)
+   return await axios.put<string, any>(`${URL}/${arg.id}`, options)
     .then((res) => {
      
       return res;

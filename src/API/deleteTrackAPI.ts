@@ -5,7 +5,7 @@ import axios from "axios";
 import { DeleteTrackArgs } from '../types/types';
 
 // const URL='https://pill-server.onrender.com/api/auth/logout';
-const URL='http://localhost:3000/api/track/';
+const URL='http://localhost:3000/api/track';
 
 // createAsyncThunk<return data type, arg type, rejectValue type>
 export const deleteTrackAPI = createAsyncThunk<any, DeleteTrackArgs,{rejectValue: string}>(

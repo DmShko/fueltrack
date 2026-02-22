@@ -1,7 +1,8 @@
 .container {
 
-    height: fit-content;
+    height: 70%;
 
+    margin: 50px auto;
     padding: 20px;
    
     border: solid 1px lightblue;
@@ -13,9 +14,10 @@
 
     box-shadow: 1px 1px 4px 1px rgb(61, 61, 61);
 
-
     .toggleStatictic {
-        margin-bottom: 20px;
+        
+        margin-bottom: 10px;
+        height: 10%;
     }
 
     .monthStatistic {
