@@ -28,6 +28,7 @@ import Mark from '../SvgComponents/Mark/Mark';
 import Burn from '../SvgComponents/Burn/Burn';
 import User from '../SvgComponents/User/User';
 import Users from '../SvgComponents/Users/Users.tsx';
+import CurrentUserLogo from '../SvgComponents/CurrentUserLogo/CurrentUserLogo.tsx';
 
 import { useAppDispatch } from "../../app.hooks"; 
 
@@ -50,6 +51,7 @@ const Tracks: FC = () => {
   const [buttonClickName, setButtonClickName ]= useState('');
 
   const tokenSelector = useAppSelector(state => state.signIn.token);
+  const userNameSelector = useAppSelector(state => state.signIn.name);
   const deletedSelector = useAppSelector(state => state.delTrack.isDeleted);
   const addSelector = useAppSelector(state => state.addTrack.isAdd);
   const tracksSelector = useAppSelector(state => state.getTrack.fuelDays);
@@ -113,7 +115,11 @@ const Tracks: FC = () => {
 
       <div className={tr.toggleStatictic}>
         <button onClick={changeStatisticMenu}>{toggleMenu === true ? <Users width={'30px'} height={'30px'}/> : <User width={'30px'} height={'30px'}/>}</button>
-      </div>
+        <div className={tr.currentUser}>
+          <p>{`${userNameSelector}`}</p>
+          <CurrentUserLogo width={'45px'} height={'45px'}/>
+        </div>
+      </div>  
 
       {toggleMenu && <div className={tr.currentStatistic}>
 

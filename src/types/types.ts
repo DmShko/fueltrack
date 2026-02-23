@@ -74,6 +74,12 @@ export interface GetTrackArgs {
     token: string
 };
 
+export interface GetTracksCollabArgs {
+
+    token: string
+    owner: string
+};
+
 export interface PutTrackArgs {
     id: string
     token: string
@@ -104,7 +110,16 @@ export interface getTrackInitialState {
     isLoading: boolean
     error: string
     token: string
-};
+}; 
+
+export interface getTracksCollabsInitialState {
+
+    fuelCollabDays: Track []
+    selectedCollabDay: Track
+    isLoading: boolean
+    error: string
+
+}
 
 export interface getTrackByIdInitialState {
 

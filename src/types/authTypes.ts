@@ -45,6 +45,7 @@
       token: string
       company: string
       id: string
+      name: string
     }
   };
 
@@ -68,6 +69,7 @@ export interface SingInInitialState {
   message: string
   token: string
   id: string
+  name: string
 };
 
 export interface LogoutInitialState {

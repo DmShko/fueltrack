@@ -10,6 +10,7 @@ import co from './Callaborator.module.scss'
 // APIs
 import singUpAPI from "../../API/signUpAPI";
 import getCollabsByIdAPI from "../../API/getCollabsByIdAPI";
+import getTracksCollabAPI from '../../API/getTracksCollabAPI';
 
 // types
 import { ColabsArea } from "../../types/authTypes"
@@ -23,6 +24,8 @@ import { changeSelected } from '../../fuelTrackStore/getCollabsByIdSlice';
 // images
 import UserPlus from '../SvgComponents/UserPlus/UserPlus';
 import UserMinus from '../SvgComponents/UserMinus/UserMinus';
+import UserSearch from '../SvgComponents/UserSearch/UserSearch';
+import SearchIcon from '../SvgComponents/Telescope/Telescope';
 
 const Collaborators = () => {
 
@@ -36,8 +39,10 @@ const Collaborators = () => {
     const companySelector = useAppSelector(state => state.signIn.company);
     const tokenSelector = useAppSelector(state => state.signIn.token);
     const collabsSelector = useAppSelector(state => state.getCollabsById.collabsById);
+    const collabTracksSelector = useAppSelector(state => state.getTracksCollab.fuelCollabDays);
 
     const collabsAre = Array.isArray(collabsSelector) && collabsSelector.length !== 0;
+    const collabTracksAre = Array.isArray(collabTracksSelector) && collabTracksSelector.length !== 0;
 
     useEffect(() => {
 
@@ -149,43 +154,55 @@ const Collaborators = () => {
       const curentSelected = collabsSelector.find(element => element._id === evt.currentTarget.id)?.selected;
 
       dispatch(changeSelected({mode:'setSel', data: {id: evt.currentTarget.id, value: !curentSelected}}));
+
+      // dowloand tracks of selected user
+      if(tokenSelector !== '') {
+            dispatch(getTracksCollabAPI({token: tokenSelector, owner: evt.currentTarget.id}));
+      } 
     };
 
   return (
 
     <div className={co.container}>
         <div className={co.mustOperations}>
-          <div className={co.buttonsSet}>
-              <li className={co.item}>
-                  <button><UserMinus width={'30px'} height={'30px'}/></button>
-                  <button><UserPlus width={'30px'} height={'30px'}/></button>
-              </li>
-          </div>
-
+          
           <form className={co.form} onSubmit={formik.handleSubmit}>
-              <div>
-                  <textarea className={co.newCollabsField}
+              <p className={co.errorsMessages}>{formik.errors.colabsBuffer !== undefined ? `${formik.errors.colabsBuffer}` : ''}</p>
+              <textarea className={co.newCollabsField}
                       id="colaborate"
                       name="colabsBuffer"
                       onChange={formik.handleChange}
                       value={formik.values.colabsBuffer}
                       placeholder="Colaborator's: email_name_password_repeatpassword email_..."></textarea>
-              </div>
-              <button type="submit" title='Go' disabled={formik.errors.colabsBuffer === '' ? true : false}>Go</button>
+
+             
+              <button className={co.userPlus} type="submit" title='userPlus' disabled={formik.errors.colabsBuffer === '' ? true : false}><UserPlus width={'20px'} height={'20px'}/></button>
+              
           </form>
 
-          <p className={co.errorsMessages}>{formik.errors.colabsBuffer !== undefined ? `${formik.errors.colabsBuffer}` : ''}</p>
+          <div className={co.buttonsSet}>
 
-          <input
+            <SearchIcon width={'35px'} height={'35px'}/>
+
+              <input
               className={co.search}
               id="search"
               name="colabsSearch"
               onChange={writeSearchCollabs}
               value={serachCollabs}
               placeholder="Search"
-          ></input>
-        
+              ></input>
+
+            <li className={co.item}>
+                
+              <button><UserMinus width={'20px'} height={'20px'}/></button>
+              <button><UserSearch width={'25px'} height={'25px'}/></button>
+              
+            </li>    
+
           </div>
+            
+        </div>
 
         <div className={co.collabs}>
 
@@ -197,7 +214,11 @@ const Collaborators = () => {
                         <p className={co.adress} style={element.verify ? {color: "black"}: {color: "lightgray"}}>{`${element.email}`}</p>
                       </div >
                       {collabsSelector.find(value => value._id === element._id)?.selected && <div className={co.userDetails}>
-                        <p>Details</p>
+                        <li className={co.collabDates} id={element._id} key = {nanoid()}>
+                        {collabTracksAre ? collabTracksSelector.map(element => {
+                          return <p className={co.collabDate}>{element.date.split(' ')[2]}</p>
+                        }):'...loading'}
+                        </li>
                       </div>}
                   </li> : ''
           })}

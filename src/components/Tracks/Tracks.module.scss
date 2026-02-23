@@ -15,9 +15,46 @@
     box-shadow: 1px 1px 4px 1px rgb(61, 61, 61);
 
     .toggleStatictic {
-        
-        margin-bottom: 10px;
+
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+        align-items: start;
+
+        margin-bottom: 5px;
+        padding: 5px;
         height: 10%;
+
+        border-bottom: 2px solid #aab1f8;
+
+        .currentUser {
+
+            display: flex;
+            justify-content: space-between;
+            flex-direction: row;
+            align-items: end;
+
+            p {
+
+                margin-bottom: 5px;
+                margin-top: 25px;
+                font-size: 14px;
+                font-weight: 500;
+                color: #aab1f8;
+                line-height: 1;
+            }
+
+            button {
+
+                display: flex;
+                justify-content: space-between;
+                align-items: end;
+
+                height: 40px;
+            }
+
+        }
+        
     }
 
     .monthStatistic {
@@ -83,13 +120,15 @@
                 align-items: center;
                 
                 width: 70px;
+                height: 40px;
 
-                box-shadow: inset 1px -2px 4px -2px rgb(61, 61, 61);
+                // box-shadow: inset 1px -2px 4px -2px rgb(61, 61, 61);
 
                 color: #1C274C;
 
                 font-weight: 700;
                 font-size: 14px;    
+                
             }
 
             button:active {
@@ -99,7 +138,7 @@
 
             button:focus {
 
-                outline: none;
+                outline: 2px solid #aab1f8;
              
             }
 

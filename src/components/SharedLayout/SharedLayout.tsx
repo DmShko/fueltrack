@@ -17,7 +17,8 @@ import { changeSingIn }  from '../../fuelTrackStore/signInSlice';
 import DayNight  from '../DayNight/DayNight';
 
 // images
-import BallOfWool from '../SvgComponents/Logo/BallOfWool';
+// import BallOfWool from '../SvgComponents/Logo/BallOfWool';
+import MainLogo from '../SvgComponents/MainLogo/MainLogo';
 
 // types
 import { NewDateType } from '../../types/types'
@@ -104,7 +105,7 @@ const SharedLayout: FC = () => {
           <header className={sh.header}>
 
             <div className={sh.container}>
-              <NavLink to="/"><div className={sh.logo}><p className={sh.logoLeft}>Fuel</p><p className={sh.logoRight}>Track</p><BallOfWool /></div></NavLink>
+              <NavLink to="/"><div className={sh.logo}><p className={sh.logoLeft}>Fuel</p><p className={sh.logoRight}>Track</p><MainLogo height={'40px'}  width={'40px'}/></div></NavLink>
               <ul className={sh.navList}>
                 {tokenSelector && <li className={sh.navItem} style={location.pathname === '/tracks' ? {color: 'white', borderColor: 'gray'} : {color: 'white'}}>
                   <NavLink to={"/tracks"} style={{color: 'white'}}>tracks</NavLink>

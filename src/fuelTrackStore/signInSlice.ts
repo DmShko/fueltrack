@@ -14,6 +14,7 @@ const singInSliceInitialState: SingInInitialState = {
   message: '',
   token: '',
   id: '',
+  name: '',
 };
 
 const singInSlice = createSlice({
@@ -51,6 +52,7 @@ const singInSlice = createSlice({
         state.id = action.payload.data.id;
         state.isLogIn = true;
         state.message = 'User is logined';
+        state.name = action.payload.data.name;
         // some actions with 'action'...
       });
             

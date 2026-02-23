@@ -19,15 +19,17 @@ header {
 
         .time {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             justify-content: space-between;
             align-items: start;
 
-            font-size: 12px;
+            gap: 5px;
+
+            font-size: 14px;
             width:fit-content;
             height: fit-content;
             
-            color: lightgray;
+            color: rgb(169, 169, 169);
 
             .today {
                 margin: 0;
@@ -47,11 +49,14 @@ header {
             font-size: 25px;
 
             .logoLeft {
-                color: rgb(60, 47, 231);
+             margin: 0;
+                // color: rgb(60, 47, 231);
+                color: #aab1f8;
             }
 
             .logoRight {
-                color: rgb(219, 183, 20);
+                // color: rgb(219, 183, 20);
+                color: #aab1f8;
             }
         }
 
