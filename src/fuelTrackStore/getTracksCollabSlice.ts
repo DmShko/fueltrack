@@ -1,9 +1,9 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import getTracksCollabAPI  from '../API/getTracksCollabAPI';
 
 // types
-import { getTracksCollabsInitialState, PayType } from '../types/types';
+import { getTracksCollabsInitialState, PayType, ActionCollabsDay } from '../types/types';
 
 const getTracksCollabsSliceInitSt: getTracksCollabsInitialState = {
 
@@ -22,13 +22,24 @@ const getTracksCollabsSliceInitSt: getTracksCollabsInitialState = {
     date: '',
     selected: false,
   }
+
+
 };
 
 const getTracksColabsSlice = createSlice({
   name: 'getTracksCollab',
   initialState: getTracksCollabsSliceInitSt,
+
     reducers: { 
-       
+      changeSelectedCollabDay(state, action: PayloadAction<ActionCollabsDay>) {
+        switch(action.payload.mode) {
+          case 'freshDay':
+            state.selectedCollabDay = {...action.payload.data.value}
+          break;
+          default:
+          break;
+        }
+      }
     },
 
   extraReducers:  
@@ -56,4 +67,5 @@ const getTracksColabsSlice = createSlice({
   }
 );
 
+export const { changeSelectedCollabDay } = getTracksColabsSlice.actions;
 export default getTracksColabsSlice.reducer;

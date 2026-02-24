@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik"; 
 import { nanoid } from "nanoid";
 
@@ -14,18 +14,28 @@ import getTracksCollabAPI from '../../API/getTracksCollabAPI';
 
 // types
 import { ColabsArea } from "../../types/authTypes"
+import { Track, PayType } from "../../types/types"
 
 // own dispatch hook
 import { useAppDispatch, useAppSelector } from "../../app.hooks"; 
 
 // slices import
 import { changeSelected } from '../../fuelTrackStore/getCollabsByIdSlice';
+import { changeSelectedCollabDay } from '../../fuelTrackStore/getTracksCollabSlice';
 
 // images
 import UserPlus from '../SvgComponents/UserPlus/UserPlus';
 import UserMinus from '../SvgComponents/UserMinus/UserMinus';
 import UserSearch from '../SvgComponents/UserSearch/UserSearch';
 import SearchIcon from '../SvgComponents/Telescope/Telescope';
+
+import Rest from '../SvgComponents/Rest/Rest';
+import Wallet from '../SvgComponents/Wallet/Wallet';
+import GasStation from '../SvgComponents/GasStation/GasStation';
+import Card from '../SvgComponents/Card/Card';
+import Distance from '../SvgComponents/Distance/Distance';
+import Mark from '../SvgComponents/Mark/Mark';
+import Burn from '../SvgComponents/Burn/Burn';
 
 const Collaborators = () => {
 
@@ -40,6 +50,7 @@ const Collaborators = () => {
     const tokenSelector = useAppSelector(state => state.signIn.token);
     const collabsSelector = useAppSelector(state => state.getCollabsById.collabsById);
     const collabTracksSelector = useAppSelector(state => state.getTracksCollab.fuelCollabDays);
+    const collabCurrentDaySelector = useAppSelector(state => state.getTracksCollab.selectedCollabDay);
 
     const collabsAre = Array.isArray(collabsSelector) && collabsSelector.length !== 0;
     const collabTracksAre = Array.isArray(collabTracksSelector) && collabTracksSelector.length !== 0;
@@ -152,13 +163,47 @@ const Collaborators = () => {
 
       // find 'selected' value of current collabs
       const curentSelected = collabsSelector.find(element => element._id === evt.currentTarget.id)?.selected;
-
+     
       dispatch(changeSelected({mode:'setSel', data: {id: evt.currentTarget.id, value: !curentSelected}}));
 
       // dowloand tracks of selected user
       if(tokenSelector !== '') {
             dispatch(getTracksCollabAPI({token: tokenSelector, owner: evt.currentTarget.id}));
       } 
+    };
+
+    const loadDayStatistic = (evt: React.MouseEvent<HTMLLIElement>) => {
+
+      evt.stopPropagation();
+
+      const collabOneDay = collabTracksSelector.find(value => value._id === evt.currentTarget.id);
+   
+      if(collabOneDay) {
+        dispatch(changeSelectedCollabDay({mode: 'freshDay', data: { id: evt.currentTarget.id, value: collabOneDay}}));
+      };
+
+    };
+
+    const totalCollabStatistic = (data: keyof(Omit<Track, 'pay' | 'selected'>), back: number = 0) => {
+
+      for(const all of collabTracksSelector) {
+        back += Number(all[data])
+      };
+
+      return back;
+
+    };
+
+    const totalRest = () => {
+
+      let backRest = 0
+
+      for(const all of collabTracksSelector) {
+        backRest += Number(all.liters) - Number(all.burn)
+      };
+
+      return backRest;
+
     };
 
   return (
@@ -205,23 +250,55 @@ const Collaborators = () => {
         </div>
 
         <div className={co.collabs}>
-
+          <ul className={co.collabsList}>
           { collabsAre && collabsSelector.map(element => {
             return element.name.toLocaleLowerCase().includes(serachCollabs) || element.email.toLocaleLowerCase().includes(serachCollabs) ?
-                  <li className={co.item} id={element._id} key = {nanoid()} onClick={toggleCollabDetail}>
-                      <div className={co.userData}>
+                  
+                    <li className={co.item} id={element._id} key = {nanoid()} onClick={toggleCollabDetail}>
+                      <div className={co.userData} style={element.selected ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'none'}}>
                         <p className={co.name} style={element.verify ? {color: "black"}: {color: "lightgray"}}>{`${element.name}`}</p>
                         <p className={co.adress} style={element.verify ? {color: "black"}: {color: "lightgray"}}>{`${element.email}`}</p>
                       </div >
-                      {collabsSelector.find(value => value._id === element._id)?.selected && <div className={co.userDetails}>
-                        <li className={co.collabDates} id={element._id} key = {nanoid()}>
-                        {collabTracksAre ? collabTracksSelector.map(element => {
-                          return <p className={co.collabDate}>{element.date.split(' ')[2]}</p>
-                        }):'...loading'}
-                        </li>
+                      {collabsSelector.find(value => value._id === element._id)?.selected && <div className={co.userDetails} >
+                        <ul className={co.collabDaysList}>
+                         
+                            {collabTracksAre ? collabTracksSelector.map(element => {
+                              return  <li className={co.collabDates} id={element._id} key = {nanoid()} onClick={loadDayStatistic}>
+                                        <p className={co.collabDate}>{element.date.split(' ')[2]}</p> 
+                                      </li> 
+                            }):'...loading'}
+                         
+                        </ul>
+                        <div className={co.parameters}>
+
+                          <div className={co.paramsPartDay}>
+                              <p>Day</p>
+                              <div className={co.paramsRowDay}><div className={co.paramsRowBlock}><GasStation width={'18px'} height={'18px'}/><p>liters</p></div><p>{collabCurrentDaySelector.liters}</p></div>
+                              <div className={co.paramsRowDay}><div className={co.paramsRowBlock}><Mark width={'18px'} height={'18px'}/><p>marck</p></div><p>{collabCurrentDaySelector.marck}</p></div>
+                              <div className={co.paramsRowDay}><div className={co.paramsRowBlock}><Wallet width={'18px'} height={'18px'}/><p>price</p></div><p>{collabCurrentDaySelector.price}</p></div>
+                              <div className={co.paramsRowDay}><div className={co.paramsRowBlock}><Distance width={'18px'} height={'18px'}/><p>km</p></div><p>{collabCurrentDaySelector.km}</p></div>
+                              <div className={co.paramsRowDay}><div className={co.paramsRowBlock}><Card width={'18px'} height={'18px'}/><p>pay</p></div><p>{collabCurrentDaySelector.pay}</p></div>
+                              <div className={co.paramsRowDay}><div className={co.paramsRowBlock}><Burn width={'18px'} height={'18px'}/><p>burn</p></div><p>{collabCurrentDaySelector.burn}</p></div>
+                              <div className={co.paramsRowDay}><div className={co.paramsRowBlock}><Rest width={'18px'} height={'18px'}/><p>rest</p></div><p>{Number(collabCurrentDaySelector.liters) - Number(collabCurrentDaySelector.burn)}</p></div>
+                          </div >
+
+                           <div className={co.paramsPartMonth}>
+                              <p>Month</p>
+                              <div className={co.paramsRowMonth}>{totalCollabStatistic('liters')}</div>
+                              <div className={co.paramsRowMonth}>~</div>
+                              <div className={co.paramsRowMonth}>~</div>
+                              <div className={co.paramsRowMonth}>{totalCollabStatistic('km')}</div>
+                              <div className={co.paramsRowMonth}>~</div>
+                              <div className={co.paramsRowMonth}>{totalCollabStatistic('burn')}</div>
+                              <div className={co.paramsRowMonth} style={{color: 'blue'}}>{totalRest()}</div>
+                          </div>
+                           
+                        </div>
                       </div>}
-                  </li> : ''
+                  </li> 
+                : ''
           })}
+          </ul>
         </div>
        
     </div>

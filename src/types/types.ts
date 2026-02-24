@@ -13,6 +13,16 @@ export interface ActionCollabs {
     data: ActionCollabsData
 }
 
+export interface ActionCollabsDayData {
+    id: string
+    value: Track
+}
+
+export interface ActionCollabsDay {
+    mode: string
+    data: ActionCollabsDayData
+}
+
 export enum PayType {
     own = 'own', 
     company = 'company',
