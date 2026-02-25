@@ -26,7 +26,10 @@ import { changeSelectedCollabDay } from '../../fuelTrackStore/getTracksCollabSli
 // images
 import UserPlus from '../SvgComponents/UserPlus/UserPlus';
 import UserMinus from '../SvgComponents/UserMinus/UserMinus';
+import UsersSearch from '../SvgComponents/UsersSearch/UsersSearch';
 import UserSearch from '../SvgComponents/UserSearch/UserSearch';
+import UserCatch from '../SvgComponents/UserCatch/UserCatch';
+import Online from '../SvgComponents/Online/Online';
 import SearchIcon from '../SvgComponents/Telescope/Telescope';
 
 import Rest from '../SvgComponents/Rest/Rest';
@@ -44,6 +47,9 @@ const Collaborators = () => {
     //search collaborators
     const [serachCollabs, setSerachCollabs] = useState('');
 
+    //catch collaborators
+    const [toogleCollabs, setToogleCollabs] = useState(false);
+
     const languageSelector = useAppSelector(state => state.ser.language);
     const idSelector = useAppSelector(state => state.signIn.id);
     const companySelector = useAppSelector(state => state.signIn.company);
@@ -51,7 +57,6 @@ const Collaborators = () => {
     const collabsSelector = useAppSelector(state => state.getCollabsById.collabsById);
     const collabTracksSelector = useAppSelector(state => state.getTracksCollab.fuelCollabDays);
     const collabCurrentDaySelector = useAppSelector(state => state.getTracksCollab.selectedCollabDay);
-
     const collabsAre = Array.isArray(collabsSelector) && collabsSelector.length !== 0;
     const collabTracksAre = Array.isArray(collabTracksSelector) && collabTracksSelector.length !== 0;
 
@@ -161,6 +166,8 @@ const Collaborators = () => {
 
     const toggleCollabDetail = (evt: React.MouseEvent<HTMLLIElement>) => {
 
+      dispatch(changeSelected({mode:'clearSelAll', data: {id: evt.currentTarget.id, value: false}}));
+
       // find 'selected' value of current collabs
       const curentSelected = collabsSelector.find(element => element._id === evt.currentTarget.id)?.selected;
      
@@ -206,6 +213,26 @@ const Collaborators = () => {
 
     };
 
+    const catchCollab = () =>{
+
+      // find _id collabs whith 'selected' key is true
+      const currentId = collabsSelector.find(element => element.selected === true)?._id;
+
+      // find 'isCatch' key value of selected collabs
+      const currentIsCatch  = collabsSelector.find(element => element.selected === true)?.isCatch;
+
+      if(currentId)
+        dispatch(changeSelected({mode:'setIsCatch', data: {id: currentId, value: !currentIsCatch}}));
+
+    };
+
+    const catchCollabs = () =>{
+
+      setToogleCollabs(state => !state);
+      dispatch(changeSelected({mode:'setCatchAll', data: {id: '', value: toogleCollabs}}));
+
+    };
+
   return (
 
     <div className={co.container}>
@@ -241,7 +268,8 @@ const Collaborators = () => {
             <li className={co.item}>
                 
               <button><UserMinus width={'20px'} height={'20px'}/></button>
-              <button><UserSearch width={'25px'} height={'25px'}/></button>
+              <button onClick={catchCollab}><UserSearch width={'18px'} height={'18px'}/></button>
+              <button onClick={catchCollabs}><UsersSearch width={'25px'} height={'25px'}/></button>
               
             </li>    
 
@@ -256,7 +284,10 @@ const Collaborators = () => {
                   
                     <li className={co.item} id={element._id} key = {nanoid()} onClick={toggleCollabDetail}>
                       <div className={co.userData} style={element.selected ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'none'}}>
-                        <p className={co.name} style={element.verify ? {color: "black"}: {color: "lightgray"}}>{`${element.name}`}</p>
+                        <p className={co.name} style={element.verify ? {color: "black"}: {color: "lightgray"}}>{`${element.name}`}
+                          {element.isCatch && <UserCatch width={'18px'} height={'18px'}/>}
+                          <Online width={'18px'} height={'18px'}/>
+                        </p>
                         <p className={co.adress} style={element.verify ? {color: "black"}: {color: "lightgray"}}>{`${element.email}`}</p>
                       </div >
                       {collabsSelector.find(value => value._id === element._id)?.selected && <div className={co.userDetails} >
@@ -266,7 +297,7 @@ const Collaborators = () => {
                               return  <li className={co.collabDates} id={element._id} key = {nanoid()} onClick={loadDayStatistic}>
                                         <p className={co.collabDate}>{element.date.split(' ')[2]}</p> 
                                       </li> 
-                            }):'...loading'}
+                            }):'no tracks'}
                          
                         </ul>
                         <div className={co.parameters}>

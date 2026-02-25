@@ -23,13 +23,15 @@ const getTrackByIdSlice = createSlice({
         
                         // clear all selected fields
                         case "clearSelAll":
-                       
-                           for(const c in state.collabsById) {
+                          
+                          if (state.collabsById.length != 0) {
 
-                              if (state.collabsById.length != 0) state.collabsById[c].selected = false;
-                              
+                            for(const c in state.collabsById) {
+
+                              state.collabsById[c].selected = false;
+                                
                             }
-
+                          }
                         break;
                         case "setSel":
 
@@ -42,14 +44,23 @@ const getTrackByIdSlice = createSlice({
                             }
 
                         break;
-                        case "setSelAll":
+                        case "setCatchAll":
                        
                           for(const c in state.collabsById) {
 
-                              if (state.collabsById.length != 0) state.collabsById[c].selected = true;
+                              if (state.collabsById.length != 0) state.collabsById[c].isCatch = action.payload.data.value;
                               
                             }
 
+                        break;
+                        case "setIsCatch":
+                         
+                            for(const c in state.collabsById) {
+                           
+                              if (state.collabsById[c].selected === true) state.collabsById[c].isCatch = action.payload.data.value;
+
+                            }
+                            
                         break;
                         default:
                         break;

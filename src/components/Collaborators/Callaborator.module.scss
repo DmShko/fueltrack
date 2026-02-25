@@ -5,6 +5,8 @@
         // justify-content: space-around;
         // align-items: center;
 
+        font-family: 'Consolas';
+
         gap: 5px;
 
         margin: 0;
@@ -83,13 +85,33 @@
                 gap: 10px;
 
                 .newCollabsField{
+
+                    padding: 5px;
+
                     width: 90%;
                     height: 100px;
+
+                    color: gray;
 
                     border: unset;
                     background-color: rgb(244, 242, 242);
 
                     outline-style: none;
+
+                    resize: none;
+                    
+                }
+
+                @keyframes pulse {
+                0% { opacity: 1; }
+                50% { opacity: 0.3; }
+                100% { opacity: 1; }
+                }
+
+                .newCollabsField::placeholder{
+
+                    font-size: 14px;
+                    animation: pulse 1.5s infinite ease-in-out;
                 }
 
                 .userPlus {
@@ -161,6 +183,8 @@
                     width: 100%;
 
                     transition: all 0.1s ease;
+
+                    border-bottom: 2px dashed lightgray;
 
                     .userDetails {
                         display: flex;
@@ -343,6 +367,15 @@
                             padding: 0 5px;
 
                             text-align: center;
+                        }
+
+                        .name {
+                            display: flex;
+                            flex-direction: row;
+                            justify-content: space-between;
+                            align-items: center;
+
+                            gap: 5px;
                         }
                     }
 

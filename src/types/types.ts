@@ -53,6 +53,7 @@ export interface Collab {
     email: string
     verify: boolean
     selected: boolean
+    isCatch: boolean
 }
 
 export interface TrackModalProps {

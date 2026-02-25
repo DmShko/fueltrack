@@ -52,7 +52,6 @@ const getTracksColabsSlice = createSlice({
 
         state.isLoading = false;
         state.fuelCollabDays = [...action.payload.data]
-        console.log(action.payload.data)
         // some actions with 'action'...
       });
             
