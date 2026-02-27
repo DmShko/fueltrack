@@ -61,11 +61,12 @@ const Tracks: FC = () => {
   const [modalToggle, setModalToggle] = useState(false);
 
   useEffect(() => {
+
     if(tokenSelector !== '') {
       dispatch(getTrackAPI({token: tokenSelector}));
     } 
 
-  },[tokenSelector, deletedSelector, addSelector]);
+  },[tokenSelector, deletedSelector, addSelector, modalToggle]);
 
   const changeStatisticMenu = (evt: React.MouseEvent<HTMLElement>) => {
     if (evt.target as HTMLButtonElement === evt.currentTarget as HTMLButtonElement) setToggleMenu(state => !state)
@@ -99,6 +100,7 @@ const Tracks: FC = () => {
    
     if(selectedDaySelector.selected !== false)
       dispatch(deleteTrackAPI({id: selectedDaySelector?._id, token: tokenSelector}));
+      dispatch(tracks({mode: 'selectedTrack', data: {id: selectedDaySelector?._id, value: false}}))
     
   };
  
@@ -125,19 +127,26 @@ const Tracks: FC = () => {
 
         <div className={tr.calendarContainer}>
           <Calendar className={tr.calendar} maxDate={new Date} showNeighboringMonth={false} onChange={onChange} value={value}/>
-          <div className={tr.complete} style={{height: '30px', width: '100%', borderRadius: '8px', background: `linear-gradient(to right, yellowGreen, lightgray ${Number(selectedDaySelector.burn) * 100 / Number(selectedDaySelector.liters)}%)`}}></div>
-          <div className={tr.completeTitle}>
-            <div>{`${Math.round(Number(selectedDaySelector.burn) * 100 / Number(selectedDaySelector.liters))}%`}</div> 
-            <div>{'100%'}</div> 
-          </div>
+          <div className={tr.completeContainer}>
+            <div className={tr.complete} style={selectedDaySelector.selected ? {height: '30px', width: '100%', borderRadius: '8px', background: `linear-gradient(to right, #aab1f8 ${Number(selectedDaySelector.burn) * 100 / Number(selectedDaySelector.liters)}%, white ${Number(selectedDaySelector.burn) * 100 / Number(selectedDaySelector.liters)}%)`
+            }: {height: '30px', width: '100%', borderRadius: '8px', background: 'white'}}>
+                  <div className={tr.completeTitle}>
+                    {selectedDaySelector.selected && `${Math.round(Number(selectedDaySelector.burn) * 100 / Number(selectedDaySelector.liters))}%`} 
+                  </div>
+            </div> 
+          </div>  
         </div>
        
         <div className={tr.monthStatistic}>
 
           <div className={tr.dashboard}>
-            <button name='new' onClick={openModal} style={{backgroundColor: 'lightgreen'}}>New</button>
-            <button name='change' onClick={openModal} style={selectedDaySelector.selected !== false ? {backgroundColor: '#ffea2d'} : {backgroundColor: 'lightgray'}}>Change</button>
-            <button onClick={deleteElement} disabled={selectedDaySelector !== undefined? false : true} style={selectedDaySelector.selected !== false ? {backgroundColor: 'lightcoral'} : {backgroundColor: 'lightgray'}}>Delete</button>
+
+            <div className={tr.buttCover}>
+              <button className={tr.newButt} name='new' onClick={openModal} disabled={!selectedDaySelector.selected ? false : true} style={selectedDaySelector.selected === false ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'lightgray'}}>New</button>
+              <div className={tr.buttGlass}></div>
+            </div>
+            <button name='change' onClick={openModal} disabled={selectedDaySelector.selected ? false : true} style={selectedDaySelector.selected !== false ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'lightgray'}}>Change</button>
+            <button onClick={deleteElement} disabled={selectedDaySelector.selected ? false : true} style={selectedDaySelector.selected !== false ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'lightgray'}}>Delete</button>
           </div>
         
           <ul className={tr.list}>
@@ -150,16 +159,16 @@ const Tracks: FC = () => {
 
             }): 'no tracks'}
           </ul>
-
-          <div className={tr.parameter}><GasStation width='50px'/><p className={tr.value}>{selectedDaySelector?.liters}</p><p>L</p></div>
-          <div className={tr.parameter}><Distance width='50px'/><p className={tr.value}>{selectedDaySelector?.km}</p><p>KM</p></div>
-          <div className={tr.parameter}><Mark width='50px'/><p className={tr.value}>{selectedDaySelector?.marck}</p><p>Type</p></div>
-          <div className={tr.parameter}><Burn width='50px'/><p className={tr.value}>{selectedDaySelector?.burn}</p><p>L</p></div>
-          <div className={tr.parameter}><Rest width='50px'/><p className={tr.rest}>{selectedDaySelector?.liters !== undefined && selectedDaySelector?.burn !== undefined ?
-            (Number(selectedDaySelector?.liters) - Number(selectedDaySelector?.burn)).toString() : ''}</p><p>L</p></div>
-          <div className={tr.parameter}><Wallet width='50px'/><p className={tr.value}>{selectedDaySelector?.price}</p><p>$</p></div>
-          <div className={tr.parameter}><Card width='50px'/><p className={tr.value}>{selectedDaySelector?.pay}</p><p>$</p></div>
-
+        
+            <div className={tr.parameter}><GasStation width='50px'/><p className={tr.value}>{selectedDaySelector.selected? selectedDaySelector?.liters : ''}</p><p>L</p></div>
+            <div className={tr.parameter}><Distance width='50px'/><p className={tr.value}>{selectedDaySelector.selected? selectedDaySelector?.km : ''}</p><p>KM</p></div>
+            <div className={tr.parameter}><Mark width='50px'/><p className={tr.value}>{selectedDaySelector.selected? selectedDaySelector?.marck : ''}</p><p>Type</p></div>
+            <div className={tr.parameter}><Burn width='50px'/><p className={tr.value}>{selectedDaySelector.selected? selectedDaySelector?.burn : ''}</p><p>L</p></div>
+            <div className={tr.parameter}><Rest width='50px'/><p className={tr.rest}>{selectedDaySelector.selected? selectedDaySelector?.liters !== undefined && selectedDaySelector?.burn !== undefined ?
+              (Number(selectedDaySelector?.liters) - Number(selectedDaySelector?.burn)).toString() : '' : ''}</p><p>L</p></div>
+            <div className={tr.parameter}><Wallet width='50px'/><p className={tr.value}>{selectedDaySelector.selected? selectedDaySelector?.price : ''}</p><p>$</p></div>
+            <div className={tr.parameter}><Card width='50px'/><p className={tr.value}>{selectedDaySelector.selected? selectedDaySelector?.pay : ''}</p><p></p></div> 
+          
         </div>
       </div>}  
 

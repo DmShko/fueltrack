@@ -1,4 +1,4 @@
-import { useState, FC, PropsWithoutRef } from "react";
+import { useState, FC, PropsWithoutRef, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { nanoid } from "nanoid";
@@ -14,13 +14,19 @@ import putTrackAPI from '../../API/putTrackAPI';
 // types import
 import { PayType, ModalPropsTypes } from '../../types/types.ts';
 
+import { tracks } from '../../fuelTrackStore/getTrackSlice.ts'
+
 const ModalMain: FC<PropsWithoutRef<ModalPropsTypes>> = ({ buttonName, elementName, value, selectedId }) => {
 
 
   const dispatch = useAppDispatch();
   const languageSelector = useAppSelector(state => state.ser.language);
   const tokenSelector = useAppSelector(state => state.signIn.token);
+
   const [paySelect, setPaySelect] = useState('company');
+
+  const tracksSelector = useAppSelector(state => state.getTrack.fuelDays);
+  const selectedDaySelector = useAppSelector(state => state.getTrack.selectedDay);
 
   const pay = (evt: React.MouseEvent<HTMLInputElement>) => {
     evt.currentTarget.checked === true ? setPaySelect(PayType.own) : setPaySelect(PayType.company);
@@ -80,6 +86,24 @@ const ModalMain: FC<PropsWithoutRef<ModalPropsTypes>> = ({ buttonName, elementNa
 
   };
 
+  const validDate = (data: string, back: boolean = false) => {
+
+  
+    if(tracksSelector.find(value => value.date.split(' ')[2] === data.split(' ')[2])) back = true;
+    return back;
+    
+
+  };
+
+  const validLiters = (inLiters: string, inBurn: string, back: boolean = false) => {
+
+  
+    if(Number(inLiters) > Number(inBurn)) back = true;
+    return back;
+    
+
+  };
+
   const formik = useFormik({
 
     //yup stored own validate functions (for email, password...etc)
@@ -88,8 +112,7 @@ const ModalMain: FC<PropsWithoutRef<ModalPropsTypes>> = ({ buttonName, elementNa
         .matches(
           /\w{0}[0-9]/,
           { message: errorMessagesTrans('liters') }
-        )
-        .required(errorMessagesTrans('litersReq')),
+        ),
       marck: Yup.string()
         .matches(
           /\w{0}[0-9a-zA-Za-яА-Я]/,
@@ -138,8 +161,9 @@ const ModalMain: FC<PropsWithoutRef<ModalPropsTypes>> = ({ buttonName, elementNa
       
     onSubmit: (values, { resetForm }) => {
 
-      if (value !== null) {
-        if (buttonName === 'new') {
+      if (value !== null && validLiters(formik.values.liters, formik.values.burn)) {
+        
+        if (buttonName === 'new' && !validDate(value.toString())) {
 
           dispatch(addTrackAPI({
             data: {
@@ -166,11 +190,13 @@ const ModalMain: FC<PropsWithoutRef<ModalPropsTypes>> = ({ buttonName, elementNa
               km: values.km,
               pay: paySelect as PayType,
               burn: values.burn,
-              date: `${value}`,
+              date: `${tracksSelector.find(element => element._id === selectedId)?.date}`,
               selected: false,
             }
           }));
 
+          dispatch(tracks({mode: 'selectedTrack', data: {id: selectedDaySelector?._id, value: false}}))
+              
         };
 
       };

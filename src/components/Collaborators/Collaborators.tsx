@@ -11,10 +11,11 @@ import co from './Callaborator.module.scss'
 import singUpAPI from "../../API/signUpAPI";
 import getCollabsByIdAPI from "../../API/getCollabsByIdAPI";
 import getTracksCollabAPI from '../../API/getTracksCollabAPI';
+import deleteCollabAPI from '../../API/deleteCollabAPI';
 
 // types
-import { ColabsArea } from "../../types/authTypes"
-import { Track, PayType } from "../../types/types"
+import { ColabsArea } from '../../types/authTypes';
+import { Track, PayType, Collab } from "../../types/types";
 
 // own dispatch hook
 import { useAppDispatch, useAppSelector } from "../../app.hooks"; 
@@ -39,6 +40,7 @@ import Card from '../SvgComponents/Card/Card';
 import Distance from '../SvgComponents/Distance/Distance';
 import Mark from '../SvgComponents/Mark/Mark';
 import Burn from '../SvgComponents/Burn/Burn';
+import Loader from '../SvgComponents/Loader/Loader';
 
 const Collaborators = () => {
 
@@ -46,9 +48,6 @@ const Collaborators = () => {
 
     //search collaborators
     const [serachCollabs, setSerachCollabs] = useState('');
-
-    //catch collaborators
-    const [toogleCollabs, setToogleCollabs] = useState(false);
 
     const languageSelector = useAppSelector(state => state.ser.language);
     const idSelector = useAppSelector(state => state.signIn.id);
@@ -66,7 +65,7 @@ const Collaborators = () => {
           dispatch(getCollabsByIdAPI({id: idSelector, token: tokenSelector}));
         } 
     
-    },[tokenSelector,]);
+    },[tokenSelector, collabsSelector.length]);
 
     const errorMessagesTrans = (data: string) => { 
 
@@ -189,6 +188,11 @@ const Collaborators = () => {
         dispatch(changeSelectedCollabDay({mode: 'freshDay', data: { id: evt.currentTarget.id, value: collabOneDay}}));
       };
 
+      // // dowloand tracks of selected user
+      // if(tokenSelector !== '') {
+      //       dispatch(getTracksCollabAPI({token: tokenSelector, owner: evt.currentTarget.id}));
+      // } 
+
     };
 
     const totalCollabStatistic = (data: keyof(Omit<Track, 'pay' | 'selected'>), back: number = 0) => {
@@ -213,23 +217,48 @@ const Collaborators = () => {
 
     };
 
-    const catchCollab = () =>{
+    const catchCollab = () => {
 
       // find _id collabs whith 'selected' key is true
       const currentId = collabsSelector.find(element => element.selected === true)?._id;
 
       // find 'isCatch' key value of selected collabs
-      const currentIsCatch  = collabsSelector.find(element => element.selected === true)?.isCatch;
+      const currentIsCatch  = collabsSelector.find(element => element._id === currentId)?.isCatch;
 
-      if(currentId)
-        dispatch(changeSelected({mode:'setIsCatch', data: {id: currentId, value: !currentIsCatch}}));
+      if(currentIsCatch !== undefined) {
 
+        if(currentId !== '' && currentId !== undefined)
+        
+          dispatch(changeSelected({mode:'setIsCatch', data: {id: currentId, value: currentIsCatch}}));
+      }
     };
 
     const catchCollabs = () =>{
 
-      setToogleCollabs(state => !state);
-      dispatch(changeSelected({mode:'setCatchAll', data: {id: '', value: toogleCollabs}}));
+      var collCounter = 0;
+
+      for(const a in collabsSelector) {
+
+        if(collabsSelector[a].isCatch) collCounter += 1;
+
+      }
+
+      collCounter === collabsSelector.length ? dispatch(changeSelected({mode:'setCatchAll', data: {id: '', value: false}})) : dispatch(changeSelected({mode:'setCatchAll', data: {id: '', value: true}}));
+
+    }; 
+
+    const deleteCollabFIFO = async (data: Collab[]) => {
+      
+      for(const c in data) {
+        if(data[c].isCatch === true)
+          await dispatch(deleteCollabAPI({id: data[c]._id, token: tokenSelector}));
+      };
+
+    };
+
+    const deleteCollab = () => {
+
+      deleteCollabFIFO (collabsSelector);
 
     };
 
@@ -267,8 +296,8 @@ const Collaborators = () => {
 
             <li className={co.item}>
                 
-              <button><UserMinus width={'20px'} height={'20px'}/></button>
-              <button onClick={catchCollab}><UserSearch width={'18px'} height={'18px'}/></button>
+              <button><UserMinus width={'20px'} height={'20px'} fill={collabsSelector.find(value => value.isCatch === true)?.isCatch ? '#aab1f8' : 'gray'} onClick={deleteCollab} disabled={collabsSelector.find(value => value.isCatch === true)?.isCatch}/></button>
+              <button onClick={catchCollab}><UserSearch width={'18px'} height={'18px'} fill={collabsSelector.find(value => value.selected === true)?.selected ? '#aab1f8' : 'gray'} disabled={collabsSelector.find(value => value.selected === true)?.selected}/></button>
               <button onClick={catchCollabs}><UsersSearch width={'25px'} height={'25px'}/></button>
               
             </li>    
@@ -285,8 +314,8 @@ const Collaborators = () => {
                     <li className={co.item} id={element._id} key = {nanoid()} onClick={toggleCollabDetail}>
                       <div className={co.userData} style={element.selected ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'none'}}>
                         <p className={co.name} style={element.verify ? {color: "black"}: {color: "lightgray"}}>{`${element.name}`}
-                          {element.isCatch && <UserCatch width={'18px'} height={'18px'}/>}
-                          <Online width={'18px'} height={'18px'}/>
+                          {element.isCatch === true && <UserCatch width={'18px'} height={'18px'}/>}
+                          {element.token !== '' && <Online width={'18px'} height={'18px'}/>}
                         </p>
                         <p className={co.adress} style={element.verify ? {color: "black"}: {color: "lightgray"}}>{`${element.email}`}</p>
                       </div >
@@ -297,7 +326,7 @@ const Collaborators = () => {
                               return  <li className={co.collabDates} id={element._id} key = {nanoid()} onClick={loadDayStatistic}>
                                         <p className={co.collabDate}>{element.date.split(' ')[2]}</p> 
                                       </li> 
-                            }):'no tracks'}
+                            }):<Loader className={co.loader} width={'35px'} height={'35px'}/>}
                          
                         </ul>
                         <div className={co.parameters}>

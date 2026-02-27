@@ -146,6 +146,7 @@ export interface getCollabsByIdInitialState {
     isLoading: boolean
     error: string
     token: string
+    caught: {}
 };
 
 export interface TracksInitialState {

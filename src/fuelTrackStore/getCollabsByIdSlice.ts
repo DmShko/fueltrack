@@ -11,6 +11,7 @@ const getCollabsByIdSliceInitialState: getCollabsByIdInitialState = {
   error: '',
   token: '',
   collabsById: [],
+  caught: {}
 };
 
 const getTrackByIdSlice = createSlice({
@@ -54,10 +55,12 @@ const getTrackByIdSlice = createSlice({
 
                         break;
                         case "setIsCatch":
+
+                            const catchCollabsId = state.collabsById.find(element => element._id === action.payload.data.id)
                          
                             for(const c in state.collabsById) {
                            
-                              if (state.collabsById[c].selected === true) state.collabsById[c].isCatch = action.payload.data.value;
+                              if (state.collabsById[c]._id === catchCollabsId?._id) state.collabsById[c].isCatch = !action.payload.data.value;
 
                             }
                             
@@ -77,8 +80,8 @@ const getTrackByIdSlice = createSlice({
       builder.addCase(getCollabsByIdAPI.fulfilled, (state, action) => {
 
         state.isLoading = false;
-        state.token = action.payload.data.token;
         state.collabsById = action.payload.data
+ 
         // some actions with 'action'...
       });
             

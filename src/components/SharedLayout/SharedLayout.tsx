@@ -19,6 +19,7 @@ import DayNight  from '../DayNight/DayNight';
 // images
 // import BallOfWool from '../SvgComponents/Logo/BallOfWool';
 import MainLogo from '../SvgComponents/MainLogo/MainLogo';
+import OpenSpace from '../SvgComponents/OpenSpace/OpenSpace';
 
 // types
 import { NewDateType } from '../../types/types'
@@ -127,7 +128,7 @@ const SharedLayout: FC = () => {
               </ul> 
               }
 
-              {tokenSelector && <button className={sh.out} type="button" onClick={logout}>Вийти</button>
+              {tokenSelector && <button className={sh.out} type="button" onClick={logout}><OpenSpace width={'40px'} height={'40px'}/></button>
               }
             </div>
           </header>
