@@ -106,12 +106,25 @@ header {
             width: 60px;
             height: 60px;
 
+            margin-top: 20px;
+
             background-color: white;
 
             border-radius: 50%;
 
+            background-color: #564cad;
+
             border: 3px solid #aab1f8;
-         }
+
+            box-shadow: inset 1px 1px 4px 1px rgb(61, 61, 61);
+
+            transition: background-color 0.3s;
+        }
+
+        .out:hover {
+            
+            background-color: #7c73ce;
+        }
 
     }
 

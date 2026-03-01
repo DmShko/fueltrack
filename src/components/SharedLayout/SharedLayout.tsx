@@ -24,7 +24,7 @@ import OpenSpace from '../SvgComponents/OpenSpace/OpenSpace';
 // types
 import { NewDateType } from '../../types/types'
 
-const SharedLayout: FC = () => {
+const SharedLayout: FC = () => {  
 
     const tokenSelector = useAppSelector(state => state.signIn.token);
     const isLogOutSelector = useAppSelector(state => state.logOut.isLogout);
@@ -128,7 +128,7 @@ const SharedLayout: FC = () => {
               </ul> 
               }
 
-              {tokenSelector && <button className={sh.out} type="button" onClick={logout}><OpenSpace width={'40px'} height={'40px'}/></button>
+              {tokenSelector && <button className={sh.out} type="button" onClick={logout}><OpenSpace width={'40px'} height={'40px'} fill="white"/></button>
               }
             </div>
           </header>

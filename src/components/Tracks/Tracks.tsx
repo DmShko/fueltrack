@@ -10,6 +10,7 @@ import tr from './Tracks.module.scss';
 import { useAppSelector } from "../../app.hooks"; 
 
 import TrackModal from "../TrackModal/TrackModal";
+import ErrorModal from "../ErrorModal/ErrorModal";
 import Collaborator from '../Collaborators/Collaborators.tsx';
 
 // API
@@ -60,13 +61,58 @@ const Tracks: FC = () => {
   // open/close modal window
   const [modalToggle, setModalToggle] = useState(false);
 
+  const shortMonthsEN = [
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  ];
+
+  useEffect(() => {
+
+    const cleanupTracks = (tarckId: string) => {
+
+      dispatch(deleteTrackAPI({token: tokenSelector, id: tarckId}));
+
+    };
+    
+     // cleanupTracks
+    if(tracksSelector.length != 0 && tokenSelector !== '') {
+
+      const currentDateIndex = shortMonthsEN.indexOf(`${new Date()?.toString().split(' ')[1]}`);
+
+      for(const d in tracksSelector) {
+
+        if(currentDateIndex - 2 >= 0) {
+
+          if(tracksSelector[d].date.split(' ')[1] === shortMonthsEN[shortMonthsEN.indexOf(`${new Date()?.toString().split(' ')[1]}`) - 2]) {
+              cleanupTracks(tracksSelector[d]._id);
+              dispatch(tracks({mode: 'clearSelectedTrack', data: {id: tracksSelector[d]._id, value: false}}));
+          }
+            
+        }else {
+
+          if(tracksSelector[d].date.split(' ')[1] === shortMonthsEN[shortMonthsEN.length - 1]) {
+            
+              cleanupTracks(tracksSelector[d]._id);
+              dispatch(tracks({mode: 'clearSelectedTrack', data: {id: tracksSelector[d]._id, value: false}}));
+          }
+
+        };
+
+      };
+      
+
+    };
+
+  },[tokenSelector]);
+
   useEffect(() => {
 
     if(tokenSelector !== '') {
       dispatch(getTrackAPI({token: tokenSelector}));
-    } 
+    };
 
-  },[tokenSelector, deletedSelector, addSelector, modalToggle]);
+
+  },[tokenSelector, deletedSelector, addSelector, modalToggle,]);
 
   const changeStatisticMenu = (evt: React.MouseEvent<HTMLElement>) => {
     if (evt.target as HTMLButtonElement === evt.currentTarget as HTMLButtonElement) setToggleMenu(state => !state)
@@ -75,7 +121,6 @@ const Tracks: FC = () => {
   const openModal = (evt: React.MouseEvent<HTMLButtonElement>) => {
     // toggle modal window
     setModalToggle(state => !state);
-
     if(evt !== undefined) setButtonClickName(evt.currentTarget.name);
     
   }
@@ -96,11 +141,12 @@ const Tracks: FC = () => {
 
   };
 
-  const deleteElement = () => {
-   
-    if(selectedDaySelector.selected !== false)
-      dispatch(deleteTrackAPI({id: selectedDaySelector?._id, token: tokenSelector}));
-      dispatch(tracks({mode: 'selectedTrack', data: {id: selectedDaySelector?._id, value: false}}))
+  const deleteElement = (evt: React.MouseEvent<HTMLButtonElement>) => {
+
+     // toggle modal window
+    setModalToggle(state => !state);
+
+    if(evt !== undefined) setButtonClickName(evt.currentTarget.name);
     
   };
  
@@ -110,8 +156,10 @@ const Tracks: FC = () => {
   
       {modalToggle && <TrackModal openClose={openModal}>
         
-          <ModalMain buttonName={buttonClickName} elementName={selectedDaySelector} value={value} selectedId={selectedDaySelector._id}/>
-
+        {buttonClickName !== 'delete' ? 
+          <ModalMain buttonName={buttonClickName} elementName={selectedDaySelector} value={value} selectedId={selectedDaySelector._id}/> :
+          <ErrorModal props={{messages: 'Are you sure you want to delete?', buttonName: buttonClickName,}} />
+        }
         </TrackModal>
       }
 
@@ -141,19 +189,17 @@ const Tracks: FC = () => {
 
           <div className={tr.dashboard}>
 
-            <div className={tr.buttCover}>
-              <button className={tr.newButt} name='new' onClick={openModal} disabled={!selectedDaySelector.selected ? false : true} style={selectedDaySelector.selected === false ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'lightgray'}}>New</button>
-              <div className={tr.buttGlass}></div>
-            </div>
+            <button className={tr.newButt} name='new' onClick={openModal} disabled={!selectedDaySelector.selected ? false : true} style={selectedDaySelector.selected === false ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'lightgray'}}>New</button>
             <button name='change' onClick={openModal} disabled={selectedDaySelector.selected ? false : true} style={selectedDaySelector.selected !== false ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'lightgray'}}>Change</button>
-            <button onClick={deleteElement} disabled={selectedDaySelector.selected ? false : true} style={selectedDaySelector.selected !== false ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'lightgray'}}>Delete</button>
+            <button name='delete' onClick={deleteElement} disabled={selectedDaySelector.selected ? false : true} style={selectedDaySelector.selected !== false ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'lightgray'}}>Delete</button>
+            
           </div>
         
           <ul className={tr.list}>
             { tracksSelector.length != 0 ?
 
-              tracksSelector.map(element => {
-              
+              tracksSelector.filter(element => element.date.split(' ')[1] === value?.toString().split(' ')[1] ).map(element => {
+                
                 return <li className={tr.item} id={element._id}  key={nanoid()} onClick={searchDay}
                 style={searchSelected(element._id) ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'lightgray'}}>{element.date.split(' ').splice(1, 2).join(' ')}</li>
 

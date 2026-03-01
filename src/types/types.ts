@@ -195,3 +195,7 @@ export interface ModalPropsTypes {
     value: Date | null | [Date | null, Date | null]
     selectedId: string
 }
+
+export interface ErrorModalPropsTypes {
+   props: {messages: string,  buttonName: string}
+}

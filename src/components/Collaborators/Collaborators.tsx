@@ -41,6 +41,7 @@ import Distance from '../SvgComponents/Distance/Distance';
 import Mark from '../SvgComponents/Mark/Mark';
 import Burn from '../SvgComponents/Burn/Burn';
 import Loader from '../SvgComponents/Loader/Loader';
+import Users from '../SvgComponents/Users/Users.tsx';
 
 const Collaborators = () => {
 
@@ -283,24 +284,30 @@ const Collaborators = () => {
 
           <div className={co.buttonsSet}>
 
-            <SearchIcon width={'35px'} height={'35px'}/>
+            <div className={co.buttons}>
 
-              <input
-              className={co.search}
-              id="search"
-              name="colabsSearch"
-              onChange={writeSearchCollabs}
-              value={serachCollabs}
-              placeholder="Search"
-              ></input>
+              <SearchIcon width={'35px'} height={'35px'}/>
 
-            <li className={co.item}>
+                <input
+                className={co.search}
+                id="search"
+                name="colabsSearch"
+                onChange={writeSearchCollabs}
+                value={serachCollabs}
+                placeholder="Search"
+                ></input>
+
+              <li className={co.item}>
+                  
+                <button><UserMinus width={'20px'} height={'20px'} fill={collabsSelector.find(value => value.isCatch === true)?.isCatch ? '#aab1f8' : 'gray'} onClick={deleteCollab} disabled={collabsSelector.find(value => value.isCatch === true)?.isCatch}/></button>
+                <button onClick={catchCollab}><UserSearch width={'18px'} height={'18px'} fill={collabsSelector.find(value => value.selected === true)?.selected ? '#aab1f8' : 'gray'} disabled={collabsSelector.find(value => value.selected === true)?.selected}/></button>
+                <button onClick={catchCollabs}><UsersSearch width={'25px'} height={'25px'}/></button>
                 
-              <button><UserMinus width={'20px'} height={'20px'} fill={collabsSelector.find(value => value.isCatch === true)?.isCatch ? '#aab1f8' : 'gray'} onClick={deleteCollab} disabled={collabsSelector.find(value => value.isCatch === true)?.isCatch}/></button>
-              <button onClick={catchCollab}><UserSearch width={'18px'} height={'18px'} fill={collabsSelector.find(value => value.selected === true)?.selected ? '#aab1f8' : 'gray'} disabled={collabsSelector.find(value => value.selected === true)?.selected}/></button>
-              <button onClick={catchCollabs}><UsersSearch width={'25px'} height={'25px'}/></button>
-              
-            </li>    
+              </li>  
+
+            </div>
+
+            <p><Users width={'20px'} height={'20px'} /> {`${collabsSelector.length}`} </p>  
 
           </div>
             

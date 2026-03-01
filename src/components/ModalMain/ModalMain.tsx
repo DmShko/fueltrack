@@ -87,9 +87,12 @@ const ModalMain: FC<PropsWithoutRef<ModalPropsTypes>> = ({ buttonName, elementNa
   };
 
   const validDate = (data: string, back: boolean = false) => {
-
-  
-    if(tracksSelector.find(value => value.date.split(' ')[2] === data.split(' ')[2])) back = true;
+    
+    const currentDateControl = tracksSelector.find(value => value.date.split(' ')[2] === data.split(' ')[2]);
+    const currentMonthControl = tracksSelector.find(value => value.date.split(' ')[1] === data.split(' ')[1]);
+   
+    if(currentDateControl && currentMonthControl) back = true;
+    
     return back;
     
 

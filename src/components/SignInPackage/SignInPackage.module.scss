@@ -4,16 +4,23 @@
 
     .formWrapper {
 
-        width: 200px;
+        width: 350px;
+
+        height: 350px;
 
         padding: 5px;
 
         margin: 0 auto;
 
         background-color: lightgray;
-        border-radius: 8px;
+       
+        border-radius: 50%;
 
         box-shadow: 1px 1px 4px 1px rgb(61, 61, 61);
+
+        background-image: url("/src/images/moon-svgrepo-com.svg");
+
+        background-size: contain;
 
         .formTitle {
 

@@ -72,6 +72,9 @@ const getTrackSlice = createSlice({
                   state.selectedDay = changedTrack;  
 
                 break;
+                case "clearSelectedTrack":
+                  state.fuelDays = [...state.fuelDays.filter(element => element._id === action.payload.data.id)];
+                break;
                 default:
                 break;
             }

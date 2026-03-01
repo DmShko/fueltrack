@@ -31,49 +31,78 @@
 
                 width: 100%;
 
-                padding-left: 5px;
-
-                gap: 5px;
-
-                .item {
+                .buttons {
 
                     display: flex;
                     flex-direction: row;
-                    justify-content: center;
+                    justify-content: start;
                     align-items: center;
 
-                    list-style: none;
+                    width: 100%;
+
+                    padding-left: 5px;
 
                     gap: 5px;
 
-                    button {
+                    .item {
 
                         display: flex;
-                        flex-direction: column;
+                        flex-direction: row;
                         justify-content: center;
                         align-items: center;
 
-                        padding: 3px;
+                        list-style: none;
 
-                        height: 30px;
-                        width: 30px;
+                        gap: 5px;
 
-                        outline: none;
+                        button {
+
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: center;
+
+                            padding: 3px;
+
+                            height: 30px;
+                            width: 30px;
+
+                            outline: none;
+                        }
+
+                        button:hover {
+                            border-color: lightblue;
+                        }
+
+                        button:active {
+                            box-shadow: inset 1px 1px 4px 1px rgb(61, 61, 61);
+                        }
+
+                        button:disabled {
+                            cursor: not-allowed;
+                            box-shadow: none;
+                        }
+                    
                     }
 
-                    button:hover {
-                        border-color: lightblue;
-                    }
+                }
 
-                    button:active {
-                        box-shadow: inset 1px 1px 4px 1px rgb(61, 61, 61);
-                    }
+                p {
 
-                    button:disabled {
-                        cursor: not-allowed;
-                        box-shadow: none;
-                    }
-                   
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    gap: 5px;
+
+            
+                    margin: 0;
+
+                    padding-right: 8px;
+
+                    color: gray;
+
                 }
 
             }
