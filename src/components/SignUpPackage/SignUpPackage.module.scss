@@ -4,21 +4,27 @@
 
     .formWrapper {
 
-        width: 200px;
+        width: 400px;
+
+        height: 400px;
 
         padding: 10px;
 
         margin: 0 auto;
 
         background-color: lightgray;
-        border-radius: 8px;
+        border-radius: 50%;
 
         box-shadow: 1px 1px 4px 1px rgb(61, 61, 61);
+
+        background-image: url("/src/images/moon-svgrepo-com.svg");
+
+        background-size: contain;
 
         .formTitle {
 
             font-size: 15px;
-            color: gray;
+            color: white;
 
             margin: 0;
 
@@ -31,11 +37,13 @@
             justify-content: space-around;
             align-items: center;
 
-            height: 50px;
+            height: fit-content;
 
-            width: 100%;
+            width: fit-content;
 
             margin: 5px 0;
+
+            padding: 0 3px;
 
             font-size: 12px;
 
@@ -89,10 +97,11 @@
 
             a {
                 font-size: 12px;
+                transition: color 0.3s;
             }
     
             a:hover {
-                color: gray;
+                color: olive;
                 cursor: pointer;
             }
 
@@ -108,12 +117,46 @@
             height: 32px;
             
             border-radius: 8px;
+
+            transition: outline 0.3s;
+        }
+
+        button:active {
+            box-shadow: inset 1px 1px 4px 1px rgb(61, 61, 61);
         }
 
         button:focus {
             outline: none;
         }
 
+        .switch {
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            width: fit-content;
+
+            padding: 0 3px;
+
+            margin: 0 auto;
+
+            background-color: white;
+            border-radius: 8px;
+            transition: outline 0.3s;
+        }
+
+        .switch:hover {
+
+            cursor: pointer;
+
+            outline: 1px solid blue;
+
+        }
+
+        .switch:active {
+            box-shadow: inset 1px 1px 4px 1px rgb(61, 61, 61);
+        }
     } 
 
 }

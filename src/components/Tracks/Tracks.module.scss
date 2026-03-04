@@ -231,8 +231,9 @@
                     color: #1C274C;
 
                     font-weight: 700;
-                    font-size: 14px;    
-                    
+                    font-size: 14px; 
+
+                    transition: background-color 0.3s ease;
                 }
 
                 button:active {
@@ -244,6 +245,10 @@
 
                     outline: 2px solid #aab1f8;
                 
+                }
+                
+                button:hover {
+                    background-color: #7c73ce;
                 }
 
             }

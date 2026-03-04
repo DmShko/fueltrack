@@ -1,16 +1,15 @@
 .container {
 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 10px;
+
+    text-align: center;
+
     height: fit-content;
-
-    .buttonContainer {
-
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-
-        gap: 10px
-    }
 
     button {
 
@@ -33,4 +32,5 @@
     button:hover {
          background-color: #c7ccff;
     }
+
 }

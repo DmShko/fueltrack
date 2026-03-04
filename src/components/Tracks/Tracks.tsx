@@ -10,6 +10,7 @@ import tr from './Tracks.module.scss';
 import { useAppSelector } from "../../app.hooks"; 
 
 import TrackModal from "../TrackModal/TrackModal";
+import InfoModal from "../InfoModal/InfoModal";
 import ErrorModal from "../ErrorModal/ErrorModal";
 import Collaborator from '../Collaborators/Collaborators.tsx';
 
@@ -114,8 +115,8 @@ const Tracks: FC = () => {
 
   },[tokenSelector, deletedSelector, addSelector, modalToggle,]);
 
-  const changeStatisticMenu = (evt: React.MouseEvent<HTMLElement>) => {
-    if (evt.target as HTMLButtonElement === evt.currentTarget as HTMLButtonElement) setToggleMenu(state => !state)
+  const changeStatisticMenu = () => {
+    setToggleMenu(state => !state)
   }
 
   const openModal = (evt: React.MouseEvent<HTMLButtonElement>) => {
@@ -149,6 +150,21 @@ const Tracks: FC = () => {
     if(evt !== undefined) setButtonClickName(evt.currentTarget.name);
     
   };
+
+  const modalSelect = () => {
+
+     switch(buttonClickName) {
+          case 'delete':
+            return <ErrorModal openClose={openModal} props={{messages: 'Are you sure you want to delete?', buttonName: buttonClickName,}} />
+          case 'change':
+            return <ModalMain buttonName={buttonClickName} elementName={selectedDaySelector} value={value} selectedId={selectedDaySelector._id}/>
+          case 'new':
+            return !selectedDaySelector.selected ? <ModalMain buttonName={buttonClickName} elementName={selectedDaySelector} value={value} selectedId={selectedDaySelector._id}/> :
+            <InfoModal openClose={openModal} props={{messages: 'You cannot create an entry because something is already selected!', buttonName: buttonClickName,}} />;
+          default:
+            return null;
+        }
+  };
  
   return (
 
@@ -156,9 +172,9 @@ const Tracks: FC = () => {
   
       {modalToggle && <TrackModal openClose={openModal}>
         
-        {buttonClickName !== 'delete' ? 
-          <ModalMain buttonName={buttonClickName} elementName={selectedDaySelector} value={value} selectedId={selectedDaySelector._id}/> :
-          <ErrorModal props={{messages: 'Are you sure you want to delete?', buttonName: buttonClickName,}} />
+        { 
+          modalSelect()
+          
         }
         </TrackModal>
       }
@@ -189,7 +205,7 @@ const Tracks: FC = () => {
 
           <div className={tr.dashboard}>
 
-            <button className={tr.newButt} name='new' onClick={openModal} disabled={!selectedDaySelector.selected ? false : true} style={selectedDaySelector.selected === false ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'lightgray'}}>New</button>
+            <button className={tr.newButt} name='new' onClick={openModal} style={selectedDaySelector.selected === false ? {backgroundColor: '#aab1f8',} : {backgroundColor: 'lightgray'}}>New</button>
             <button name='change' onClick={openModal} disabled={selectedDaySelector.selected ? false : true} style={selectedDaySelector.selected !== false ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'lightgray'}}>Change</button>
             <button name='delete' onClick={deleteElement} disabled={selectedDaySelector.selected ? false : true} style={selectedDaySelector.selected !== false ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'lightgray'}}>Delete</button>
             

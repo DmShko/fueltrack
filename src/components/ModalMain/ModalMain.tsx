@@ -1,5 +1,5 @@
-import { useState, FC, PropsWithoutRef, useEffect } from "react";
-import { useFormik } from "formik";
+import { useState, FC, PropsWithoutRef,} from "react";
+import { useFormik, } from "formik";
 import * as Yup from 'yup';
 import { nanoid } from "nanoid";
 
@@ -15,6 +15,9 @@ import putTrackAPI from '../../API/putTrackAPI';
 import { PayType, ModalPropsTypes } from '../../types/types.ts';
 
 import { tracks } from '../../fuelTrackStore/getTrackSlice.ts'
+
+// images
+import Info from '../SvgComponents/Info/Info';
 
 const ModalMain: FC<PropsWithoutRef<ModalPropsTypes>> = ({ buttonName, elementName, value, selectedId }) => {
 
@@ -42,40 +45,24 @@ const ModalMain: FC<PropsWithoutRef<ModalPropsTypes>> = ({ buttonName, elementNa
         languageSelector === 'En' ? message = 'Invalid email' : message = 'Невірний формат літри';
         break;
 
-      case 'litersReq':
-        languageSelector === 'En' ? message = 'Email field is required' : message = "Літри обов'язкові";
-        break;
-
       case 'marck':
         languageSelector === 'En' ? message = 'Must be numbers' : message = "Мають бути цифри";
-        break;
-
-      case 'marckReq':
-        languageSelector === 'En' ? message = 'Password field is required' : message = "Марка обов'язкова";
         break;
 
       case 'price':
         languageSelector === 'En' ? message = 'Must be numbers' : message = "Мають бути цифри";
         break;
 
-      case 'priceReq':
-        languageSelector === 'En' ? message = 'Price field is required' : message = "Ціна обов'язкова";
-        break;
-
       case 'km':
         languageSelector === 'En' ? message = 'Must be numbers' : message = "Мають бути цифри";
-        break;
-
-      case 'kmReq':
-        languageSelector === 'En' ? message = 'Km field is required' : message = "Відстань обов'язковs";
         break;
 
       case 'burn':
         languageSelector === 'En' ? message = 'Must be numbers' : message = "Мають бути цифри";
         break;
 
-      case 'burnReq':
-        languageSelector === 'En' ? message = 'Burn field is required' : message = "Використано обов'язково";
+      case 'rest':
+        languageSelector === 'En' ? message = 'Must be numbers' : message = "Мають бути цифри";
         break;
 
       default:
@@ -87,29 +74,30 @@ const ModalMain: FC<PropsWithoutRef<ModalPropsTypes>> = ({ buttonName, elementNa
   };
 
   const validDate = (data: string, back: boolean = false) => {
-    
+
     const currentDateControl = tracksSelector.find(value => value.date.split(' ')[2] === data.split(' ')[2]);
     const currentMonthControl = tracksSelector.find(value => value.date.split(' ')[1] === data.split(' ')[1]);
-   
-    if(currentDateControl && currentMonthControl) back = true;
-    
+
+    if (currentDateControl && currentMonthControl) back = true;
+
     return back;
-    
+
 
   };
 
   const validLiters = (inLiters: string, inBurn: string, back: boolean = false) => {
 
-  
-    if(Number(inLiters) > Number(inBurn)) back = true;
+
+    if (Number(inLiters) > Number(inBurn)) back = true;
     return back;
-    
+
 
   };
 
   const formik = useFormik({
 
     //yup stored own validate functions (for email, password...etc)
+    validateOnChange: true,
     validationSchema: Yup.object({
       liters: Yup.string()
         .matches(
@@ -141,6 +129,22 @@ const ModalMain: FC<PropsWithoutRef<ModalPropsTypes>> = ({ buttonName, elementNa
           { message: errorMessagesTrans('L') }
         )
         .required(errorMessagesTrans('burnReq')),
+      rest: Yup.string()
+        .when('liters', ([fieldAValue], schema) => {
+          return schema.test('is-less-or-equal', 'Має бути менше або дорівнювати першому полю', function(value) {
+            // value — це значення ПОТОЧНОГО поля (fieldB)
+            // fieldAValue — це значення СУСІДНЬОГО поля (fieldA)
+
+            // Якщо якесь поле ще порожнє — не показуємо помилку
+            if (!value || !fieldAValue) return true;
+
+            const current = Number(value);
+            const other = Number(fieldAValue);
+
+            // Перевіряємо математично
+            return current <= other;
+          });
+        }),
       selected: Yup.boolean()
     }),
 
@@ -151,6 +155,7 @@ const ModalMain: FC<PropsWithoutRef<ModalPropsTypes>> = ({ buttonName, elementNa
         price: elementName.price,
         km: elementName.km,
         burn: elementName.burn,
+        rest:'',
         selected: elementName.selected,
       } :
       {
@@ -159,13 +164,14 @@ const ModalMain: FC<PropsWithoutRef<ModalPropsTypes>> = ({ buttonName, elementNa
         price: '',
         km: '',
         burn: '',
+        rest:'',
         selected: '',
       },
-      
+
     onSubmit: (values, { resetForm }) => {
 
       if (value !== null && validLiters(formik.values.liters, formik.values.burn)) {
-        
+
         if (buttonName === 'new' && !validDate(value.toString())) {
 
           dispatch(addTrackAPI({
@@ -185,7 +191,7 @@ const ModalMain: FC<PropsWithoutRef<ModalPropsTypes>> = ({ buttonName, elementNa
         } else {
 
           dispatch(putTrackAPI({
-            id: selectedId, token: tokenSelector, data: {
+              id: selectedId, token: tokenSelector, data: {
               _id: selectedId,
               liters: values.liters,
               marck: values.marck,
@@ -198,18 +204,27 @@ const ModalMain: FC<PropsWithoutRef<ModalPropsTypes>> = ({ buttonName, elementNa
             }
           }));
 
-          dispatch(tracks({mode: 'selectedTrack', data: {id: selectedDaySelector?._id, value: false}}))
-              
+          dispatch(tracks({ mode: 'selectedTrack', data: { id: selectedDaySelector?._id, value: false } }))
+
         };
 
-      };
+      }
+
       resetForm();
 
     },
   });
 
   return (
+
     <div>
+
+      <p>{formik.errors.liters ? <div className={tr.formInfo}><Info /><p>{`${formik.errors.liters}`}</p></div> :
+       formik.errors.burn ? <div className={tr.formInfo}><Info /><p>{`${formik.errors.burn}`}</p></div>:
+       formik.errors.km ? <div className={tr.formInfo}><Info /><p>{`${formik.errors.km}`}</p></div> :
+       formik.errors.marck ? <div className={tr.formInfo}><Info /><p>{`${formik.errors.marck}`}</p></div> :
+       formik.errors.price ? <div className={tr.formInfo}><Info /><p>{`${formik.errors.price}`}</p></div> :
+       formik.errors.rest ? <div className={tr.formInfo}><Info /><p>{`${formik.errors.rest}`}</p></div> :  ''}</p>
 
       <form onSubmit={formik.handleSubmit}>
         <div className={tr.data}><p>Літри</p>

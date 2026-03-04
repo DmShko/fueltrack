@@ -16,7 +16,7 @@ import { tracks } from '../../fuelTrackStore/getTrackSlice.ts';
 //styles
 import err from './ErrorModal.module.scss';
 
-const ErrorModal: FC<PropsWithChildren<ErrorModalPropsTypes>> = ({props}) => {
+const ErrorModal: FC<PropsWithChildren<ErrorModalPropsTypes>> = ({openClose, props}) => {
 
 const dispatch = useAppDispatch();
 const tokenSelector = useAppSelector(state => state.signIn.token);
@@ -35,12 +35,13 @@ const buttonClick = (evt: React.MouseEvent<HTMLButtonElement>) => {
 
             dispatch(deleteTrackAPI({id: selectedDaySelector?._id, token: tokenSelector}));
             dispatch(tracks({mode: 'selectedTrack', data: {id: selectedDaySelector?._id, value: false}}));
+            openClose();
         }
 
             break;
 
         case 'no':
-
+            openClose();
             break;
 
         default:
@@ -53,10 +54,15 @@ const buttonClick = (evt: React.MouseEvent<HTMLButtonElement>) => {
 return (
 
     <div className={err.container}>
+        
         <p>{`${props.messages}`}</p>
 
-        <button name="yes" onClick={buttonClick}>Yes</button>
-        <button name="no" onClick={buttonClick}>No</button>
+        <div className={err.buttonContainer}>
+
+            <button name="yes" onClick={buttonClick}>Yes</button>
+            <button name="no" onClick={buttonClick}>No</button>
+
+        </div>
 
     </div>
 
