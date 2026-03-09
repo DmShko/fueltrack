@@ -210,14 +210,17 @@ const Tracks: FC = () => {
             <button name='delete' onClick={deleteElement} disabled={selectedDaySelector.selected ? false : true} style={selectedDaySelector.selected !== false ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'lightgray'}}>Delete</button>
             
           </div>
+
+          <p className={tr.monthLable}>{tracksSelector.length != 0 && tracksSelector !== undefined ? tracksSelector.filter(element => element.date.split(' ')[1] === value?.toString().split(' ')[1])[0].date.split(' ')[1] : ''}</p>
         
           <ul className={tr.list}>
+            
             { tracksSelector.length != 0 ?
 
-              tracksSelector.filter(element => element.date.split(' ')[1] === value?.toString().split(' ')[1] ).map(element => {
+              tracksSelector.filter(element => element.date.split(' ')[1] === value?.toString().split(' ')[1]).map(element => {
                 
                 return <li className={tr.item} id={element._id}  key={nanoid()} onClick={searchDay}
-                style={searchSelected(element._id) ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'lightgray'}}>{element.date.split(' ').splice(1, 2).join(' ')}</li>
+                style={searchSelected(element._id) ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'lightgray'}}>{element.date.split(' ')[2]}</li>
 
             }): 'no tracks'}
           </ul>

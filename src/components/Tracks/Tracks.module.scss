@@ -1,6 +1,6 @@
 .container {
 
-    height: 70%;
+    height: 75%;
 
     margin: 50px auto;
     padding: 20px;
@@ -146,14 +146,29 @@
 
             padding: 15px 0;
 
-            border: 2px solid rgb(244, 242, 242);
+            border: 3px solid rgb(244, 242, 242);
             border-radius: 11px;
+
+            .monthLable {
+
+                width: 100%;
+
+                text-align: center;
+
+                margin: 0;
+
+                font-size: 18px;
+                font-weight: bolder;
+
+                color: white;
+
+                background-color: #aab1f8;
+            }
 
             .list {
 
                 display: flex;
-                justify-content: space-between;
-                align-items: center;
+                align-items: start;
                 flex-wrap: wrap;
                    
                 row-gap: 5px;   
@@ -164,7 +179,7 @@
                 width: calc(100% - 10px);
                 height: 100px;
 
-                padding: 3px 5px;
+                padding: 10px 5px;
 
                 margin: 0 0 10px 0;
 
@@ -179,7 +194,7 @@
                     justify-content: center;
                     align-items: center;
 
-                    width: calc((100% - (15 * 100%)/100)/4);
+                    width: calc((100% - (15 * 100%)/100)/8);
 
                     padding: 3px;
 
@@ -194,7 +209,7 @@
 
                     border: 1px solid lightblue;
 
-                    border-radius: 50px;
+                    border-radius: 10px;
 
                     transition: all 0.3s ease; 
 
