@@ -38,6 +38,10 @@ import { tracks } from '../../fuelTrackStore/getTrackSlice.ts'
 
 import { nanoid } from 'nanoid';
 
+// types
+import { Track } from '../../types/types.ts'
+import { OnArgs } from 'react-calendar';
+
 // calendar types
 type ValuePiece = Date | null;
 
@@ -48,6 +52,7 @@ const Tracks: FC = () => {
   const dispatch = useAppDispatch();
 
   const [value, onChange] = useState<Value>(new Date());
+   const [activeMonth, setActiveMonth] = useState<Value>(new Date());
   const [toggleMenu, setToggleMenu] = useState(true);
   
   const [buttonClickName, setButtonClickName ]= useState('');
@@ -104,7 +109,7 @@ const Tracks: FC = () => {
 
     };
 
-  },[tokenSelector]);
+  },[tokenSelector,]);
 
   useEffect(() => {
 
@@ -165,6 +170,25 @@ const Tracks: FC = () => {
             return null;
         }
   };
+
+  const sortDate = (inData: Track []) => {
+      const sortData = inData.filter(element => element.date.split(' ')[1] === activeMonth?.toString().split(' ')[1]).sort((a, b) => {
+        // Беремо лише останні 5 символів (місяць і день: "12-01" vs "01-15")
+        const dateA = a.date.split(' ')[2] 
+        const dateB = b.date.split(' ')[2];
+        
+        return dateA.localeCompare(dateB);
+      });
+
+      return sortData;
+  };
+
+  const handleMonthChange = ({ activeStartDate, view }: OnArgs) => {
+    // Перевіряємо, чи ми саме в режимі перегляду місяця і чи дата не null
+    if (view === 'month' && activeStartDate) {
+      setActiveMonth(activeStartDate);
+    }
+  };
  
   return (
 
@@ -190,7 +214,7 @@ const Tracks: FC = () => {
       {toggleMenu && <div className={tr.currentStatistic}>
 
         <div className={tr.calendarContainer}>
-          <Calendar className={tr.calendar} maxDate={new Date} showNeighboringMonth={false} onChange={onChange} value={value}/>
+          <Calendar className={tr.calendar} maxDate={new Date} showNeighboringMonth={false} onChange={onChange} onActiveStartDateChange={handleMonthChange} value={value}/>
           <div className={tr.completeContainer}>
             <div className={tr.complete} style={selectedDaySelector.selected ? {height: '30px', width: '100%', borderRadius: '8px', background: `linear-gradient(to right, #aab1f8 ${Number(selectedDaySelector.burn) * 100 / Number(selectedDaySelector.liters)}%, white ${Number(selectedDaySelector.burn) * 100 / Number(selectedDaySelector.liters)}%)`
             }: {height: '30px', width: '100%', borderRadius: '8px', background: 'white'}}>
@@ -217,7 +241,7 @@ const Tracks: FC = () => {
             
             { tracksSelector.length != 0 ?
 
-              tracksSelector.filter(element => element.date.split(' ')[1] === value?.toString().split(' ')[1]).map(element => {
+              sortDate(tracksSelector).map(element => {
                 
                 return <li className={tr.item} id={element._id}  key={nanoid()} onClick={searchDay}
                 style={searchSelected(element._id) ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'lightgray'}}>{element.date.split(' ')[2]}</li>
