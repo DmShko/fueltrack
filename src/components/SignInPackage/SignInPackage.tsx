@@ -198,7 +198,7 @@ const SignIn = () => {
 
         </form>
 
-        <p className={si.switch} onClick={() => navigate('/signup')}>{'Створити'}</p>
+        <p className={si.switch} onClick={() => navigate('/signUp')}>{'Створити'}</p>
 
       </div>
 

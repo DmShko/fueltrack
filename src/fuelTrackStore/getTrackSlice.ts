@@ -92,6 +92,7 @@ const getTrackSlice = createSlice({
         state.isLoading = false;
         state.token = action.payload.data.token;
         state.fuelDays = [...action.payload.data]
+
         // some actions with 'action'...
       });
             

@@ -81,7 +81,7 @@ const getTrackByIdSlice = createSlice({
 
         state.isLoading = false;
         state.collabsById = action.payload.data
- 
+
         // some actions with 'action'...
       });
             

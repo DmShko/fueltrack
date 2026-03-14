@@ -235,7 +235,7 @@ const Tracks: FC = () => {
             
           </div>
 
-          <p className={tr.monthLable}>{tracksSelector.length != 0 && tracksSelector !== undefined ? tracksSelector.filter(element => element.date.split(' ')[1] === value?.toString().split(' ')[1])[0].date.split(' ')[1] : ''}</p>
+          <p className={tr.monthLable}>{tracksSelector.length !== 0 && tracksSelector !== undefined ? tracksSelector.filter(element => element.date.split(' ')[1] === activeMonth?.toString().split(' ')[1])[0]?.date.split(' ')[1] : ''}</p>
         
           <ul className={tr.list}>
             

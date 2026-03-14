@@ -277,7 +277,7 @@ const SignUp = () => {
 
         </form>
 
-        <p className={su.switch} onClick={() => navigate('/signin')}>{'Увійти'}</p>
+        <p className={su.switch} onClick={() => navigate('/signIn')}>{'Увійти'}</p>
 
       </div>
 

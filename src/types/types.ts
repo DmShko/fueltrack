@@ -43,14 +43,8 @@ export interface Track {
 export interface Collab {
     _id: string
     name: string
-    liters: string
-    marck: string
-    price: string
-    km: string
-    pay: PayType
-    burn: string
-    date: string
     email: string
+    token: string
     verify: boolean
     selected: boolean
     isCatch: boolean

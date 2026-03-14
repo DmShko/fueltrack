@@ -15,7 +15,7 @@ import deleteCollabAPI from '../../API/deleteCollabAPI';
 
 // types
 import { ColabsArea } from '../../types/authTypes';
-import { Track, PayType, Collab } from "../../types/types";
+import { Track, Collab } from "../../types/types";
 
 // own dispatch hook
 import { useAppDispatch, useAppSelector } from "../../app.hooks"; 
@@ -196,25 +196,33 @@ const Collaborators = () => {
 
     };
 
-    const totalCollabStatistic = (data: keyof(Omit<Track, 'pay' | 'selected'>), back: number = 0) => {
+    const totalCollabStatistic = (data: keyof(Omit<Track, 'pay' | 'selected'>), monthIn: string, marckOfFuel: string, back: number = 0) => {
 
       for(const all of collabTracksSelector) {
-        back += Number(all[data])
+      
+        if(monthIn !== undefined && all.date.split(' ')[1] === monthIn.charAt(0).toUpperCase() + monthIn.slice(1).toLowerCase()
+        && all.marck === marckOfFuel)
+          back += Number(all[data])
       };
 
-      return back;
+      if(back !== 0)
+        return back;
 
     };
 
-    const totalRest = () => {
+    const totalRest = (monthIn: string, marckOfFuel: string) => {
 
       let backRest = 0
 
       for(const all of collabTracksSelector) {
-        backRest += Number(all.liters) - Number(all.burn)
+
+        if(monthIn !== undefined && all.date.split(' ')[1] === monthIn.charAt(0).toUpperCase() + monthIn.slice(1).toLowerCase()
+        && all.marck === marckOfFuel)
+          backRest += Number(all.liters) - Number(all.burn)
       };
 
-      return backRest;
+      if(backRest !== 0)
+        return backRest;
 
     };
 
@@ -260,6 +268,28 @@ const Collaborators = () => {
     const deleteCollab = () => {
 
       deleteCollabFIFO (collabsSelector);
+
+    };
+
+    const getMonthList = () => {
+
+      const actualDate = new Date();
+
+      const currentMonth = new Date(actualDate.getFullYear(), actualDate.getMonth()).toLocaleString('en-US', { month: 'short' });
+
+      const prevMonth = new Date(actualDate.getFullYear(), actualDate.getMonth() - 1).toLocaleString('en-US', { month: 'short' });
+
+      var months = '';
+
+      if(collabTracksSelector.length !== 0 && collabTracksSelector !== undefined) {
+
+        if(collabTracksSelector.find(element => element.date.split(' ')[1] === currentMonth.toString())) {
+          months += currentMonth.toLocaleUpperCase() + '/';
+        }else (collabTracksSelector.find(element => element.date.split(' ')[1] === prevMonth.toString()));
+          months += prevMonth.toString().toLocaleUpperCase();
+      };
+
+      return months;
 
     };
 
@@ -330,12 +360,21 @@ const Collaborators = () => {
                         <ul className={co.collabDaysList}>
                          
                             {collabTracksAre ? collabTracksSelector.map(element => {
-                              return  <li className={co.collabDates} id={element._id} key = {nanoid()} onClick={loadDayStatistic}>
-                                        <p className={co.collabDate}>{element.date.split(' ')[2]}</p> 
+                              return  <li className={co.collabDates} id={element._id} key = {nanoid()} onClick={loadDayStatistic} >
+                                        <p className={co.collabDate} style={collabCurrentDaySelector._id === element._id? {backgroundColor: "gray"} : {backgroundColor: "#aab1f8"}}>{element.date.split(' ')[2]}</p> 
                                       </li> 
                             }):<Loader className={co.loader} width={'35px'} height={'35px'}/>}
                          
                         </ul>
+
+                        <div className={co.explanation}>
+
+                          <div className={co.explanationGas}>GAS</div>
+                          <div className={co.explanationLpg}>LPG</div>
+                          <div className={co.explanationDiesel}>DIESEL</div>
+
+                        </div>
+
                         <div className={co.parameters}>
 
                           <div className={co.paramsPartDay}>
@@ -350,14 +389,73 @@ const Collaborators = () => {
                           </div >
 
                            <div className={co.paramsPartMonth}>
-                              <p>Month</p>
-                              <div className={co.paramsRowMonth}>{totalCollabStatistic('liters')}</div>
-                              <div className={co.paramsRowMonth}>~</div>
-                              <div className={co.paramsRowMonth}>~</div>
-                              <div className={co.paramsRowMonth}>{totalCollabStatistic('km')}</div>
-                              <div className={co.paramsRowMonth}>~</div>
-                              <div className={co.paramsRowMonth}>{totalCollabStatistic('burn')}</div>
-                              <div className={co.paramsRowMonth} style={{color: 'blue'}}>{totalRest()}</div>
+                              <div className={co.monthTitle}>
+
+                                <p> Month </p>
+                                <div className={co.oneOfMonth}> <div className={co.firstMonth}>{getMonthList().split('/')[0]}</div> / <div  className={co.secondMonth}>{getMonthList().split('/')[1]}</div></div>
+
+                              </div>
+                              
+                              <div className={co.paramsRowMonths}> 
+                                <div className={co.paramsRowMonth} style={{backgroundColor: 'rgba(222, 45, 168, 0.3)'}}>
+                                  <div className={co.gas}>{totalCollabStatistic('liters', getMonthList().split('/')[0], 'GAS')}</div>
+                                  <div className={co.lpg}>{totalCollabStatistic('liters', getMonthList().split('/')[0], 'LPG')}</div>
+                                  <div className={co.diesel}>{totalCollabStatistic('liters', getMonthList().split('/')[0], 'DIESEL')}</div>
+                                </div> 
+                                <div className={co.paramsRowMonth} style={{backgroundColor: 'rgba(255, 94, 0, 0.3)'}}>
+                                  <div className={co.gas}>{totalCollabStatistic('liters', getMonthList().split('/')[1], 'GAS')}</div>
+                                  <div className={co.lpg}>{totalCollabStatistic('liters', getMonthList().split('/')[1], 'LPG')}</div>
+                                  <div className={co.diesel}>{totalCollabStatistic('liters', getMonthList().split('/')[1], 'DIESEL')}</div>
+                                </div> 
+                              </div> 
+                              <div className={co.paramsRowMonths}>
+                                <div className={co.paramsRowMonth} style={{backgroundColor: 'rgba(222, 45, 168, 0.3)'}}>-</div> 
+                                <div className={co.paramsRowMonth} style={{backgroundColor: 'rgba(255, 94, 0, 0.3)'}}>-</div> 
+                              </div>
+                              <div className={co.paramsRowMonths}>
+                                <div className={co.paramsRowMonth} style={{backgroundColor: 'rgba(222, 45, 168, 0.3)'}}>-</div> 
+                                <div className={co.paramsRowMonth} style={{backgroundColor: 'rgba(255, 94, 0, 0.3)'}}>-</div> 
+                              </div>
+                              <div className={co.paramsRowMonths}> 
+                                <div className={co.paramsRowMonth} style={{backgroundColor: 'rgba(222, 45, 168, 0.3)'}}>
+                                  <div className={co.gas}>{totalCollabStatistic('km', getMonthList().split('/')[0], 'GAS')}</div>
+                                  <div className={co.lpg}>{totalCollabStatistic('km', getMonthList().split('/')[0], 'LPG')}</div>
+                                  <div className={co.diesel}>{totalCollabStatistic('km', getMonthList().split('/')[0], 'DIESEL')}</div>
+                                </div> 
+                                <div className={co.paramsRowMonth} style={{backgroundColor: 'rgba(255, 94, 0, 0.3)'}}>
+                                  <div className={co.gas}>{totalCollabStatistic('km', getMonthList().split('/')[1], 'GAS')}</div>
+                                  <div className={co.lpg}>{totalCollabStatistic('km', getMonthList().split('/')[1], 'LPG')}</div>
+                                  <div className={co.diesel}>{totalCollabStatistic('km', getMonthList().split('/')[1], 'DIESEL')}</div>
+                                </div> 
+                              </div>
+                              <div className={co.paramsRowMonths}>
+                                <div className={co.paramsRowMonth} style={{backgroundColor: 'rgba(222, 45, 168, 0.3)'}}>-</div> 
+                                <div className={co.paramsRowMonth} style={{backgroundColor: 'rgba(255, 94, 0, 0.3)'}}>-</div> 
+                              </div>
+                              <div className={co.paramsRowMonths}> 
+                               <div className={co.paramsRowMonth} style={{backgroundColor: 'rgba(222, 45, 168, 0.3)'}}>
+                                  <div className={co.gas}>{totalCollabStatistic('burn', getMonthList().split('/')[0], 'GAS')}</div>
+                                  <div className={co.lpg}>{totalCollabStatistic('burn', getMonthList().split('/')[0], 'LPG')}</div>
+                                  <div className={co.diesel}>{totalCollabStatistic('burn', getMonthList().split('/')[0], 'DIESEL')}</div>
+                                </div> 
+                                <div className={co.paramsRowMonth} style={{backgroundColor: 'rgba(255, 94, 0, 0.3)'}}>
+                                  <div className={co.gas}>{totalCollabStatistic('burn', getMonthList().split('/')[1], 'GAS')}</div>
+                                  <div className={co.lpg}>{totalCollabStatistic('burn', getMonthList().split('/')[1], 'LPG')}</div>
+                                  <div className={co.diesel}>{totalCollabStatistic('burn', getMonthList().split('/')[1], 'DIESEL')}</div>
+                                </div> 
+                              </div>
+                              <div className={co.paramsRowMonths}> 
+                                <div className={co.paramsRowMonth} style={{color: 'black', fontWeight: '600', backgroundColor: 'rgba(222, 45, 168, 0.3)'}}>
+                                  <div className={co.gas}>{totalRest(getMonthList().split('/')[0], 'GAS')}</div>
+                                  <div className={co.lpg}>{totalRest(getMonthList().split('/')[0], 'LPG')}</div>
+                                  <div className={co.diesel}>{totalRest(getMonthList().split('/')[0], 'DIESEL')}</div>
+                                </div> 
+                                <div className={co.paramsRowMonth} style={{color: 'black', fontWeight: '600', backgroundColor: 'rgba(255, 94, 0, 0.3)'}}>
+                                  <div className={co.gas}>{totalRest(getMonthList().split('/')[1], 'GAS')}</div>
+                                  <div className={co.lpg}>{totalRest(getMonthList().split('/')[1], 'LPG')}</div>
+                                  <div className={co.diesel}>{totalRest(getMonthList().split('/')[1], 'DIESEL')}</div>
+                                </div> 
+                              </div>
                           </div>
                            
                         </div>
