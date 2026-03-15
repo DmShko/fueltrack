@@ -16,6 +16,7 @@ import deleteCollabAPI from '../../API/deleteCollabAPI';
 // types
 import { ColabsArea } from '../../types/authTypes';
 import { Track, Collab } from "../../types/types";
+import { PayType,} from '../../types/types';
 
 // own dispatch hook
 import { useAppDispatch, useAppSelector } from "../../app.hooks"; 
@@ -23,6 +24,11 @@ import { useAppDispatch, useAppSelector } from "../../app.hooks";
 // slices import
 import { changeSelected } from '../../fuelTrackStore/getCollabsByIdSlice';
 import { changeSelectedCollabDay } from '../../fuelTrackStore/getTracksCollabSlice';
+
+// modals windows
+import TrackModal from "../TrackModal/TrackModal";
+import InfoModal from "../InfoModal/InfoModal";
+import ErrorModal from "../ErrorModal/ErrorModal";
 
 // images
 import UserPlus from '../SvgComponents/UserPlus/UserPlus';
@@ -50,6 +56,10 @@ const Collaborators = () => {
     //search collaborators
     const [serachCollabs, setSerachCollabs] = useState('');
 
+    // open/close modal window
+    const [modalToggle, setModalToggle] = useState(false);
+    const [buttonClickName, setButtonClickName ]= useState('');
+
     const languageSelector = useAppSelector(state => state.ser.language);
     const idSelector = useAppSelector(state => state.signIn.id);
     const companySelector = useAppSelector(state => state.signIn.company);
@@ -57,6 +67,7 @@ const Collaborators = () => {
     const collabsSelector = useAppSelector(state => state.getCollabsById.collabsById);
     const collabTracksSelector = useAppSelector(state => state.getTracksCollab.fuelCollabDays);
     const collabCurrentDaySelector = useAppSelector(state => state.getTracksCollab.selectedCollabDay);
+
     const collabsAre = Array.isArray(collabsSelector) && collabsSelector.length !== 0;
     const collabTracksAre = Array.isArray(collabTracksSelector) && collabTracksSelector.length !== 0;
 
@@ -177,6 +188,16 @@ const Collaborators = () => {
       if(tokenSelector !== '') {
             dispatch(getTracksCollabAPI({token: tokenSelector, owner: evt.currentTarget.id}));
       } 
+
+      dispatch(changeSelectedCollabDay({mode: 'clearDay', data: { id: evt.currentTarget.id, value: {_id: '',
+              liters: '',
+              marck: '',
+              price: '',
+              km: '',
+              pay: PayType.company,
+              burn: '',
+              date: '',
+              selected: false,}}}));
     };
 
     const loadDayStatistic = (evt: React.MouseEvent<HTMLLIElement>) => {
@@ -242,7 +263,7 @@ const Collaborators = () => {
       }
     };
 
-    const catchCollabs = () =>{
+    const catchCollabs = () => {
 
       var collCounter = 0;
 
@@ -265,9 +286,12 @@ const Collaborators = () => {
 
     };
 
-    const deleteCollab = () => {
+    const deleteCollab = (evt: React.MouseEvent<HTMLButtonElement>) => {
 
-      deleteCollabFIFO (collabsSelector);
+       // toggle modal window
+      setModalToggle(state => !state);
+
+      if(evt !== undefined) setButtonClickName(evt.currentTarget.name);
 
     };
 
@@ -283,19 +307,59 @@ const Collaborators = () => {
 
       if(collabTracksSelector.length !== 0 && collabTracksSelector !== undefined) {
 
-        if(collabTracksSelector.find(element => element.date.split(' ')[1] === currentMonth.toString())) {
-          months += currentMonth.toLocaleUpperCase() + '/';
-        }else (collabTracksSelector.find(element => element.date.split(' ')[1] === prevMonth.toString()));
-          months += prevMonth.toString().toLocaleUpperCase();
+        if(collabTracksSelector.find(element => element.date.split(' ')[1] === prevMonth.toString())) {
+          months += prevMonth.toLocaleUpperCase() + '/';
+        }else (collabTracksSelector.find(element => element.date.split(' ')[1] === currentMonth.toString()));
+          months += currentMonth.toString().toLocaleUpperCase();
       };
 
       return months;
 
     };
 
+    const sortDate = (inData: Track []) => {
+
+          const sortData = [...inData].sort((a, b) => {
+      
+            const dateA = a.date.split(' ')[2];
+            const dateB = b.date.split(' ')[2];
+            
+            return dateA.localeCompare(dateB);
+          });
+          
+        return sortData;
+    };
+    
+    const openModal = (evt: React.MouseEvent<HTMLButtonElement>) => {
+      // toggle modal window
+      setModalToggle(state => !state);
+      if(evt !== undefined) setButtonClickName(evt.currentTarget.name);
+    
+    };
+
+    const modalSelect = () => {
+
+     switch(buttonClickName) {
+          case 'userMinus':
+            return <ErrorModal openClose={openModal} action={() => deleteCollabFIFO(collabsSelector)} props={{messages: 'Are you sure you want to delete?', buttonName: buttonClickName,}} />
+          case 'info':
+            <InfoModal openClose={openModal} props={{messages: 'You cannot create an entry because something is already selected!', buttonName: buttonClickName,}} />;
+          default:
+            return null;
+        }
+  };
+
   return (
 
     <div className={co.container}>
+
+      {modalToggle && <TrackModal openClose={openModal}>
+              
+          {modalSelect()}
+
+        </TrackModal>
+      }
+
         <div className={co.mustOperations}>
           
           <form className={co.form} onSubmit={formik.handleSubmit}>
@@ -329,8 +393,8 @@ const Collaborators = () => {
 
               <li className={co.item}>
                   
-                <button><UserMinus width={'20px'} height={'20px'} fill={collabsSelector.find(value => value.isCatch === true)?.isCatch ? '#aab1f8' : 'gray'} onClick={deleteCollab} disabled={collabsSelector.find(value => value.isCatch === true)?.isCatch}/></button>
-                <button onClick={catchCollab}><UserSearch width={'18px'} height={'18px'} fill={collabsSelector.find(value => value.selected === true)?.selected ? '#aab1f8' : 'gray'} disabled={collabsSelector.find(value => value.selected === true)?.selected}/></button>
+                <button name="userMinus" onClick={deleteCollab} disabled={!collabsSelector.find(value => value.isCatch === true)?.isCatch}><UserMinus width={'20px'} height={'20px'} fill={collabsSelector.find(value => value.isCatch === true)?.isCatch ? '#aab1f8' : 'gray'}/></button>
+                <button onClick={catchCollab} disabled={!collabsSelector.find(value => value.selected === true)?.selected}><UserSearch width={'18px'} height={'18px'} fill={collabsSelector.find(value => value.selected === true)?.selected ? '#aab1f8' : 'gray'}/></button>
                 <button onClick={catchCollabs}><UsersSearch width={'25px'} height={'25px'}/></button>
                 
               </li>  
@@ -349,6 +413,7 @@ const Collaborators = () => {
             return element.name.toLocaleLowerCase().includes(serachCollabs) || element.email.toLocaleLowerCase().includes(serachCollabs) ?
                   
                     <li className={co.item} id={element._id} key = {nanoid()} onClick={toggleCollabDetail}>
+
                       <div className={co.userData} style={element.selected ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'none'}}>
                         <p className={co.name} style={element.verify ? {color: "black"}: {color: "lightgray"}}>{`${element.name}`}
                           {element.isCatch === true && <UserCatch width={'18px'} height={'18px'}/>}
@@ -356,12 +421,13 @@ const Collaborators = () => {
                         </p>
                         <p className={co.adress} style={element.verify ? {color: "black"}: {color: "lightgray"}}>{`${element.email}`}</p>
                       </div >
+
                       {collabsSelector.find(value => value._id === element._id)?.selected && <div className={co.userDetails} >
                         <ul className={co.collabDaysList}>
                          
-                            {collabTracksAre ? collabTracksSelector.map(element => {
-                              return  <li className={co.collabDates} id={element._id} key = {nanoid()} onClick={loadDayStatistic} >
-                                        <p className={co.collabDate} style={collabCurrentDaySelector._id === element._id? {backgroundColor: "gray"} : {backgroundColor: "#aab1f8"}}>{element.date.split(' ')[2]}</p> 
+                            {collabTracksAre ? sortDate(collabTracksSelector).map(element => {
+                              return  <li className={co.collabDates} id={element._id} key = {nanoid()} onClick={loadDayStatistic}>
+                                        <p className={co.collabDate} style={collabCurrentDaySelector._id === element._id? {backgroundColor: "gray"} : element.date.split(' ')[1].toLocaleUpperCase() === getMonthList().split('/')[0]? {backgroundColor: 'rgba(222, 45, 168, 0.3)'} : {backgroundColor: 'rgba(255, 94, 0, 0.3)'}}>{element.date.split(' ')[2]}</p> 
                                       </li> 
                             }):<Loader className={co.loader} width={'35px'} height={'35px'}/>}
                          

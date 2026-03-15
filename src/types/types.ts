@@ -192,5 +192,6 @@ export interface ModalPropsTypes {
 
 export interface ErrorModalPropsTypes {
    openClose: Function
-   props: {messages: string,  buttonName: string}
+   action: Function
+   props: {messages: string,  buttonName: string,}
 }

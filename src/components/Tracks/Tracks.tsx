@@ -52,7 +52,7 @@ const Tracks: FC = () => {
   const dispatch = useAppDispatch();
 
   const [value, onChange] = useState<Value>(new Date());
-   const [activeMonth, setActiveMonth] = useState<Value>(new Date());
+  const [activeMonth, setActiveMonth] = useState<Value>(new Date());
   const [toggleMenu, setToggleMenu] = useState(true);
   
   const [buttonClickName, setButtonClickName ]= useState('');
@@ -156,11 +156,18 @@ const Tracks: FC = () => {
     
   };
 
+  const deleteTrack = () => {
+      
+            dispatch(tracks({mode: 'selectedTrack', data: {id: selectedDaySelector?._id, value: false}}));
+            dispatch(deleteTrackAPI({id: selectedDaySelector?._id, token: tokenSelector}));
+
+  };
+
   const modalSelect = () => {
 
      switch(buttonClickName) {
           case 'delete':
-            return <ErrorModal openClose={openModal} props={{messages: 'Are you sure you want to delete?', buttonName: buttonClickName,}} />
+            return <ErrorModal openClose={openModal} action={deleteTrack} props={{messages: 'Are you sure you want to delete?', buttonName: buttonClickName,}} />
           case 'change':
             return <ModalMain buttonName={buttonClickName} elementName={selectedDaySelector} value={value} selectedId={selectedDaySelector._id}/>
           case 'new':
@@ -172,8 +179,9 @@ const Tracks: FC = () => {
   };
 
   const sortDate = (inData: Track []) => {
-      const sortData = inData.filter(element => element.date.split(' ')[1] === activeMonth?.toString().split(' ')[1]).sort((a, b) => {
-        // Беремо лише останні 5 символів (місяць і день: "12-01" vs "01-15")
+
+      const sortData = [...inData].filter(element => element.date.split(' ')[1] === activeMonth?.toString().split(' ')[1]).sort((a, b) => {
+     
         const dateA = a.date.split(' ')[2] 
         const dateB = b.date.split(' ')[2];
         
@@ -184,7 +192,7 @@ const Tracks: FC = () => {
   };
 
   const handleMonthChange = ({ activeStartDate, view }: OnArgs) => {
-    // Перевіряємо, чи ми саме в режимі перегляду місяця і чи дата не null
+   
     if (view === 'month' && activeStartDate) {
       setActiveMonth(activeStartDate);
     }
@@ -198,7 +206,6 @@ const Tracks: FC = () => {
         
         { 
           modalSelect()
-          
         }
         </TrackModal>
       }

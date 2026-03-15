@@ -10,16 +10,10 @@ import deleteTrackAPI from '../../API/deleteTrackAPI';
 // types import
 import { ErrorModalPropsTypes } from '../../types/types.ts';
 
-// slices
-import { tracks } from '../../fuelTrackStore/getTrackSlice.ts';
-
 //styles
 import err from './ErrorModal.module.scss';
 
-const ErrorModal: FC<PropsWithChildren<ErrorModalPropsTypes>> = ({openClose, props}) => {
-
-const dispatch = useAppDispatch();
-const tokenSelector = useAppSelector(state => state.signIn.token);
+const ErrorModal: FC<PropsWithChildren<ErrorModalPropsTypes>> = ({openClose, action, props}) => {
 
 const selectedDaySelector = useAppSelector(state => state.getTrack.selectedDay);
 
@@ -33,9 +27,9 @@ const buttonClick = (evt: React.MouseEvent<HTMLButtonElement>) => {
   
         if(selectedDaySelector.selected !== false) {
 
-            dispatch(deleteTrackAPI({id: selectedDaySelector?._id, token: tokenSelector}));
-            dispatch(tracks({mode: 'selectedTrack', data: {id: selectedDaySelector?._id, value: false}}));
+            action();
             openClose();
+          
         }
 
             break;

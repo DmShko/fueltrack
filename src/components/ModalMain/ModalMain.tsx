@@ -46,7 +46,7 @@ const ModalMain: FC<PropsWithoutRef<ModalPropsTypes>> = ({ buttonName, elementNa
         break;
 
       case 'marck':
-        languageSelector === 'En' ? message = 'Must be numbers' : message = "Мають бути цифри";
+        languageSelector === 'En' ? message = 'Must be GAS or LPG or DIESEL' : message = "Мають бути цифри GAS або LPG або DIESEL";
         break;
 
       case 'price':
@@ -105,9 +105,9 @@ const ModalMain: FC<PropsWithoutRef<ModalPropsTypes>> = ({ buttonName, elementNa
           { message: errorMessagesTrans('liters') }
         ),
       marck: Yup.string()
-        .matches(
-          /\w{0}[0-9a-zA-Za-яА-Я]/,
-          { message: errorMessagesTrans('marck') }
+        .oneOf(
+          ['GAS', 'LPG', 'DIESEL'], // 1-й аргумент: масив значень
+          errorMessagesTrans('marck')  // 2-й аргумент: ваше повідомлення
         )
         .required(errorMessagesTrans('marckReq')),
 

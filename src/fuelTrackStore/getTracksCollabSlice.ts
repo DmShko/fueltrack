@@ -34,7 +34,9 @@ const getTracksColabsSlice = createSlice({
       changeSelectedCollabDay(state, action: PayloadAction<ActionCollabsDay>) {
         switch(action.payload.mode) {
           case 'freshDay':
-            state.selectedCollabDay = {...action.payload.data.value}
+            state.selectedCollabDay = {...action.payload.data.value};
+          case 'clearDay' :
+            state.selectedCollabDay = action.payload.data.value;
           break;
           default:
           break;
@@ -51,7 +53,7 @@ const getTracksColabsSlice = createSlice({
       builder.addCase(getTracksCollabAPI.fulfilled, (state, action) => {
 
         state.isLoading = false;
-        state.fuelCollabDays = [...action.payload.data]
+        state.fuelCollabDays = [...action.payload.data];
         // some actions with 'action'...
       });
             

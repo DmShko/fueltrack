@@ -139,8 +139,8 @@ const SharedLayout: FC = () => {
             </Suspense>
           </main>
     
-          <footer>
-    
+          <footer className={sh.footer}>
+            <p className={sh.info}> &#xA9; 2026 fueltrack.</p>
           </footer>
     
         </>

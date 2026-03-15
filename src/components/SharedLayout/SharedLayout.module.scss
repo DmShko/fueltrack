@@ -129,3 +129,23 @@ header {
     }
 
 }
+
+  
+.footer {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+
+    padding: 20px 5px;
+
+    height: 200px;
+
+    background-color: #aab1f8;
+
+    .info {
+
+        margin: 0;
+    }
+}
