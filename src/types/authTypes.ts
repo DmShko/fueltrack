@@ -5,6 +5,7 @@
     email: string
     password: string
     bossId: string
+    isCatch: boolean
   };
 
   export interface ColabsArea {

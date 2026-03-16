@@ -171,6 +171,7 @@ const SignUp = () => {
           email: values.email,
           password: values.password,
           bossId:'',
+          isCatch: false,
         }));
       };
 

@@ -1,7 +1,7 @@
 import { FC, PropsWithChildren, } from "react";
 
 // types import
-import { ErrorModalPropsTypes } from '../../types/types.ts';
+import { InfoModalPropsTypes } from '../../types/types.ts';
 
 // slices
 
@@ -9,7 +9,7 @@ import { ErrorModalPropsTypes } from '../../types/types.ts';
 //styles
 import info from './InfoModal.module.scss';
 
-const InfoModal: FC<PropsWithChildren<ErrorModalPropsTypes>> = ({openClose, props}) => {
+const InfoModal: FC<PropsWithChildren<InfoModalPropsTypes>> = ({openClose, props}) => {
 
 const buttonClick = () => {
     openClose();

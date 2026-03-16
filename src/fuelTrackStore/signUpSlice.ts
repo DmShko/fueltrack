@@ -32,6 +32,9 @@ const signUpSlice = createSlice({
         case 'clearMessage':
             state.message = '';
             break;
+        case 'resetIsSignUp':
+            state.isSignUp = false;
+            break;
         default: break;
       }
     },

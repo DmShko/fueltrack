@@ -24,6 +24,7 @@ import { useAppDispatch, useAppSelector } from "../../app.hooks";
 // slices import
 import { changeSelected } from '../../fuelTrackStore/getCollabsByIdSlice';
 import { changeSelectedCollabDay } from '../../fuelTrackStore/getTracksCollabSlice';
+import { changeSingUp } from '../../fuelTrackStore/signUpSlice.ts';
 
 // modals windows
 import TrackModal from "../TrackModal/TrackModal";
@@ -67,6 +68,7 @@ const Collaborators = () => {
     const collabsSelector = useAppSelector(state => state.getCollabsById.collabsById);
     const collabTracksSelector = useAppSelector(state => state.getTracksCollab.fuelCollabDays);
     const collabCurrentDaySelector = useAppSelector(state => state.getTracksCollab.selectedCollabDay);
+    const collabIsAddSelector = useAppSelector(state => state.signUp.isSignUp);
 
     const collabsAre = Array.isArray(collabsSelector) && collabsSelector.length !== 0;
     const collabTracksAre = Array.isArray(collabTracksSelector) && collabTracksSelector.length !== 0;
@@ -77,7 +79,17 @@ const Collaborators = () => {
           dispatch(getCollabsByIdAPI({id: idSelector, token: tokenSelector}));
         } 
     
-    },[tokenSelector, collabsSelector.length]);
+    },[tokenSelector, collabsSelector.length, collabIsAddSelector]);
+
+    useEffect(() => {
+
+        if(tokenSelector !== '' && collabIsAddSelector) {
+          setButtonClickName('Success');
+          setModalToggle(state => !state);
+          dispatch(changeSingUp({operation: 'resetIsSignUp', data: ''}));
+        } 
+    
+    },[collabIsAddSelector]);
 
     const errorMessagesTrans = (data: string) => { 
 
@@ -102,7 +114,7 @@ const Collaborators = () => {
     };
 
     const colabsBufferSeparate = (pack: string) => {
-
+       
         const backPack: ColabsArea[] = [];
         const packSeparate: string[] = pack.split(' ');
    
@@ -120,7 +132,7 @@ const Collaborators = () => {
                     password: packSeparate[index].split('_')[2],
                 
                 });
-            } else console.log('Passwords are different')
+            } else setModalToggle(state => !state);
         }
   
         return backPack
@@ -135,6 +147,7 @@ const Collaborators = () => {
               email: letsArg.email,
               password: letsArg.password,
               bossId: idSelector,
+              isCatch: false,
             }));
     };
 
@@ -161,12 +174,15 @@ const Collaborators = () => {
            const backPack = colabsBufferSeparate(values.colabsBuffer);
              console.log(formik.errors.colabsBuffer);
            if(backPack.length !== 0) {
+
                 for(const col in backPack) {
-                        colaboratesFIFO(backPack[col]);
+                  colaboratesFIFO(backPack[col]);
                 } 
-            }else console.log('Please check the data. It seems one of the passwords is incorrect.')
+
+                resetForm();
+
+            }else errorMessagesTrans('empty');
     
-        resetForm();
           
         },
       });
@@ -254,9 +270,9 @@ const Collaborators = () => {
 
       // find 'isCatch' key value of selected collabs
       const currentIsCatch  = collabsSelector.find(element => element._id === currentId)?.isCatch;
-
+     
       if(currentIsCatch !== undefined) {
-
+        
         if(currentId !== '' && currentId !== undefined)
         
           dispatch(changeSelected({mode:'setIsCatch', data: {id: currentId, value: currentIsCatch}}));
@@ -342,10 +358,12 @@ const Collaborators = () => {
      switch(buttonClickName) {
           case 'userMinus':
             return <ErrorModal openClose={openModal} action={() => deleteCollabFIFO(collabsSelector)} props={{messages: 'Are you sure you want to delete?', buttonName: buttonClickName,}} />
-          case 'info':
-            <InfoModal openClose={openModal} props={{messages: 'You cannot create an entry because something is already selected!', buttonName: buttonClickName,}} />;
+          case 'userPlus':
+            return <InfoModal openClose={openModal} props={{messages: 'Passwords do not match!',}} />;
+          case 'Success':
+            return <InfoModal openClose={openModal} props={{messages: 'Employee added successfully)',}} />;
           default:
-            return null;
+            break; 
         }
   };
 
@@ -372,7 +390,7 @@ const Collaborators = () => {
                       placeholder="Colaborator's: email_name_password_repeatpassword email_..."></textarea>
 
              
-              <button className={co.userPlus} type="submit" title='userPlus' disabled={formik.errors.colabsBuffer === '' ? true : false}><UserPlus width={'20px'} height={'20px'}/></button>
+              <button className={co.userPlus} onClick={() => setButtonClickName('userPlus')} name='userPlus' type="submit" title='userPlus' disabled={formik.errors.colabsBuffer === '' ? true : false}><UserPlus width={'20px'} height={'20px'}/></button>
               
           </form>
 
@@ -416,7 +434,7 @@ const Collaborators = () => {
 
                       <div className={co.userData} style={element.selected ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'none'}}>
                         <p className={co.name} style={element.verify ? {color: "black"}: {color: "lightgray"}}>{`${element.name}`}
-                          {element.isCatch === true && <UserCatch width={'18px'} height={'18px'}/>}
+                          {element.isCatch === true && <UserCatch width={'18px'} height={'18px'} style={element.selected ? {fill: 'white'} : {fill: 'gray'}}/>}
                           {element.token !== '' && <Online width={'18px'} height={'18px'}/>}
                         </p>
                         <p className={co.adress} style={element.verify ? {color: "black"}: {color: "lightgray"}}>{`${element.email}`}</p>
