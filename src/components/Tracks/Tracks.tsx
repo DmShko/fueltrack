@@ -13,6 +13,7 @@ import TrackModal from "../TrackModal/TrackModal";
 import InfoModal from "../InfoModal/InfoModal";
 import ErrorModal from "../ErrorModal/ErrorModal";
 import Collaborator from '../Collaborators/Collaborators.tsx';
+import Loader from '../SvgComponents/Loader/Loader';
 
 // API
 import getTrackAPI from '../../API/getTrackAPI';
@@ -59,6 +60,7 @@ const Tracks: FC = () => {
 
   const tokenSelector = useAppSelector(state => state.signIn.token);
   const userNameSelector = useAppSelector(state => state.signIn.name);
+  const isLoadingSelector = useAppSelector(state => state.signIn.isLoading);
   const deletedSelector = useAppSelector(state => state.delTrack.isDeleted);
   const addSelector = useAppSelector(state => state.addTrack.isAdd);
   const tracksSelector = useAppSelector(state => state.getTrack.fuelDays);
@@ -200,7 +202,7 @@ const Tracks: FC = () => {
  
   return (
 
-    <div className={tr.container}>
+    !isLoadingSelector ? <div className={tr.container}>
   
       {modalToggle && <TrackModal openClose={openModal}>
         
@@ -270,7 +272,7 @@ const Tracks: FC = () => {
 
       {!toggleMenu && <Collaborator/>}
 
-    </div>
+    </div> : <Loader className={tr.loader} width={'85px'} height={'85px'}/>
   )
 };
 

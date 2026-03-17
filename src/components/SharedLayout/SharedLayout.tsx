@@ -20,9 +20,14 @@ import DayNight  from '../DayNight/DayNight';
 // import BallOfWool from '../SvgComponents/Logo/BallOfWool';
 import MainLogo from '../SvgComponents/MainLogo/MainLogo';
 import OpenSpace from '../SvgComponents/OpenSpace/OpenSpace';
+import Hithub from '../SvgComponents/Github/Github.tsx';
+import Facebook from '../SvgComponents/Facebook/Facebook.tsx';
+import Instagram from '../SvgComponents/Instagram/Instagram.tsx';
+import Mail from '../SvgComponents/Mail/Mail.tsx';
 
 // types
 import { NewDateType } from '../../types/types'
+import Github from "../SvgComponents/Github/Github.tsx";
 
 const SharedLayout: FC = () => {  
 
@@ -140,6 +145,13 @@ const SharedLayout: FC = () => {
           </main>
     
           <footer className={sh.footer}>
+            
+            <div className={sh.contacts}>
+              <Github width={'20px'} className={sh.contactIcon} height={'20px'} onClick={() => window.open('https://www.example.com', '_blank', 'noopener,noreferrer')}/>
+              <Facebook width={'20px'} height={'20px'} className={sh.contactIcon} onClick={() => window.open('https://www.example.com', '_blank', 'noopener,noreferrer')}/>
+              <Instagram width={'20px'} height={'20px'} className={sh.contactIcon} onClick={() => window.open('https://www.example.com', '_blank', 'noopener,noreferrer')}/> 
+              <div className={sh.contactInfo}><Mail width={'20px'} height={'20px'}/> <p>fueltrack2024.service@gmail.com</p> </div>
+            </div>
             <p className={sh.info}> &#xA9; 2026 fueltrack.</p>
           </footer>
     

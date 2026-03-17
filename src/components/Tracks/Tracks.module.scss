@@ -360,3 +360,19 @@ input:focus {
     }
 
 }
+
+@keyframes rotate-animation {
+
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loader {
+
+    margin: 40% auto;
+    animation: rotate-animation 2s linear infinite;
+}
