@@ -22,7 +22,7 @@ import getTrackByIdReducer from './getTrackByIdSlice.ts';
 import getCollabsIdReducer from './getCollabsByIdSlice.ts';
 import putTrackSlice from './putTrackSlice.ts';
 import getTracksColabsReducer from './getTracksCollabSlice.ts';
-
+import deleteCollabReducer from './deleteCollabSlice.ts';
 
 const rootReducer = combineReducers({
   
@@ -37,7 +37,8 @@ const rootReducer = combineReducers({
   getTrackById: getTrackByIdReducer,
   patchTrack: putTrackSlice,
   getCollabsById: getCollabsIdReducer,
-  getTracksCollab: getTracksColabsReducer
+  getTracksCollab: getTracksColabsReducer,
+  delCollab: deleteCollabReducer,
 });
 
 const persistConfig = {

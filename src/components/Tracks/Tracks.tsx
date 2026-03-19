@@ -171,10 +171,10 @@ const Tracks: FC = () => {
           case 'delete':
             return <ErrorModal openClose={openModal} action={deleteTrack} props={{messages: 'Are you sure you want to delete?', buttonName: buttonClickName,}} />
           case 'change':
-            return <ModalMain buttonName={buttonClickName} elementName={selectedDaySelector} value={value} selectedId={selectedDaySelector._id}/>
+            return <ModalMain openClose={openModal} buttonName={buttonClickName} elementName={selectedDaySelector} value={value} selectedId={selectedDaySelector._id}/>
           case 'new':
-            return !selectedDaySelector.selected ? <ModalMain buttonName={buttonClickName} elementName={selectedDaySelector} value={value} selectedId={selectedDaySelector._id}/> :
-            <InfoModal openClose={openModal} props={{messages: 'You cannot create an entry because something is already selected!', buttonName: buttonClickName,}} />;
+            return !selectedDaySelector.selected ? <ModalMain openClose={openModal} buttonName={buttonClickName} elementName={selectedDaySelector} value={value} selectedId={selectedDaySelector._id}/> :
+            <InfoModal openClose={openModal} props={{messages: 'You cannot create an entry because something is already selected!',}} />;
           default:
             return null;
         }

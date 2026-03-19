@@ -15,24 +15,30 @@ import { changeLogout } from '../../fuelTrackStore/logOutSlice';
 import { changeSingIn }  from '../../fuelTrackStore/signInSlice'; 
 
 import DayNight  from '../DayNight/DayNight';
+import BurgerMenu from "./BurgerMenu/BurgerMenu.tsx";
+import BurgerModal from "./BurgerModal/BurgerModal.tsx";
 
 // images
 // import BallOfWool from '../SvgComponents/Logo/BallOfWool';
 import MainLogo from '../SvgComponents/MainLogo/MainLogo';
 import OpenSpace from '../SvgComponents/OpenSpace/OpenSpace';
-import Hithub from '../SvgComponents/Github/Github.tsx';
+import Github from "../SvgComponents/Github/Github.tsx";
 import Facebook from '../SvgComponents/Facebook/Facebook.tsx';
 import Instagram from '../SvgComponents/Instagram/Instagram.tsx';
 import Mail from '../SvgComponents/Mail/Mail.tsx';
+import Menu from '../SvgComponents/Menu/Menu.tsx';
 
 // types
 import { NewDateType } from '../../types/types'
-import Github from "../SvgComponents/Github/Github.tsx";
+
 
 const SharedLayout: FC = () => {  
 
     const tokenSelector = useAppSelector(state => state.signIn.token);
     const isLogOutSelector = useAppSelector(state => state.logOut.isLogout);
+
+    // open/close modal window
+    const [modalToggle, setModalToggle] = useState(false);
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -45,7 +51,9 @@ const SharedLayout: FC = () => {
   
       if(tokenSelector !== '') dispatch(changeLogout({operation: 'changeIsLogout', data: false}));
      
-    },[tokenSelector]);useEffect(() => {
+    },[tokenSelector]);
+    
+    useEffect(() => {
   
       if(tokenSelector !== '') dispatch(changeLogout({operation: 'changeIsLogout', data: false}));
      
@@ -106,6 +114,13 @@ const SharedLayout: FC = () => {
       dispatch(logoutAPI({token: tokenSelector,}));
     };
 
+    const openModal = () => {
+
+    // toggle modal window
+    setModalToggle(state => !state);
+    
+  }
+
     return (
         <>
           <header className={sh.header}>
@@ -135,8 +150,18 @@ const SharedLayout: FC = () => {
 
               {tokenSelector && <button className={sh.out} type="button" onClick={logout}><OpenSpace width={'40px'} height={'40px'} fill="white"/></button>
               }
+
+              {tokenSelector && <button className={sh.burger} onClick={() => setModalToggle(state => !state)}><Menu width={'35px'} height={'35px'} fill="#aab1f8"/></button>}
+
             </div>
+
           </header>
+
+          {modalToggle && <BurgerModal openClose={openModal}>
+            { 
+              <BurgerMenu logout={() => logout()}/>
+            }
+            </BurgerModal>}
     
           <main>
             <Suspense fallback={"..loading"}>

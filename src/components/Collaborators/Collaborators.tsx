@@ -49,6 +49,8 @@ import Mark from '../SvgComponents/Mark/Mark';
 import Burn from '../SvgComponents/Burn/Burn';
 import Loader from '../SvgComponents/Loader/Loader';
 import Users from '../SvgComponents/Users/Users.tsx';
+import Clock from '../SvgComponents/Clock/Clock.tsx';
+
 
 const Collaborators = () => {
 
@@ -69,6 +71,7 @@ const Collaborators = () => {
     const collabTracksSelector = useAppSelector(state => state.getTracksCollab.fuelCollabDays);
     const collabCurrentDaySelector = useAppSelector(state => state.getTracksCollab.selectedCollabDay);
     const collabIsAddSelector = useAppSelector(state => state.signUp.isSignUp);
+    const collabIsDeleted = useAppSelector(state => state.delCollab.isDeleted);
 
     const collabsAre = Array.isArray(collabsSelector) && collabsSelector.length !== 0;
     const collabTracksAre = Array.isArray(collabTracksSelector) && collabTracksSelector.length !== 0;
@@ -79,12 +82,12 @@ const Collaborators = () => {
           dispatch(getCollabsByIdAPI({id: idSelector, token: tokenSelector}));
         } 
     
-    },[tokenSelector, collabsSelector.length, collabIsAddSelector]);
+    },[tokenSelector, collabsSelector.length, collabIsAddSelector, collabIsDeleted]);
 
     useEffect(() => {
 
         if(tokenSelector !== '' && collabIsAddSelector) {
-          setButtonClickName('Success');
+          setButtonClickName('success');
           setModalToggle(state => !state);
           dispatch(changeSingUp({operation: 'resetIsSignUp', data: ''}));
         } 
@@ -294,7 +297,7 @@ const Collaborators = () => {
     }; 
 
     const deleteCollabFIFO = async (data: Collab[]) => {
-      
+
       for(const c in data) {
         if(data[c].isCatch === true)
           await dispatch(deleteCollabAPI({id: data[c]._id, token: tokenSelector}));
@@ -360,7 +363,7 @@ const Collaborators = () => {
             return <ErrorModal openClose={openModal} action={() => deleteCollabFIFO(collabsSelector)} props={{messages: 'Are you sure you want to delete?', buttonName: buttonClickName,}} />
           case 'userPlus':
             return <InfoModal openClose={openModal} props={{messages: 'Passwords do not match!',}} />;
-          case 'Success':
+          case 'success':
             return <InfoModal openClose={openModal} props={{messages: 'Employee added successfully)',}} />;
           default:
             break; 
@@ -430,12 +433,13 @@ const Collaborators = () => {
           { collabsAre && collabsSelector.map(element => {
             return element.name.toLocaleLowerCase().includes(serachCollabs) || element.email.toLocaleLowerCase().includes(serachCollabs) ?
                   
-                    <li className={co.item} id={element._id} key = {nanoid()} onClick={toggleCollabDetail}>
+                    <li className={co.item} id={element._id} key = {nanoid()} onClick={element.verify === true ? toggleCollabDetail : undefined}>
 
                       <div className={co.userData} style={element.selected ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'none'}}>
                         <p className={co.name} style={element.verify ? {color: "black"}: {color: "lightgray"}}>{`${element.name}`}
                           {element.isCatch === true && <UserCatch width={'18px'} height={'18px'} style={element.selected ? {fill: 'white'} : {fill: 'gray'}}/>}
                           {element.token !== '' && <Online width={'18px'} height={'18px'}/>}
+                          {!element.verify && <Clock width={'18px'} height={'18px'}/>}
                         </p>
                         <p className={co.adress} style={element.verify ? {color: "black"}: {color: "lightgray"}}>{`${element.email}`}</p>
                       </div >
@@ -462,6 +466,7 @@ const Collaborators = () => {
                         <div className={co.parameters}>
 
                           <div className={co.paramsPartDay}>
+
                               <p>Day</p>
                               <div className={co.paramsRowDay}><div className={co.paramsRowBlock}><GasStation width={'18px'} height={'18px'}/><p>liters</p></div><p>{collabCurrentDaySelector.liters}</p></div>
                               <div className={co.paramsRowDay}><div className={co.paramsRowBlock}><Mark width={'18px'} height={'18px'}/><p>marck</p></div><p>{collabCurrentDaySelector.marck}</p></div>

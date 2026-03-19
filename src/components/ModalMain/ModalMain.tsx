@@ -19,7 +19,7 @@ import { tracks } from '../../fuelTrackStore/getTrackSlice.ts'
 // images
 import Info from '../SvgComponents/Info/Info';
 
-const ModalMain: FC<PropsWithoutRef<ModalPropsTypes>> = ({ buttonName, elementName, value, selectedId }) => {
+const ModalMain: FC<PropsWithoutRef<ModalPropsTypes>> = ({openClose, buttonName, elementName, value, selectedId }) => {
 
 
   const dispatch = useAppDispatch();
@@ -188,6 +188,8 @@ const ModalMain: FC<PropsWithoutRef<ModalPropsTypes>> = ({ buttonName, elementNa
             }, token: tokenSelector
           }));
 
+          openClose();
+
         } else {
 
           dispatch(putTrackAPI({
@@ -203,6 +205,8 @@ const ModalMain: FC<PropsWithoutRef<ModalPropsTypes>> = ({ buttonName, elementNa
               selected: false,
             }
           }));
+
+          openClose();
 
           dispatch(tracks({ mode: 'selectedTrack', data: { id: selectedDaySelector?._id, value: false } }))
 

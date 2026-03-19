@@ -1,0 +1,60 @@
+.backdrop {
+
+    position: absolute;
+    z-index: 11;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    left: 0;
+    top: 0;
+
+    width: 100vw;
+    height: 100%;
+
+    background-color: rgba(128, 128, 128, 0.7);
+ 
+    .container {
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        
+        width: 50%;
+        height: fit-content;
+
+        padding: 20px 0;
+
+        border-radius: 8px;
+        background-color: white;
+        // background-image: url('../../images/wheel-svgrepo-com.svg');
+        background-size: cover;
+
+        form {
+
+            padding: 10px;
+            
+            background-color: lightgray;
+
+            border-radius: 8px;
+
+            p {
+
+                width: fit-content;
+    
+                font-weight: 600;
+    
+                margin: 0;
+                
+            }    
+    
+            input {
+                margin-bottom: 10px;
+                background-color: white
+            }
+        }
+    };
+
+};

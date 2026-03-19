@@ -103,6 +103,12 @@ export interface deleteTrackInitialState {
     error: string
 };
 
+export interface deleteCollabAPIInitialState {
+    isLoading: boolean
+    isDeleted: boolean
+    error: string
+};
+
 export interface patchTrackInitialState {
     isLoading: boolean
     error: string
@@ -184,6 +190,7 @@ export interface NewDateType {
 };
 
 export interface ModalPropsTypes {
+    openClose: Function
     elementName: Track | undefined
     buttonName: string
     value: Date | null | [Date | null, Date | null]
@@ -194,6 +201,10 @@ export interface ErrorModalPropsTypes {
    openClose: Function
    action: Function
    props: {messages: string,  buttonName: string,}
+}
+
+export interface BurgerModalPropsTypes {
+   logout: Function
 }
 
 export interface InfoModalPropsTypes {
