@@ -201,7 +201,7 @@ const SignUp = () => {
 
           <h1 className={su.formTitle}>{'Реєстрація'}</h1>
 
-          {formik.errors.company ? <div className={su.formInfo}><Info/><p>{`${formik.errors.company}`}</p></div> : formik.errors.name ? <div className={su.formInfo}><Info/><p>{`${formik.errors.name}`}</p></div> : formik.errors.email ? <div className={su.formInfo}><Info/><p>{`${formik.errors.email}`}</p></div> : formik.errors.password ? <div className={su.formInfo}><Info/><p>{`${formik.errors.password}`}</p></div> : formik.errors.repeatPassword ? <div className={su.formInfo}><Info/><p>{`${formik.errors.repeatPassword}`}</p></div> : <RoadSign/>}
+          {formik.errors.company ? <div className={su.formInfo}><Info/><p>{`${formik.errors.company}`}</p></div> : formik.errors.name ? <div className={su.formInfo}><Info/><p>{`${formik.errors.name}`}</p></div> : formik.errors.email ? <div className={su.formInfo}><Info/><p>{`${formik.errors.email}`}</p></div> : formik.errors.password ? <div className={su.formInfo}><Info/><p>{`${formik.errors.password}`}</p></div> : formik.errors.repeatPassword ? <div className={su.formInfo}><Info/><p>{`${formik.errors.repeatPassword}`}</p></div> : <RoadSign width='35px' height='35px'/>}
 
           <div className={su.itemLabel}> <label htmlFor="company"></label>
             <input

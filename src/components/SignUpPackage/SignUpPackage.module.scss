@@ -160,3 +160,52 @@
     } 
 
 }
+
+@media (max-width: 480px) {
+
+    .container {
+
+        padding: 100px 0;
+
+        .formWrapper {
+
+            width: 350px;
+
+            height: 350px;
+
+            .itemLabel {
+
+                input {
+    
+                    height: 20px;
+        
+                    margin-bottom: 5px;
+        
+                    border: 0;
+                    border-radius: 6px;
+                }
+        
+                input:focus {
+                        
+                    outline: unset;
+                }
+            }
+
+            .switch {
+
+                display: none;
+              
+            }
+        }
+    }
+  
+}
+
+@media (max-width: 768px) {
+   
+}
+
+
+@media (max-width: 1024px) {
+   
+}

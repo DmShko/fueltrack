@@ -23,7 +23,9 @@ const PageContainer: FC<any> = ({ children }) => {
   const location = useLocation();
 
   useEffect(() => {
-  
+
+        const aroundStaraElement =logoRef.current?.children[0] as HTMLElement;
+
         // reset 
         function handleWindowResize() {
           setParameters([]);
@@ -39,17 +41,23 @@ const PageContainer: FC<any> = ({ children }) => {
             const pointX = randomGenerator(logoRef.current.offsetWidth - 20, 20);
             const pointY = randomGenerator(logoRef.current.offsetHeight - 50, 100);
 
+            // all points drawing around logIn/Up form only
             const checkPoint = Math.pow((pointX - logoRef.current.offsetWidth / 2), 2) + 
-            Math.pow((pointY - 330), 2)
+            Math.pow((pointY - logoRef.current.offsetHeight / 2), 2)
 
-            if(checkPoint >  Math.pow(200, 2)) {
-              // 'size' for mobile and tab and desk
-              return {
-                size: randomGenerator(20, 5),
-                x: pointX,
-                y: pointY,
-              };
+            if(aroundStaraElement) {
+              
+              // radius of '.formWrapper'
+              if(checkPoint >  Math.pow((aroundStaraElement.children[0] as HTMLElement).offsetWidth / 2 + 10, 2)) {
 
+                // 'size' for mobile and tab and desk
+                return {
+                  size: randomGenerator(20, 5),
+                  x: pointX,
+                  y: pointY,
+                };
+
+              }
             }
           }
       };
@@ -94,7 +102,7 @@ const PageContainer: FC<any> = ({ children }) => {
 
   return (
    
-    <section className={pec.container  } ref={logoRef}>
+    <section className={pec.container} ref={logoRef}>
 
       {children}
 

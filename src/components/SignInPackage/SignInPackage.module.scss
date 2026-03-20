@@ -1,6 +1,6 @@
 .container {
 
-    padding: 10px;
+    padding: 100px;
 
     .formWrapper {
 
@@ -146,9 +146,33 @@
 
         .formWrapper {
 
-            width: 300px;
+            width: 350px;
 
-            height: 300px;
+            height: 350px;
+        
+            .itemLabel {
+
+                input {
+    
+                    height: 20px;
+        
+                    margin-bottom: 5px;
+        
+                    border: 0;
+                    border-radius: 6px;
+                }
+        
+                input:focus {
+                        
+                    outline: unset;
+                }
+            }
+
+            .switch {
+
+                display: none;
+              
+            }
         }
     }
   

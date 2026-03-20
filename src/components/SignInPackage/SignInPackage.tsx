@@ -165,7 +165,7 @@ const SignIn = () => {
 
           <h1 className={si.formTitle}>{'Вхід'}</h1>
 
-          {formik.errors.email ? <div className={si.formInfo}><Info/><p>{`${formik.errors.email}`}</p></div> : formik.errors.password ? <div className={si.formInfo}><Info/><p>{`${formik.errors.password}`}</p></div> : <RoadSign/>}
+          {formik.errors.email ? <div className={si.formInfo}><Info/><p>{`${formik.errors.email}`}</p></div> : formik.errors.password ? <div className={si.formInfo}><Info/><p>{`${formik.errors.password}`}</p></div> : <RoadSign width='35px' height='35px'/>}
 
           <div className={si.itemLabel}> <label htmlFor="email"></label>
 
