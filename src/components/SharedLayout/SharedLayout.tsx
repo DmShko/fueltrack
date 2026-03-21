@@ -139,7 +139,7 @@ const SharedLayout: FC = () => {
               <div className={sh.time}><p className={sh.today}>{'Today'}</p><p>{newDateObj !== undefined ? `${newDateObj.datedata}.${newDateObj.yeardata} ${newDateObj?.timedata}:${newDateObj.dateSeconds}`: ''}</p></div>
               <DayNight/>
               {!tokenSelector && <ul className={sh.navList}>
-                <li className={sh.navItem} style={location.pathname === '/signIn' ? {color: 'white', borderColor: 'gray'} : {color: 'white'}}>
+                <li className={sh.navItem} style={location.pathname === '/signIn' ? {color: 'white', borderColor: 'gray',} : {color: 'white'}}>
                   <NavLink to={"/signIn"} style={{color: 'white'}}>signIn</NavLink>
                 </li>
                 <li className={sh.navItem} style={location.pathname === '/signUp' ? {color: 'white', borderColor: 'gray'} : {color: 'white'}}>

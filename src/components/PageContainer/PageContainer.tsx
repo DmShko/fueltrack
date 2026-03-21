@@ -45,7 +45,7 @@ const PageContainer: FC<any> = ({ children }) => {
             const checkPoint = Math.pow((pointX - logoRef.current.offsetWidth / 2), 2) + 
             Math.pow((pointY - logoRef.current.offsetHeight / 2), 2)
 
-            if(aroundStaraElement) {
+            if(aroundStaraElement && location.pathname === '/signIn' || location.pathname === '/signUp') {
               
               // radius of '.formWrapper'
               if(checkPoint >  Math.pow((aroundStaraElement.children[0] as HTMLElement).offsetWidth / 2 + 10, 2)) {

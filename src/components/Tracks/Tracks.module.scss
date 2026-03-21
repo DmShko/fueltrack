@@ -1,6 +1,8 @@
 .container {
 
     height: fit-content;
+    
+    width: 85%;
 
     margin: 50px auto;
     padding: 20px;
@@ -135,7 +137,7 @@
             } 
         }
 
-            .monthStatistic {
+        .monthStatistic {
 
             display: flex;
             justify-content: space-between;
@@ -375,4 +377,69 @@ input:focus {
 
     margin: 40% auto;
     animation: rotate-animation 2s linear infinite;
+}
+
+@media (max-width: 480px) {
+
+    .container {
+
+        gap: 20px;
+
+        .currentStatistic {
+
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+            align-items: center;
+
+            
+            .calendarContainer {
+                gap: 50px;
+            }
+
+            gap: 30px;
+
+            .monthStatistic {
+
+             width: 100%;
+
+             }
+            
+        }
+    }
+}
+
+@media screen and (min-width: 480px) and (max-width: 767px) {
+
+   .container {
+
+        gap: 20px;
+
+        .currentStatistic {
+
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+            align-items: center;
+
+            
+            .calendarContainer {
+                gap: 50px;
+            }
+
+            gap: 30px;
+
+            .monthStatistic {
+
+             width: 100%;
+             
+             }
+            
+        }
+    }
+}
+
+
+@media screen and (min-width: 768px) and (max-width: 1439px) {
+   
 }

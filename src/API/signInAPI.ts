@@ -21,8 +21,14 @@ export const singInAPI = createAsyncThunk<SignInRes, SignInArgs, {rejectValue: s
       // ...
     })
     .catch((error) => {
+
+      var  myError = error.response.data.message;
       
-      return rejectWithValue(error.response.data.message)
+      if (!navigator.onLine) {
+        myError='You appear to be online. Or the server is unavailable...';
+}
+      
+      return rejectWithValue(myError)
     });
 });
 

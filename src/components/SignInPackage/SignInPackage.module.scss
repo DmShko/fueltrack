@@ -1,6 +1,6 @@
 .container {
 
-    padding: 100px;
+    padding: 100px 0;
 
     .formWrapper {
 
@@ -138,7 +138,7 @@
 
 }
 
-@media (max-width: 480px) {
+@media (max-width: 479px) {
 
     .container {
 
@@ -178,11 +178,45 @@
   
 }
 
-@media (max-width: 768px) {
-   
+@media screen and (min-width: 480px) and (max-width: 767px) {
+    .container {
+
+        padding: 100px 0;
+
+        .formWrapper {
+
+            width: 350px;
+
+            height: 350px;
+        
+            .itemLabel {
+
+                input {
+    
+                    height: 20px;
+        
+                    margin-bottom: 5px;
+        
+                    border: 0;
+                    border-radius: 6px;
+                }
+        
+                input:focus {
+                        
+                    outline: unset;
+                }
+            }
+
+            .switch {
+
+                display: none;
+              
+            }
+        }
+    }
 }
 
 
-@media (max-width: 1024px) {
+@media screen and (min-width: 768px) and (max-width: 1439px) {
    
 }

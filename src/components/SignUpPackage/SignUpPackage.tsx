@@ -18,6 +18,10 @@ import { changeReVerify } from "../../fuelTrackStore/reVerifySlice";
 // own dispatch hook
 import { useAppDispatch, useAppSelector } from "../../app.hooks"; 
 
+// modals windows
+import TrackModal from "../TrackModal/TrackModal";
+import InfoModal from "../InfoModal/InfoModal";
+
 // images
 import Pointer from '../SvgComponents/Pointer/Pointer';
 import Add from '../SvgComponents/Add/Add';
@@ -38,6 +42,9 @@ const SignUp = () => {
   const lightModeSelector = useAppSelector(state => state.ser.lightMode);
   const languageSelector = useAppSelector(state => state.ser.language);
 
+   // open/close alert modal window
+  const [alertModalToggle, setAlertModalToggle] = useState(false);
+
   const [reVerifyMessage, setReVerifyMessage] = useState('');
 
   useEffect(() => {
@@ -45,6 +52,16 @@ const SignUp = () => {
     if(isLogOutSelector) dispatch(changeSingIn({operation: 'clearToken', data: ''}));
     
   },[isLogOutSelector]);
+
+  useEffect(() => {
+  
+    if(signUpMessageSelector !== '' || logOutMessageSelector !== '') {
+
+      setAlertModalToggle(true);
+
+    };
+    
+  },[signUpMessageSelector, logOutMessageSelector]);
 
   useEffect(() => {
   
@@ -191,9 +208,23 @@ const SignUp = () => {
     return status;
   };
 
+  const openModal = () => {
+
+    // toggle modal window
+    setAlertModalToggle(state => !state);
+      
+  };
+
   return (
     
     <div className={su.container}>
+
+      {alertModalToggle && <TrackModal openClose={openModal}>
+              
+         <InfoModal openClose={openModal} props={{messages: signUpMessageSelector,}}/>
+
+        </TrackModal>
+      }
 
       <div className={su.formWrapper}>
 

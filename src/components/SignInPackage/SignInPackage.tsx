@@ -15,8 +15,12 @@ import singInAPI from "../../API/signInAPI";
 import { useAppDispatch, useAppSelector } from "../../app.hooks"; 
 
 import { changeSingIn } from '../../fuelTrackStore/signInSlice'; 
-import { changeSingUp } from "../../fuelTrackStore/signUpSlice";  
 import { changeLogout } from "../../fuelTrackStore/logOutSlice"; 
+
+// modals windows
+import TrackModal from "../TrackModal/TrackModal";
+import InfoModal from "../InfoModal/InfoModal";
+
 
 // images
 import Info from '../SvgComponents/Info/Info';
@@ -62,23 +66,6 @@ const SignIn = () => {
     if(signInMessageSelector !== '' || logOutMessageSelector !== '') {
 
       setAlertModalToggle(true);
-
-      // clear timer and close modalAlert window
-      const alertHandler = () => {
-
-        // close modalAlert window 
-        setAlertModalToggle(false);
-
-        clearTimeout(timout);
-
-        dispatch(changeSingUp({operation: 'clearMessage', data: ''}));
-        dispatch(changeSingIn({operation: 'clearMessage', data: ''}));
-        dispatch(changeLogout({operation: 'clearMessage', data: ''}));
-
-      };
-
-      // start timer and open modalAlert window
-      const timout = window.setTimeout(alertHandler, 3000);
 
     };
     
@@ -155,9 +142,23 @@ const SignIn = () => {
     return status;
   };
 
+  const openModal = () => {
+
+    // toggle modal window
+    setAlertModalToggle(state => !state);
+      
+  };
+
   return (
     
     <div className={si.container}>
+
+      {alertModalToggle && <TrackModal openClose={openModal}>
+              
+         <InfoModal openClose={openModal} props={{messages: signInMessageSelector,}}/>
+
+        </TrackModal>
+      }
 
       <div className={si.formWrapper}>
 

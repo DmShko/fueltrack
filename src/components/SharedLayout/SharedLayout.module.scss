@@ -86,13 +86,14 @@ header {
 
                 padding: 0 3px;
 
-                border-left: solid 1px rgb(60, 47, 231);
-                border-right: solid 1px rgb(60, 47, 231);
-                border-bottom: solid 2px rgb(60, 47, 231);
+                border-left: solid 3px white;
+                border-right: solid 3px white;
+                border-bottom: solid 2px white;
 
                 border-radius: 0 0 6px 6px;
 
             }
+
         }
 
         .out {
@@ -370,7 +371,7 @@ header {
   
 }
 
-@media screen and (min-width: 481px) and (max-width: 768px) {
+@media screen and (min-width: 480px) and (max-width: 767px) {
 
     header {
 
@@ -387,7 +388,7 @@ header {
 
         height: 100px;
 
-        padding: 0 30px;
+        // padding: 0 30px;
 
         background: linear-gradient(white 70%, #aab1f8 25%);
 
@@ -396,30 +397,24 @@ header {
            display: none;
         }
 
-        .logo {
-
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center; 
-
-            font-size: 25px;
-
-            .logoLeft {
-             margin: 0;
-                // color: rgb(60, 47, 231);
-                color: #aab1f8;
-            }
-
-            .logoRight {
-                // color: rgb(219, 183, 20);
-                color: #aab1f8;
-            }
+        .out {
+            display: none;
         }
 
         .burger {
 
-            display: none;
+            display: flex;
+            justify-content: center;
+            align-items: center; 
+
+            width: fit-content;
+            height: fit-content;
+
+            padding: 0;
+
+            background-color: white;
+
+            border-radius: 0; 
 
         }
 
@@ -430,7 +425,7 @@ header {
 }
 
 
-@media screen and (min-width: 769px) and (max-width: 1439px){
+@media screen and (min-width: 768px) and (max-width: 1439px){
 
        .burger {
 

@@ -612,3 +612,36 @@
         }
 
 }
+
+@media (max-width: 480px) {
+
+    .container {
+
+        .mustOperations {
+
+            .buttonsSet{
+
+                flex-direction: column;
+                justify-content: start;
+
+                p{
+                    justify-content: start;
+                    width: 95%;
+
+                    padding: 0 10px;
+                }
+            }
+        }
+    }
+    
+}
+
+@media screen and (min-width: 480px) and (max-width: 767px) {
+
+   
+}
+
+
+@media screen and (min-width: 768px) and (max-width: 1439px) {
+   
+}
