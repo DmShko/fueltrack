@@ -102,6 +102,13 @@ export interface ActionSignUp {
   
   };
 
+  export interface ActionAddTrack {
+
+    operation: string
+    data: string | boolean
+  
+  };
+
   export interface ActionLogout {
 
     operation: string

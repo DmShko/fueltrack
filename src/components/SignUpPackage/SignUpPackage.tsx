@@ -54,39 +54,25 @@ const SignUp = () => {
   },[isLogOutSelector]);
 
   useEffect(() => {
-  
-    if(signUpMessageSelector !== '' || logOutMessageSelector !== '') {
+
+    if(signUpMessageSelector !== '' || logOutMessageSelector !== '' || reVerifyMessageSelector !== '' || reVerifyMessage != '') {
 
       setAlertModalToggle(true);
 
     };
     
-  },[signUpMessageSelector, logOutMessageSelector]);
-
-  useEffect(() => {
-  
-    if(signUpMessageSelector !== '' || reVerifyMessageSelector !== '' || logOutMessageSelector !== '' || reVerifyMessage != '' || reVerifyMessageSelector !== '') {
-
-      // clear timer and close modalAlert window
-      const alertHandler = () => {
-
-        clearTimeout(timout);
-
-        dispatch(changeSingIn({operation: 'clearMessage', data: ''}));
-        dispatch(changeSingUp({operation: 'clearMessage', data: ''}));
-        dispatch(changeLogout({operation: 'clearMessage', data: ''}));
-        dispatch(changeReVerify({operation: 'clearMessage', data: ''}));
-
-        setReVerifyMessage('');
-
-      };
-
-      // start timer and open modalAlert window
-      const timout = window.setTimeout(alertHandler, 3000);
-
-    };
-    
   },[signUpMessageSelector, logOutMessageSelector, reVerifyMessage, reVerifyMessageSelector]);
+
+  const clearMessages = () => {
+
+      dispatch(changeSingIn({operation: 'clearMessage', data: ''}));
+      dispatch(changeSingUp({operation: 'clearMessage', data: ''}));
+      dispatch(changeLogout({operation: 'clearMessage', data: ''}));
+      dispatch(changeReVerify({operation: 'clearMessage', data: ''}));
+
+      setReVerifyMessage('');
+    
+  };
 
   const errorMessagesTrans = (data: string) => { 
 
@@ -221,7 +207,7 @@ const SignUp = () => {
 
       {alertModalToggle && <TrackModal openClose={openModal}>
               
-         <InfoModal openClose={openModal} props={{messages: signUpMessageSelector,}}/>
+         <InfoModal openClose={openModal} clearMessages ={ () =>  clearMessages()} props={{messages: signUpMessageSelector,}}/>
 
         </TrackModal>
       }

@@ -126,6 +126,7 @@ const SharedLayout: FC = () => {
           <header className={sh.header}>
 
             <div className={sh.container}>
+
               <NavLink to="/"><div className={sh.logo}><p className={sh.logoLeft}>Fuel</p><p className={sh.logoRight}>Track</p><MainLogo height={'40px'}  width={'40px'}/></div></NavLink>
               <ul className={sh.navList}>
                 {tokenSelector && <li className={sh.navItem} style={location.pathname === '/tracks' ? {color: 'white', borderColor: 'gray'} : {color: 'white'}}>
@@ -159,7 +160,7 @@ const SharedLayout: FC = () => {
 
           {modalToggle && <BurgerModal openClose={openModal}>
             { 
-              <BurgerMenu logout={() => logout()}/>
+              <BurgerMenu openClose={openModal} logout={() => logout()}/>
             }
             </BurgerModal>}
     
@@ -170,13 +171,25 @@ const SharedLayout: FC = () => {
           </main>
     
           <footer className={sh.footer}>
-            
-            <div className={sh.contacts}>
-              <Github width={'20px'} className={sh.contactIcon} height={'20px'} onClick={() => window.open('https://www.example.com', '_blank', 'noopener,noreferrer')}/>
-              <Facebook width={'20px'} height={'20px'} className={sh.contactIcon} onClick={() => window.open('https://www.example.com', '_blank', 'noopener,noreferrer')}/>
-              <Instagram width={'20px'} height={'20px'} className={sh.contactIcon} onClick={() => window.open('https://www.example.com', '_blank', 'noopener,noreferrer')}/> 
-              <div className={sh.contactInfo}><Mail width={'20px'} height={'20px'}/> <p>fueltrack2024.service@gmail.com</p> </div>
+            <div className={sh.contactsWrapper}>
+              <div className={sh.contacts}>
+                <Github width={'20px'} className={sh.contactIcon} height={'20px'} onClick={() => window.open('https://www.example.com', '_blank', 'noopener,noreferrer')}/>
+                <Facebook width={'20px'} height={'20px'} className={sh.contactIcon} onClick={() => window.open('https://www.example.com', '_blank', 'noopener,noreferrer')}/>
+                <Instagram width={'20px'} height={'20px'} className={sh.contactIcon} onClick={() => window.open('https://www.example.com', '_blank', 'noopener,noreferrer')}/> 
+              </div >
+
+              <div className={sh.addInfo}>
+
+                <p>Information</p>
+                <p>About</p> 
+
+              </div>
+
+              <div className={sh.addInfoTwo}>
+                
+              </div>
             </div>
+            <div className={sh.contactInfo}><Mail width={'20px'} height={'20px'}/> <p>fueltrack2024.service@gmail.com</p> </div>
             <p className={sh.info}> &#xA9; 2026 fueltrack.</p>
           </footer>
     

@@ -38,17 +38,17 @@ const PageContainer: FC<any> = ({ children }) => {
 
           if (logoRef.current !== null) {
 
-            const pointX = randomGenerator(logoRef.current.offsetWidth - 20, 20);
-            const pointY = randomGenerator(logoRef.current.offsetHeight - 50, 100);
+            const pointX = randomGenerator(window.innerWidth -50, 20);
+            const pointY = randomGenerator(window.innerHeight - 150, 150);
 
             // all points drawing around logIn/Up form only
-            const checkPoint = Math.pow((pointX - logoRef.current.offsetWidth / 2), 2) + 
-            Math.pow((pointY - logoRef.current.offsetHeight / 2), 2)
+            const checkPoint = Math.pow((pointX - (logoRef.current.offsetWidth / 2 - 10)), 2) + 
+            Math.pow((pointY - (logoRef.current.offsetHeight / 2 + 90)), 2)
 
             if(aroundStaraElement && location.pathname === '/signIn' || location.pathname === '/signUp') {
               
               // radius of '.formWrapper'
-              if(checkPoint >  Math.pow((aroundStaraElement.children[0] as HTMLElement).offsetWidth / 2 + 10, 2)) {
+              if(checkPoint >  Math.pow((aroundStaraElement.children[0] as HTMLElement).offsetWidth / 2, 2)) {
 
                 // 'size' for mobile and tab and desk
                 return {

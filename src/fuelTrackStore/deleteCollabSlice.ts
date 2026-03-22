@@ -8,9 +8,8 @@ import { deleteCollabAPIInitialState } from '../types/types';
 const deleteTrackSliceInitialState: deleteCollabAPIInitialState = {
 
   isLoading: false,
-  error: '',
   isDeleted: false,
-
+  message: '',
 };
 
 const deleteCollabSlice = createSlice({
@@ -24,7 +23,7 @@ const deleteCollabSlice = createSlice({
   extraReducers:  
     builder => {
       builder.addCase(deleteCollabAPI.pending, (state) => {
-        state.isLoading = true; state.error = '';
+        state.isLoading = true; state.message = '';
         state.isDeleted = false;
       });
             
@@ -32,6 +31,7 @@ const deleteCollabSlice = createSlice({
 
         state.isLoading = false;
         state.isDeleted = true;
+        state.message = 'Collaborate removed!';
         // some actions with 'action'...
       });
             
@@ -39,7 +39,7 @@ const deleteCollabSlice = createSlice({
                     
         state.isLoading = false;
         state.isDeleted = false;
-        state.error = action.payload as string;
+        state.message = action.payload as string;
         
       });
     },

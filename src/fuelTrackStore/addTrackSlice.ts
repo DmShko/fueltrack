@@ -1,15 +1,16 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import addTrackAPI  from '../API/addTrackAPI';
 
 // types
 import { addTrackInitialState } from '../types/types';
+import { ActionAddTrack } from '../types/authTypes';
 
 const addTrackSliceInitialState: addTrackInitialState = {
 
   isLoading: false,
-  error: '',
-  isAdd: false
+  isAdd: false,
+  message: '',
  
 };
 
@@ -18,13 +19,22 @@ const addTrackSlice = createSlice({
   initialState: addTrackSliceInitialState,
 
   reducers: {
+
+    changeTrack(state, action: PayloadAction<ActionAddTrack>) {
+          switch(action.payload.operation){
+            case 'clearMessage':
+                state.message = '';
+                break;
+            default: break;
+          }
+        },
     
   },
 
   extraReducers:  
     builder => {
       builder.addCase(addTrackAPI.pending, (state) => {
-        state.isLoading = true; state.error = '';
+        state.isLoading = true; state.message = '';
         state.isAdd = false;
       });
             
@@ -32,6 +42,7 @@ const addTrackSlice = createSlice({
 
         state.isLoading = false;
         state.isAdd = true;
+        state.message = 'Day added!';
         // some actions with 'action'...
       });
             
@@ -39,11 +50,15 @@ const addTrackSlice = createSlice({
                     
         state.isLoading = false;
         state.isAdd = false;
-        state.error = action.payload as string;
+        state.message = action.payload as string;
         
       });
     },
   }
 );
+
+export const {
+  changeTrack,
+} = addTrackSlice.actions;
 
 export default addTrackSlice.reducer;

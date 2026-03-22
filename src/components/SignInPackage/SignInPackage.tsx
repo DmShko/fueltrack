@@ -15,7 +15,9 @@ import singInAPI from "../../API/signInAPI";
 import { useAppDispatch, useAppSelector } from "../../app.hooks"; 
 
 import { changeSingIn } from '../../fuelTrackStore/signInSlice'; 
-import { changeLogout } from "../../fuelTrackStore/logOutSlice"; 
+import { changeSingUp } from '../../fuelTrackStore/signUpSlice'; 
+import { changeLogout } from "../../fuelTrackStore/logOutSlice";
+import { changeReVerify } from "../../fuelTrackStore/reVerifySlice"; 
 
 // modals windows
 import TrackModal from "../TrackModal/TrackModal";
@@ -70,6 +72,15 @@ const SignIn = () => {
     };
     
   },[signInMessageSelector, logOutMessageSelector]);
+
+  const clearMessages = () => {
+  
+        dispatch(changeSingIn({operation: 'clearMessage', data: ''}));
+        dispatch(changeSingUp({operation: 'clearMessage', data: ''}));
+        dispatch(changeLogout({operation: 'clearMessage', data: ''}));
+        dispatch(changeReVerify({operation: 'clearMessage', data: ''}));
+ 
+  };
 
   const errorMessagesTrans = (data: string) => { 
 
@@ -155,7 +166,7 @@ const SignIn = () => {
 
       {alertModalToggle && <TrackModal openClose={openModal}>
               
-         <InfoModal openClose={openModal} props={{messages: signInMessageSelector,}}/>
+         <InfoModal openClose={openModal} clearMessages ={ () =>  clearMessages()} props={{messages: signInMessageSelector,}}/>
 
         </TrackModal>
       }

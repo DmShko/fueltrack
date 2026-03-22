@@ -26,6 +26,7 @@ import { changeSelected } from '../../fuelTrackStore/getCollabsByIdSlice';
 import { changeSelectedCollabDay } from '../../fuelTrackStore/getTracksCollabSlice';
 import { changeSingUp } from '../../fuelTrackStore/signUpSlice.ts';
 
+
 // modals windows
 import TrackModal from "../TrackModal/TrackModal";
 import InfoModal from "../InfoModal/InfoModal";
@@ -72,6 +73,7 @@ const Collaborators = () => {
     const collabCurrentDaySelector = useAppSelector(state => state.getTracksCollab.selectedCollabDay);
     const collabIsAddSelector = useAppSelector(state => state.signUp.isSignUp);
     const collabIsDeleted = useAppSelector(state => state.delCollab.isDeleted);
+    const signUpMessageSelector = useAppSelector(state => state.signUp.message);
 
     const collabsAre = Array.isArray(collabsSelector) && collabsSelector.length !== 0;
     const collabTracksAre = Array.isArray(collabTracksSelector) && collabTracksSelector.length !== 0;
@@ -307,7 +309,7 @@ const Collaborators = () => {
 
     const deleteCollab = (evt: React.MouseEvent<HTMLButtonElement>) => {
 
-       // toggle modal window
+      // toggle modal window
       setModalToggle(state => !state);
 
       if(evt !== undefined) setButtonClickName(evt.currentTarget.name);
@@ -356,15 +358,21 @@ const Collaborators = () => {
     
     };
 
+    const clearMessages = () => {
+      
+      dispatch(changeSingUp({operation: 'clearMessage', data: ''}));
+     
+    };
+
     const modalSelect = () => {
 
      switch(buttonClickName) {
           case 'userMinus':
             return <ErrorModal openClose={openModal} action={() => deleteCollabFIFO(collabsSelector)} props={{messages: 'Are you sure you want to delete?', buttonName: buttonClickName,}} />
           case 'userPlus':
-            return <InfoModal openClose={openModal} props={{messages: 'Passwords do not match!',}} />;
+            return <InfoModal clearMessages ={ () =>  clearMessages()} openClose={openModal} props={{messages: signUpMessageSelector,}} />;
           case 'success':
-            return <InfoModal openClose={openModal} props={{messages: 'Employee added successfully)',}} />;
+            return <InfoModal clearMessages ={ () =>  clearMessages()} openClose={openModal} props={{messages: signUpMessageSelector,}} />;
           default:
             break; 
         }
@@ -392,7 +400,6 @@ const Collaborators = () => {
                       value={formik.values.colabsBuffer}
                       placeholder="Colaborator's: email_name_password_repeatpassword email_..."></textarea>
 
-             
               <button className={co.userPlus} onClick={() => setButtonClickName('userPlus')} name='userPlus' type="submit" title='userPlus' disabled={formik.errors.colabsBuffer === '' ? true : false}><UserPlus width={'20px'} height={'20px'}/></button>
               
           </form>
@@ -429,6 +436,7 @@ const Collaborators = () => {
         </div>
 
         <div className={co.collabs}>
+
           <ul className={co.collabsList}>
           { collabsAre && collabsSelector.map(element => {
             return element.name.toLocaleLowerCase().includes(serachCollabs) || element.email.toLocaleLowerCase().includes(serachCollabs) ?

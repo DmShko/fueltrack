@@ -36,6 +36,7 @@ import CurrentUserLogo from '../SvgComponents/CurrentUserLogo/CurrentUserLogo.ts
 import { useAppDispatch } from "../../app.hooks"; 
 
 import { tracks } from '../../fuelTrackStore/getTrackSlice.ts'
+import { changeTrack } from '../../fuelTrackStore/addTrackSlice.ts'
 
 import { nanoid } from 'nanoid';
 
@@ -59,6 +60,7 @@ const Tracks: FC = () => {
   const [buttonClickName, setButtonClickName ]= useState('');
 
   const tokenSelector = useAppSelector(state => state.signIn.token);
+  const addTrackMessage = useAppSelector(state => state.addTrack.message);
   const userNameSelector = useAppSelector(state => state.signIn.name);
   const isLoadingSelector = useAppSelector(state => state.signIn.isLoading);
   const deletedSelector = useAppSelector(state => state.delTrack.isDeleted);
@@ -115,6 +117,13 @@ const Tracks: FC = () => {
 
   useEffect(() => {
 
+    if(addTrackMessage !== '') setModalToggle(true);
+    setButtonClickName('new')
+
+  },[addTrackMessage,]);
+
+  useEffect(() => {
+
     if(tokenSelector !== '') {
       dispatch(getTrackAPI({token: tokenSelector}));
     };
@@ -165,6 +174,12 @@ const Tracks: FC = () => {
 
   };
 
+  const clearMessages = () => {
+    
+    dispatch(changeTrack({operation: 'clearMessage', data: ''}));
+   
+  };
+
   const modalSelect = () => {
 
      switch(buttonClickName) {
@@ -174,7 +189,7 @@ const Tracks: FC = () => {
             return <ModalMain openClose={openModal} buttonName={buttonClickName} elementName={selectedDaySelector} value={value} selectedId={selectedDaySelector._id}/>
           case 'new':
             return !selectedDaySelector.selected ? <ModalMain openClose={openModal} buttonName={buttonClickName} elementName={selectedDaySelector} value={value} selectedId={selectedDaySelector._id}/> :
-            <InfoModal openClose={openModal} props={{messages: 'You cannot create an entry because something is already selected!',}} />;
+            <InfoModal clearMessages ={ () =>  clearMessages()} openClose={openModal} props={{messages: 'You cannot create an entry because something is already selected!',}} />;
           default:
             return null;
         }

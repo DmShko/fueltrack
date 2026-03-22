@@ -1,6 +1,6 @@
 import { FC, PropsWithChildren, } from "react";
 
-import { NavLink, Outlet, useNavigate, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 // types import
 import { BurgerModalPropsTypes } from '../../../types/types.ts'
@@ -10,35 +10,41 @@ import { useAppSelector } from "../../../app.hooks";
 
 import OpenSpace from '../../SvgComponents/OpenSpace/OpenSpace';
 
+// images
+import Arrow from '../../SvgComponents/Arrow/Arrow';
+
 // styles
 import bm from './BurgerMenu.module.scss'
 
-const BurgerMenu: FC<PropsWithChildren<BurgerModalPropsTypes>> = ({ logout }) => {
+const BurgerMenu: FC<PropsWithChildren<BurgerModalPropsTypes>> = ({ openClose, logout }) => {
 
   const tokenSelector = useAppSelector(state => state.signIn.token);
 
-  return (
-    <div>
+  const closeMenu = () => {
 
-        <ul className={bm.navList}>
+    logout();
+    openClose();
+
+  };
+
+  return (
+
+    <div className={bm.container}>
+
+        {tokenSelector && <ul className={bm.navList}>
+               <ul className={bm.navList}>
                 {tokenSelector && <li className={bm.navItem} style={location.pathname === '/tracks' ? {color: 'white', borderColor: 'gray'} : {color: 'white'}}>
                   <NavLink to={"/tracks"} style={{color: 'white'}}>tracks</NavLink>
                 </li>}
                 <li className={bm.navItem} style={location.pathname === '/information' ? {color: 'white', borderColor: 'gray'} : {color: 'white'}}>
                   <NavLink to={"/information"} style={{color: 'white'}}>information</NavLink>
                 </li>
-        </ul>
-
-        {!tokenSelector && <ul className={bm.navList}>
-                <li className={bm.navItem} style={location.pathname === '/signIn' ? {color: 'white', borderColor: 'gray'} : {color: 'white'}}>
-                  <NavLink to={"/signIn"} style={{color: 'white'}}>signIn</NavLink>
-                </li>
-                <li className={bm.navItem} style={location.pathname === '/signUp' ? {color: 'white', borderColor: 'gray'} : {color: 'white'}}>
-                  <NavLink to={"/signUp"} style={{color: 'white'}}>signUp</NavLink>
-                </li>
+              </ul>
         </ul>}
 
-        {tokenSelector && <button className={bm.out} type="button" onClick={() => logout}><OpenSpace width={'40px'} height={'40px'} fill="white"/></button>
+        <h1 className={bm.outTitle}>Exit</h1>
+        <Arrow width='20px' height='20px'/>
+        {tokenSelector && <button className={bm.out} type="button" onClick={() => closeMenu()}><OpenSpace width={'40px'} height={'40px'} fill="white"/></button>
         }
        
     </div>

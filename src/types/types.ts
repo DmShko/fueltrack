@@ -94,7 +94,7 @@ export interface PutTrackArgs {
 export interface addTrackInitialState {
     isLoading: boolean
     isAdd: boolean
-    error: string
+    message: string
 };
 
 export interface deleteTrackInitialState {
@@ -106,7 +106,7 @@ export interface deleteTrackInitialState {
 export interface deleteCollabAPIInitialState {
     isLoading: boolean
     isDeleted: boolean
-    error: string
+    message: string
 };
 
 export interface patchTrackInitialState {
@@ -205,9 +205,11 @@ export interface ErrorModalPropsTypes {
 
 export interface BurgerModalPropsTypes {
    logout: Function
+   openClose: Function
 }
 
 export interface InfoModalPropsTypes {
    openClose: Function
+   clearMessages: Function
    props: {messages: string,}
 }
