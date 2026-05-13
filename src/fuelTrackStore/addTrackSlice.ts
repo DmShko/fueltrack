@@ -20,10 +20,13 @@ const addTrackSlice = createSlice({
 
   reducers: {
 
-    changeTrack(state, action: PayloadAction<ActionAddTrack>) {
+    changeAddTrack(state, action: PayloadAction<ActionAddTrack>) {
           switch(action.payload.operation){
             case 'clearMessage':
                 state.message = '';
+                break;
+            case 'clearIsAdd':
+                state.isAdd = false;
                 break;
             default: break;
           }
@@ -58,7 +61,7 @@ const addTrackSlice = createSlice({
 );
 
 export const {
-  changeTrack,
+  changeAddTrack,
 } = addTrackSlice.actions;
 
 export default addTrackSlice.reducer;

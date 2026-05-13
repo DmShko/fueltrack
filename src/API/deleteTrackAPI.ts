@@ -20,13 +20,14 @@ export const deleteTrackAPI = createAsyncThunk<any, DeleteTrackArgs,{rejectValue
    return await axios.delete<string, any>(`${URL}?id=${arg.id}`, config)
     .then((res) => {
       // Signed up 
+    
       return res;
       // ...
     })
     .catch((error) => {
     
       if(error.response !== undefined) {
- 
+        
         return rejectWithValue(error.response.data.message);
       } else {
         return rejectWithValue(error.message);

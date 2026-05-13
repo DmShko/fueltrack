@@ -100,7 +100,7 @@ export interface addTrackInitialState {
 export interface deleteTrackInitialState {
     isLoading: boolean
     isDeleted: boolean
-    error: string
+    message: string
 };
 
 export interface deleteCollabAPIInitialState {
@@ -210,6 +210,7 @@ export interface BurgerModalPropsTypes {
 
 export interface InfoModalPropsTypes {
    openClose: Function
+   clearIs: Function
    clearMessages: Function
    props: {messages: string,}
 }

@@ -1,0 +1,25 @@
+.comtainer {
+
+    display: flex;
+    justify-content: start;
+    align-items: center;
+
+    width: 90px;
+
+    border: solid 2px lightgray;
+
+    border-radius: 50px;
+
+    .name {
+
+        margin: 0;
+        padding: 0;
+
+    }
+}
+
+.comtainer:hover {
+
+    cursor: pointer;
+
+}

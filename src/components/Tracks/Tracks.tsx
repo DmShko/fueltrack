@@ -36,7 +36,8 @@ import CurrentUserLogo from '../SvgComponents/CurrentUserLogo/CurrentUserLogo.ts
 import { useAppDispatch } from "../../app.hooks"; 
 
 import { tracks } from '../../fuelTrackStore/getTrackSlice.ts'
-import { changeTrack } from '../../fuelTrackStore/addTrackSlice.ts'
+import { changeAddTrack } from '../../fuelTrackStore/addTrackSlice.ts'
+import { changeDelTrack } from '../../fuelTrackStore/deleteTrackSlice.ts'
 
 import { nanoid } from 'nanoid';
 
@@ -61,12 +62,14 @@ const Tracks: FC = () => {
 
   const tokenSelector = useAppSelector(state => state.signIn.token);
   const addTrackMessage = useAppSelector(state => state.addTrack.message);
+  const deleteTrackMessage = useAppSelector(state => state.delTrack.message);
   const userNameSelector = useAppSelector(state => state.signIn.name);
   const isLoadingSelector = useAppSelector(state => state.signIn.isLoading);
   const deletedSelector = useAppSelector(state => state.delTrack.isDeleted);
   const addSelector = useAppSelector(state => state.addTrack.isAdd);
   const tracksSelector = useAppSelector(state => state.getTrack.fuelDays);
   const selectedDaySelector = useAppSelector(state => state.getTrack.selectedDay);
+  const languageSelector = useAppSelector(state => state.ser.language);
 
   // open/close modal window
   const [modalToggle, setModalToggle] = useState(false);
@@ -78,49 +81,66 @@ const Tracks: FC = () => {
 
   useEffect(() => {
 
-    const cleanupTracks = (tarckId: string) => {
+    const cleanupTracks  = async () => {
+                                //^tarckId: string
+ 
+      // cleanupTracks
+    if(tracksSelector.length != 0 && tokenSelector !== '') {
 
-      dispatch(deleteTrackAPI({token: tokenSelector, id: tarckId}));
+      const currentDateIndex = shortMonthsEN.indexOf(`${activeMonth?.toString().split(' ')[1]}`);
+
+        for(const d in tracksSelector) {
+         
+          if(currentDateIndex - 2 >= 0) {
+    
+            if((shortMonthsEN.indexOf(tracksSelector[d].date.split(' ')[1]) <= currentDateIndex - 2) || (shortMonthsEN.indexOf(tracksSelector[d].date.split(' ')[1]) > currentDateIndex)) {
+                //cleanupTracks(tracksSelector[d]._id);
+                
+                await dispatch(deleteTrackAPI({token: tokenSelector, id: tracksSelector[d]._id}));
+                
+                dispatch(tracks({mode: 'clearSelectedTrack', data: {id: tracksSelector[d]._id, value: false}}));
+            }
+              
+          }
+          else {
+
+            const prevMonthIdx = currentDateIndex === 0 ? 11 : currentDateIndex - 1;
+
+           
+              if (shortMonthsEN.indexOf(tracksSelector[d].date.split(' ')[1]) !== currentDateIndex && shortMonthsEN.indexOf(tracksSelector[d].date.split(' ')[1]) !== prevMonthIdx) {
+                await dispatch(deleteTrackAPI({ token: tokenSelector, id: tracksSelector[d]._id }));
+                dispatch(tracks({ mode: 'clearSelectedTrack', data: { id: tracksSelector[d]._id, value: false } }));
+              }
+
+          };
+
+        };
+        
+
+      };
+        //dispatch(deleteTrackAPI({token: tokenSelector, id: tarckId}));
 
     };
     
-     // cleanupTracks
-    if(tracksSelector.length != 0 && tokenSelector !== '') {
-
-      const currentDateIndex = shortMonthsEN.indexOf(`${new Date()?.toString().split(' ')[1]}`);
-
-      for(const d in tracksSelector) {
-
-        if(currentDateIndex - 2 >= 0) {
-
-          if(tracksSelector[d].date.split(' ')[1] === shortMonthsEN[shortMonthsEN.indexOf(`${new Date()?.toString().split(' ')[1]}`) - 2]) {
-              cleanupTracks(tracksSelector[d]._id);
-              dispatch(tracks({mode: 'clearSelectedTrack', data: {id: tracksSelector[d]._id, value: false}}));
-          }
-            
-        }else {
-
-          if(tracksSelector[d].date.split(' ')[1] === shortMonthsEN[shortMonthsEN.length - 1]) {
-            
-              cleanupTracks(tracksSelector[d]._id);
-              dispatch(tracks({mode: 'clearSelectedTrack', data: {id: tracksSelector[d]._id, value: false}}));
-          }
-
-        };
-
-      };
-      
-
-    };
+    cleanupTracks();
 
   },[tokenSelector,]);
 
+  // add trak info
   useEffect(() => {
 
     if(addTrackMessage !== '') setModalToggle(true);
-    setButtonClickName('new')
+    setButtonClickName('resault');
 
-  },[addTrackMessage,]);
+  },[addSelector,]);
+
+  // delete trak info
+  useEffect(() => {
+
+    if(deleteTrackMessage !== '') setModalToggle(true);
+    setButtonClickName('resault');
+
+  },[deletedSelector,]);
 
   useEffect(() => {
 
@@ -136,6 +156,7 @@ const Tracks: FC = () => {
   }
 
   const openModal = (evt: React.MouseEvent<HTMLButtonElement>) => {
+
     // toggle modal window
     setModalToggle(state => !state);
     if(evt !== undefined) setButtonClickName(evt.currentTarget.name);
@@ -169,14 +190,28 @@ const Tracks: FC = () => {
 
   const deleteTrack = () => {
       
-            dispatch(tracks({mode: 'selectedTrack', data: {id: selectedDaySelector?._id, value: false}}));
-            dispatch(deleteTrackAPI({id: selectedDaySelector?._id, token: tokenSelector}));
+      dispatch(tracks({mode: 'selectedTrack', data: {id: selectedDaySelector?._id, value: false}}));
+      dispatch(deleteTrackAPI({id: selectedDaySelector?._id, token: tokenSelector}));
 
   };
 
   const clearMessages = () => {
     
-    dispatch(changeTrack({operation: 'clearMessage', data: ''}));
+    if (addTrackMessage !== '') 
+      dispatch(changeAddTrack({operation: 'clearMessage', data: ''}));
+
+    if (deleteTrackMessage !== '') 
+      dispatch(changeDelTrack({operation: 'clearMessage', data: ''}));
+   
+  };
+
+  const clearIs = () => {
+    
+    if (addSelector) 
+      dispatch(changeAddTrack({operation: 'clearIsAdd', data: ''}));
+
+    if (deletedSelector) 
+      dispatch(changeDelTrack({operation: 'clearIsDel', data: ''}));
    
   };
 
@@ -189,7 +224,10 @@ const Tracks: FC = () => {
             return <ModalMain openClose={openModal} buttonName={buttonClickName} elementName={selectedDaySelector} value={value} selectedId={selectedDaySelector._id}/>
           case 'new':
             return !selectedDaySelector.selected ? <ModalMain openClose={openModal} buttonName={buttonClickName} elementName={selectedDaySelector} value={value} selectedId={selectedDaySelector._id}/> :
-            <InfoModal clearMessages ={ () =>  clearMessages()} openClose={openModal} props={{messages: 'You cannot create an entry because something is already selected!',}} />;
+            <InfoModal clearMessages ={ () =>  clearMessages()}  openClose={openModal} clearIs ={ () =>  clearIs()} props={{messages: 'You cannot create an entry because something is already selected!',}} />;
+          case 'resault':
+            return addSelector ? <InfoModal clearMessages ={ () =>  clearMessages()}  openClose={openModal} clearIs ={ () =>  clearIs()} props={{messages: addTrackMessage,}} /> :
+            <InfoModal clearMessages ={ () =>  clearMessages()}  openClose={openModal} clearIs ={ () =>  clearIs()}   props={{messages: deleteTrackMessage,}} />; 
           default:
             return null;
         }
@@ -253,9 +291,9 @@ const Tracks: FC = () => {
 
           <div className={tr.dashboard}>
 
-            <button className={tr.newButt} name='new' onClick={openModal} style={selectedDaySelector.selected === false ? {backgroundColor: '#aab1f8',} : {backgroundColor: 'lightgray'}}>New</button>
-            <button name='change' onClick={openModal} disabled={selectedDaySelector.selected ? false : true} style={selectedDaySelector.selected !== false ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'lightgray'}}>Change</button>
-            <button name='delete' onClick={deleteElement} disabled={selectedDaySelector.selected ? false : true} style={selectedDaySelector.selected !== false ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'lightgray'}}>Delete</button>
+            <button className={tr.newButt} name= 'new' onClick={openModal} style={selectedDaySelector.selected === false ? {backgroundColor: '#aab1f8',} : {backgroundColor: 'lightgray'}}>{languageSelector === 'En' ? 'New': 'Новий'}</button>
+            <button name='change' onClick={openModal} disabled={selectedDaySelector.selected ? false : true} style={selectedDaySelector.selected !== false ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'lightgray'}}>{languageSelector === 'En' ? 'Change': 'Змінити'}</button>
+            <button name='delete' onClick={deleteElement} disabled={selectedDaySelector.selected ? false : true} style={selectedDaySelector.selected !== false ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'lightgray'}}>{languageSelector === 'En' ? 'Delete': 'Видалити'}</button>
             
           </div>
 
@@ -270,16 +308,16 @@ const Tracks: FC = () => {
                 return <li className={tr.item} id={element._id}  key={nanoid()} onClick={searchDay}
                 style={searchSelected(element._id) ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'lightgray'}}>{element.date.split(' ')[2]}</li>
 
-            }): 'no tracks'}
+            }): languageSelector === 'En' ? 'no tracks': 'Немає доріжок'}
           </ul>
         
-            <div className={tr.parameter}><GasStation width='50px'/><p className={tr.value}>{selectedDaySelector.selected? selectedDaySelector?.liters : ''}</p><p>L</p></div>
-            <div className={tr.parameter}><Distance width='50px'/><p className={tr.value}>{selectedDaySelector.selected? selectedDaySelector?.km : ''}</p><p>KM</p></div>
-            <div className={tr.parameter}><Mark width='50px'/><p className={tr.value}>{selectedDaySelector.selected? selectedDaySelector?.marck : ''}</p><p>Type</p></div>
-            <div className={tr.parameter}><Burn width='50px'/><p className={tr.value}>{selectedDaySelector.selected? selectedDaySelector?.burn : ''}</p><p>L</p></div>
+            <div className={tr.parameter}><GasStation width='50px'/><p className={tr.value}>{selectedDaySelector.selected? selectedDaySelector?.liters : ''}</p><p>{languageSelector === 'En' ? "L": 'Літри'}</p></div>
+            <div className={tr.parameter}><Distance width='50px'/><p className={tr.value}>{selectedDaySelector.selected? selectedDaySelector?.km : ''}</p><p>{languageSelector === 'En' ? "KM": 'КМ'}</p></div>
+            <div className={tr.parameter}><Mark width='50px'/><p className={tr.value}>{selectedDaySelector.selected? selectedDaySelector?.marck : ''}</p><p>{languageSelector === 'En' ? "Type": 'Марка'}</p></div>
+            <div className={tr.parameter}><Burn width='50px'/><p className={tr.value}>{selectedDaySelector.selected? selectedDaySelector?.burn : ''}</p><p>{languageSelector === 'En' ? "L": 'Літри'}</p></div>
             <div className={tr.parameter}><Rest width='50px'/><p className={tr.rest}>{selectedDaySelector.selected? selectedDaySelector?.liters !== undefined && selectedDaySelector?.burn !== undefined ?
-              (Number(selectedDaySelector?.liters) - Number(selectedDaySelector?.burn)).toString() : '' : ''}</p><p>L</p></div>
-            <div className={tr.parameter}><Wallet width='50px'/><p className={tr.value}>{selectedDaySelector.selected? selectedDaySelector?.price : ''}</p><p>$</p></div>
+              (Number(selectedDaySelector?.liters) - Number(selectedDaySelector?.burn)).toString() : '' : ''}</p><p>{languageSelector === 'En' ? "L": 'Літри'}</p></div>
+            <div className={tr.parameter}><Wallet width='50px'/><p className={tr.value}>{selectedDaySelector.selected? selectedDaySelector?.price : ''}</p><p>{languageSelector === 'En' ? "$": 'гр'}</p></div>
             <div className={tr.parameter}><Card width='50px'/><p className={tr.value}>{selectedDaySelector.selected? selectedDaySelector?.pay : ''}</p><p></p></div> 
           
         </div>

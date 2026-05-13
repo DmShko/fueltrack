@@ -17,6 +17,7 @@ import { changeSingIn }  from '../../fuelTrackStore/signInSlice';
 import DayNight  from '../DayNight/DayNight';
 import BurgerMenu from "./BurgerMenu/BurgerMenu.tsx";
 import BurgerModal from "./BurgerModal/BurgerModal.tsx";
+import LangToggle from "../LangToggle/LangToggle.tsx";
 
 // images
 // import BallOfWool from '../SvgComponents/Logo/BallOfWool';
@@ -36,6 +37,7 @@ const SharedLayout: FC = () => {
 
     const tokenSelector = useAppSelector(state => state.signIn.token);
     const isLogOutSelector = useAppSelector(state => state.logOut.isLogout);
+    const languageSelector = useAppSelector(state => state.ser.language);
 
     // open/close modal window
     const [modalToggle, setModalToggle] = useState(false);
@@ -130,21 +132,25 @@ const SharedLayout: FC = () => {
               <NavLink to="/"><div className={sh.logo}><p className={sh.logoLeft}>Fuel</p><p className={sh.logoRight}>Track</p><MainLogo height={'40px'}  width={'40px'}/></div></NavLink>
               <ul className={sh.navList}>
                 {tokenSelector && <li className={sh.navItem} style={location.pathname === '/tracks' ? {color: 'white', borderColor: 'gray'} : {color: 'white'}}>
-                  <NavLink to={"/tracks"} style={{color: 'white'}}>tracks</NavLink>
+                  <NavLink to={"/tracks"} style={{color: 'white'}}>{languageSelector === 'En' ? 'tracks': 'треки'}</NavLink>
                 </li>}
                 <li className={sh.navItem} style={location.pathname === '/information' ? {color: 'white', borderColor: 'gray'} : {color: 'white'}}>
-                  <NavLink to={"/information"} style={{color: 'white'}}>information</NavLink>
+                  <NavLink to={"/information"} style={{color: 'white'}}>{languageSelector === 'En' ? 'information': 'інформація'}</NavLink>
                 </li>
               </ul>
 
               <div className={sh.time}><p className={sh.today}>{'Today'}</p><p>{newDateObj !== undefined ? `${newDateObj.datedata}.${newDateObj.yeardata} ${newDateObj?.timedata}:${newDateObj.dateSeconds}`: ''}</p></div>
+              
+              <LangToggle/>
+              
               <DayNight/>
+              
               {!tokenSelector && <ul className={sh.navList}>
                 <li className={sh.navItem} style={location.pathname === '/signIn' ? {color: 'white', borderColor: 'gray',} : {color: 'white'}}>
-                  <NavLink to={"/signIn"} style={{color: 'white'}}>signIn</NavLink>
+                  <NavLink to={"/signIn"} style={{color: 'white'}}>{languageSelector === 'En' ? 'signIn': 'Увійти'}</NavLink>
                 </li>
                 <li className={sh.navItem} style={location.pathname === '/signUp' ? {color: 'white', borderColor: 'gray'} : {color: 'white'}}>
-                  <NavLink to={"/signUp"} style={{color: 'white'}}>signUp</NavLink>
+                  <NavLink to={"/signUp"} style={{color: 'white'}}>{languageSelector === 'En' ? 'signUp': 'Створити'}</NavLink>
                 </li>
               </ul> 
               }
@@ -180,8 +186,8 @@ const SharedLayout: FC = () => {
 
               <div className={sh.addInfo}>
 
-                <p>Information</p>
-                <p>About</p> 
+                <p>{languageSelector === 'En' ? 'Information': 'Інформація'}</p>
+                <p>{languageSelector === 'En' ? 'About resource': 'Про ресурс'}</p> 
 
               </div>
 

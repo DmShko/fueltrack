@@ -175,7 +175,7 @@ const SignIn = () => {
 
         <form onSubmit={formik.handleSubmit}>
 
-          <h1 className={si.formTitle}>{'Вхід'}</h1>
+          <h1 className={si.formTitle}>{languageSelector === 'En'? "SingIn" : "Вхід"}</h1>
 
           {formik.errors.email ? <div className={si.formInfo}><Info/><p>{`${formik.errors.email}`}</p></div> : formik.errors.password ? <div className={si.formInfo}><Info/><p>{`${formik.errors.password}`}</p></div> : <RoadSign width='35px' height='35px'/>}
 
@@ -187,7 +187,7 @@ const SignIn = () => {
             type="text"
             onChange={formik.handleChange}
             value={formik.values.email}
-            placeholder="Your email"
+            placeholder={languageSelector === 'En'? "Your email" : "Ваша пошта"}
             style={formik.errors.email ? lightModeSelector === 'dark' ?  {backgroundColor: 'rgb(39, 29, 92)', outline: 'solid 1px lightcoral'} : {backgroundColor: 'white', outline: 'solid 1px lightcoral'} 
             : lightModeSelector === 'dark' ?  {backgroundColor: 'rgb(39, 29, 92)', outline: 'none'} : {backgroundColor: 'white', outline: 'none'}}
           />
@@ -200,7 +200,7 @@ const SignIn = () => {
             type="password"
             onChange={formik.handleChange}
             value={formik.values.password}
-            placeholder="Password"
+            placeholder={languageSelector === 'En'? "Password" : "Пароль"}
             style={formik.errors.password ? lightModeSelector === 'dark' ?  {backgroundColor: 'rgb(39, 29, 92)', outline: 'solid 1px lightcoral'} : {backgroundColor: 'white', outline: 'solid 1px lightcoral'} 
               : lightModeSelector === 'dark' ?  {backgroundColor: 'rgb(39, 29, 92)', outline: 'none'} : {backgroundColor: 'white', outline: 'none'}}
           />
@@ -210,7 +210,7 @@ const SignIn = () => {
 
         </form>
 
-        <p className={si.switch} onClick={() => navigate('/signUp')}>{'Створити'}</p>
+        <p className={si.switch} onClick={() => navigate('/signUp')}>{languageSelector === 'En'? "SingUp" : "Створити"}</p>
 
       </div>
 

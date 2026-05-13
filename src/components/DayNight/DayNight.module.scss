@@ -5,7 +5,13 @@
     justify-content: space-between;
     align-items: center;
 
+    width: 90px;
+
     gap: 4px;
+
+    border: solid 2px lightgray;
+
+    border-radius: 50px;
 
     .day{
 
@@ -20,7 +26,7 @@
 
         border-radius: 50px 0 0 50px;
 
-        background-color: lightgray;
+        background-color: rgb(61, 61, 61);
     }
 
     .night{
@@ -36,7 +42,7 @@
 
         border-radius: 0 50px 50px 0;
 
-        background-color: lightgray;
+        background-color: rgb(61, 61, 61);
     }
 
 }

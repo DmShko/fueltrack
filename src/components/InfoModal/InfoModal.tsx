@@ -9,11 +9,12 @@ import { InfoModalPropsTypes } from '../../types/types.ts';
 //styles
 import info from './InfoModal.module.scss';
 
-const InfoModal: FC<PropsWithChildren<InfoModalPropsTypes>> = ({openClose, clearMessages, props}) => {
+const InfoModal: FC<PropsWithChildren<InfoModalPropsTypes>> = ({openClose, clearIs, clearMessages, props}) => {
 
 const buttonClick = () => {
-    openClose();
     clearMessages();
+    openClose();
+    clearIs();
 };
 
 return (

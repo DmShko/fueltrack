@@ -216,7 +216,7 @@ const SignUp = () => {
 
         <form onSubmit={formik.handleSubmit}>
 
-          <h1 className={su.formTitle}>{'Реєстрація'}</h1>
+          <h1 className={su.formTitle}>{languageSelector === 'En'? "SingUp" : "Реєстрація"}</h1>
 
           {formik.errors.company ? <div className={su.formInfo}><Info/><p>{`${formik.errors.company}`}</p></div> : formik.errors.name ? <div className={su.formInfo}><Info/><p>{`${formik.errors.name}`}</p></div> : formik.errors.email ? <div className={su.formInfo}><Info/><p>{`${formik.errors.email}`}</p></div> : formik.errors.password ? <div className={su.formInfo}><Info/><p>{`${formik.errors.password}`}</p></div> : formik.errors.repeatPassword ? <div className={su.formInfo}><Info/><p>{`${formik.errors.repeatPassword}`}</p></div> : <RoadSign width='35px' height='35px'/>}
 
@@ -227,7 +227,7 @@ const SignUp = () => {
               type="text"
               onChange={formik.handleChange}
               value={formik.values.company}
-              placeholder="Company name"
+              placeholder={languageSelector === 'En'? "Company name" : "Ім'я компанії"}
               style={formik.errors.company ? lightModeSelector === 'dark' ?  {backgroundColor: 'rgb(39, 29, 92)', outline: 'solid 1px lightcoral'} : {backgroundColor: 'white', outline: 'solid 1px lightcoral'} 
               : lightModeSelector === 'dark' ?  {backgroundColor: 'rgb(39, 29, 92)', outline: 'none'} : {backgroundColor: 'white', outline: 'none'}}
             />   
@@ -240,7 +240,7 @@ const SignUp = () => {
               type="text"
               onChange={formik.handleChange}
               value={formik.values.name}
-              placeholder="Your name"
+              placeholder={languageSelector === 'En'? "Your name" : "Ваше ім'я"}
               style={formik.errors.name ? lightModeSelector === 'dark' ?  {backgroundColor: 'rgb(39, 29, 92)', outline: 'solid 1px lightcoral'} : {backgroundColor: 'white', outline: 'solid 1px lightcoral'} 
               : lightModeSelector === 'dark' ?  {backgroundColor: 'rgb(39, 29, 92)', outline: 'none'} : {backgroundColor: 'white', outline: 'none'}}
             />   
@@ -254,7 +254,7 @@ const SignUp = () => {
             type="text"
             onChange={formik.handleChange}
             value={formik.values.email}
-            placeholder="Your email"
+            placeholder={languageSelector === 'En'? "Your email" : "Ваша пошта"}
             style={formik.errors.email ? lightModeSelector === 'dark' ?  {backgroundColor: 'rgb(39, 29, 92)', outline: 'solid 1px lightcoral'} : {backgroundColor: 'white', outline: 'solid 1px lightcoral'} 
               : lightModeSelector === 'dark' ?  {backgroundColor: 'rgb(39, 29, 92)', outline: 'none'} : {backgroundColor: 'white', outline: 'none'}}
           />
@@ -272,7 +272,7 @@ const SignUp = () => {
             type="password"
             onChange={formik.handleChange}
             value={formik.values.password}
-            placeholder="Password"
+            placeholder={languageSelector === 'En'? "Password" : "Пароль"}
             style={formik.errors.password ? lightModeSelector === 'dark' ?  {backgroundColor: 'rgb(39, 29, 92)', outline: 'solid 1px lightcoral'} : {backgroundColor: 'white', outline: 'solid 1px lightcoral'} 
               : lightModeSelector === 'dark' ?  {backgroundColor: 'rgb(39, 29, 92)', outline: 'none'} : {backgroundColor: 'white', outline: 'none'}}
           />
@@ -285,7 +285,7 @@ const SignUp = () => {
             type="password"
             onChange={formik.handleChange}
             value={formik.values.repeatPassword}
-            placeholder="Yes) Again"
+            placeholder={languageSelector === 'En'? "Yes) Again" : "Так) Знову"}
             style={formik.errors.repeatPassword ? lightModeSelector === 'dark' ?  {backgroundColor: 'rgb(39, 29, 92)', outline: 'solid 1px lightcoral'} : {backgroundColor: 'white', outline: 'solid 1px lightcoral'} 
               : lightModeSelector === 'dark' ?  {backgroundColor: 'rgb(39, 29, 92)', outline: 'none'} : {backgroundColor: 'white', outline: 'none'}}
           />

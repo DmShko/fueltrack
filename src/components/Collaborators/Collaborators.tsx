@@ -364,15 +364,21 @@ const Collaborators = () => {
      
     };
 
+    const clearIs = () => {
+        
+       dispatch(changeSingUp({operation: 'resetIsSignUp', data: ''}));
+       
+    };
+
     const modalSelect = () => {
 
      switch(buttonClickName) {
           case 'userMinus':
             return <ErrorModal openClose={openModal} action={() => deleteCollabFIFO(collabsSelector)} props={{messages: 'Are you sure you want to delete?', buttonName: buttonClickName,}} />
           case 'userPlus':
-            return <InfoModal clearMessages ={ () =>  clearMessages()} openClose={openModal} props={{messages: signUpMessageSelector,}} />;
+            return <InfoModal clearMessages ={ () =>  clearMessages()} clearIs ={ () =>  clearIs()} openClose={openModal} props={{messages: signUpMessageSelector,}} />;
           case 'success':
-            return <InfoModal clearMessages ={ () =>  clearMessages()} openClose={openModal} props={{messages: signUpMessageSelector,}} />;
+            return <InfoModal clearMessages ={ () =>  clearMessages()} clearIs ={ () =>  clearIs()} openClose={openModal} props={{messages: signUpMessageSelector,}} />;
           default:
             break; 
         }
@@ -398,7 +404,7 @@ const Collaborators = () => {
                       name="colabsBuffer"
                       onChange={formik.handleChange}
                       value={formik.values.colabsBuffer}
-                      placeholder="Colaborator's: email_name_password_repeatpassword email_..."></textarea>
+                      placeholder={languageSelector === 'En' ? "Colaborator's: email_name_password_repeatpassword email_...": "Учасники: пошта_ім'я_пароль_повторний пароль пошта_..."}></textarea>
 
               <button className={co.userPlus} onClick={() => setButtonClickName('userPlus')} name='userPlus' type="submit" title='userPlus' disabled={formik.errors.colabsBuffer === '' ? true : false}><UserPlus width={'20px'} height={'20px'}/></button>
               
@@ -416,7 +422,7 @@ const Collaborators = () => {
                 name="colabsSearch"
                 onChange={writeSearchCollabs}
                 value={serachCollabs}
-                placeholder="Search"
+                placeholder={languageSelector === 'En' ? "Search": 'Пошук'}
                 ></input>
 
               <li className={co.item}>
@@ -465,9 +471,9 @@ const Collaborators = () => {
 
                         <div className={co.explanation}>
 
-                          <div className={co.explanationGas}>GAS</div>
-                          <div className={co.explanationLpg}>LPG</div>
-                          <div className={co.explanationDiesel}>DIESEL</div>
+                          <div className={co.explanationGas}>{languageSelector === 'En' ? "GAS": 'БЕНЗИН'}</div>
+                          <div className={co.explanationLpg}>{languageSelector === 'En' ? "LPG": 'ГАЗ'}</div>
+                          <div className={co.explanationDiesel}>{languageSelector === 'En' ? "DIESEL": 'ДИЗЕЛЬ'}</div>
 
                         </div>
 
@@ -476,13 +482,13 @@ const Collaborators = () => {
                           <div className={co.paramsPartDay}>
 
                               <p>Day</p>
-                              <div className={co.paramsRowDay}><div className={co.paramsRowBlock}><GasStation width={'18px'} height={'18px'}/><p>liters</p></div><p>{collabCurrentDaySelector.liters}</p></div>
-                              <div className={co.paramsRowDay}><div className={co.paramsRowBlock}><Mark width={'18px'} height={'18px'}/><p>marck</p></div><p>{collabCurrentDaySelector.marck}</p></div>
-                              <div className={co.paramsRowDay}><div className={co.paramsRowBlock}><Wallet width={'18px'} height={'18px'}/><p>price</p></div><p>{collabCurrentDaySelector.price}</p></div>
-                              <div className={co.paramsRowDay}><div className={co.paramsRowBlock}><Distance width={'18px'} height={'18px'}/><p>km</p></div><p>{collabCurrentDaySelector.km}</p></div>
-                              <div className={co.paramsRowDay}><div className={co.paramsRowBlock}><Card width={'18px'} height={'18px'}/><p>pay</p></div><p>{collabCurrentDaySelector.pay}</p></div>
-                              <div className={co.paramsRowDay}><div className={co.paramsRowBlock}><Burn width={'18px'} height={'18px'}/><p>burn</p></div><p>{collabCurrentDaySelector.burn}</p></div>
-                              <div className={co.paramsRowDay}><div className={co.paramsRowBlock}><Rest width={'18px'} height={'18px'}/><p>rest</p></div><p>{Number(collabCurrentDaySelector.liters) - Number(collabCurrentDaySelector.burn)}</p></div>
+                              <div className={co.paramsRowDay}><div className={co.paramsRowBlock}><GasStation width={'18px'} height={'18px'}/><p>{languageSelector === 'En' ? "Liters": 'Літри'}</p></div><p>{collabCurrentDaySelector.liters}</p></div>
+                              <div className={co.paramsRowDay}><div className={co.paramsRowBlock}><Mark width={'18px'} height={'18px'}/><p>{languageSelector === 'En' ? "Marck": 'Марка'}</p></div><p>{collabCurrentDaySelector.marck}</p></div>
+                              <div className={co.paramsRowDay}><div className={co.paramsRowBlock}><Wallet width={'18px'} height={'18px'}/><p>{languageSelector === 'En' ? "Price": 'Ціна'}</p></div><p>{collabCurrentDaySelector.price}</p></div>
+                              <div className={co.paramsRowDay}><div className={co.paramsRowBlock}><Distance width={'18px'} height={'18px'}/><p>{languageSelector === 'En' ? "km": 'км'}</p></div><p>{collabCurrentDaySelector.km}</p></div>
+                              <div className={co.paramsRowDay}><div className={co.paramsRowBlock}><Card width={'18px'} height={'18px'}/><p>{languageSelector === 'En' ? "Pay": 'Розрахунок'}</p></div><p>{collabCurrentDaySelector.pay}</p></div>
+                              <div className={co.paramsRowDay}><div className={co.paramsRowBlock}><Burn width={'18px'} height={'18px'}/><p>{languageSelector === 'En' ? "Burn": 'Спалено'}</p></div><p>{collabCurrentDaySelector.burn}</p></div>
+                              <div className={co.paramsRowDay}><div className={co.paramsRowBlock}><Rest width={'18px'} height={'18px'}/><p>{languageSelector === 'En' ? "Rest": 'Залишок'}</p></div><p>{Number(collabCurrentDaySelector.liters) - Number(collabCurrentDaySelector.burn)}</p></div>
                           </div >
 
                            <div className={co.paramsPartMonth}>
