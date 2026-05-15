@@ -13,6 +13,7 @@ const ErrorModal: FC<PropsWithChildren<ErrorModalPropsTypes>> = ({openClose, act
 
 const selectedDaySelector = useAppSelector(state => state.getTrack.selectedDay);
 const collabsSelector = useAppSelector(state => state.getCollabsById.collabsById);
+const lightModeSelector = useAppSelector(state => state.ser.lightMode);
 
 const buttonClick = (evt: React.MouseEvent<HTMLButtonElement>) => {
 
@@ -42,7 +43,7 @@ const buttonClick = (evt: React.MouseEvent<HTMLButtonElement>) => {
 
 return (
 
-    <div className={err.container}>
+    <div className={err.container} style={lightModeSelector === 'dark' ?  {backgroundColor: 'lightgray'} : {backgroundColor: 'white'}}>
         
         <p>{`${props.messages}`}</p>
 

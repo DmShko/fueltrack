@@ -38,6 +38,7 @@ const SharedLayout: FC = () => {
     const tokenSelector = useAppSelector(state => state.signIn.token);
     const isLogOutSelector = useAppSelector(state => state.logOut.isLogout);
     const languageSelector = useAppSelector(state => state.ser.language);
+    const lightModeSelector = useAppSelector(state => state.ser.lightMode);
 
     // open/close modal window
     const [modalToggle, setModalToggle] = useState(false);
@@ -127,11 +128,12 @@ const SharedLayout: FC = () => {
         <>
           <header className={sh.header}>
 
-            <div className={sh.container}>
+            <div className={sh.container} style={lightModeSelector === 'dark' ?  {background: 'linear-gradient(rgb(39, 29, 92) 70%, #aab1f8 25%)'} : {background: 'linear-gradient(white 70%, #aab1f8 25%)'}}>
 
               <NavLink to="/"><div className={sh.logo}><p className={sh.logoLeft}>Fuel</p><p className={sh.logoRight}>Track</p><MainLogo height={'40px'}  width={'40px'}/></div></NavLink>
               <ul className={sh.navList}>
-                {tokenSelector && <li className={sh.navItem} style={location.pathname === '/tracks' ? {color: 'white', borderColor: 'gray'} : {color: 'white'}}>
+                {tokenSelector && <li className={sh.navItem} style={lightModeSelector === 'dark' ? location.pathname === '/tracks' ? {color: '#e7e7f0', borderColor: 'gray'} : {color: '#e7e7f0', borderColor: '#e7e7f0'} :
+                  location.pathname === '/tracks' ? {color: 'white', borderColor: 'gray'} : {color: 'white'}}>
                   <NavLink to={"/tracks"} style={{color: 'white'}}>{languageSelector === 'En' ? 'tracks': 'треки'}</NavLink>
                 </li>}
                 <li className={sh.navItem} style={location.pathname === '/information' ? {color: 'white', borderColor: 'gray'} : {color: 'white'}}>

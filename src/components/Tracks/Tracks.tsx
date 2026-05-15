@@ -70,6 +70,7 @@ const Tracks: FC = () => {
   const tracksSelector = useAppSelector(state => state.getTrack.fuelDays);
   const selectedDaySelector = useAppSelector(state => state.getTrack.selectedDay);
   const languageSelector = useAppSelector(state => state.ser.language);
+  const lightModeSelector = useAppSelector(state => state.ser.lightMode);
 
   // open/close modal window
   const [modalToggle, setModalToggle] = useState(false);
@@ -255,7 +256,7 @@ const Tracks: FC = () => {
  
   return (
 
-    !isLoadingSelector ? <div className={tr.container}>
+    !isLoadingSelector ? <div className={tr.container} style={lightModeSelector === 'dark' ?  {backgroundColor: 'lightgray', boxShadow: '1px 1px 4px 1px black'} : {backgroundColor: 'white'}}>
   
       {modalToggle && <TrackModal openClose={openModal}>
         
@@ -265,20 +266,23 @@ const Tracks: FC = () => {
         </TrackModal>
       }
 
-      <div className={tr.toggleStatictic}>
+      <div className={tr.toggleStatictic} style={lightModeSelector === 'dark' ? {borderBottom: 'solid 2px gray'} : {borderBottom: 'solid 2px #aab1f8'}}>
         <button onClick={changeStatisticMenu}>{toggleMenu === true ? <Users width={'30px'} height={'30px'}/> : <User width={'30px'} height={'30px'}/>}</button>
         <div className={tr.currentUser}>
-          <p>{`${userNameSelector}`}</p>
-          <CurrentUserLogo width={'45px'} height={'45px'}/>
+          <p style={lightModeSelector === 'dark' ? {color: 'gray'} : {color: '#aab1f8'}}>{`${userNameSelector}`}</p>
+          <CurrentUserLogo width={'45px'} height={'45px'} stroke={lightModeSelector === 'dark' ? 'gray' : '#aab1f8'}/>
         </div>
       </div>  
 
       {toggleMenu && <div className={tr.currentStatistic}>
 
-        <div className={tr.calendarContainer}>
+        <div className={tr.calendarContainer} style={lightModeSelector === 'dark' ? {backgroundColor: 'lightgray'} : {backgroundColor: 'white'}}>
           <Calendar className={tr.calendar} maxDate={new Date} showNeighboringMonth={false} onChange={onChange} onActiveStartDateChange={handleMonthChange} value={value}/>
-          <div className={tr.completeContainer}>
-            <div className={tr.complete} style={selectedDaySelector.selected ? {height: '30px', width: '100%', borderRadius: '8px', background: `linear-gradient(to right, #aab1f8 ${Number(selectedDaySelector.burn) * 100 / Number(selectedDaySelector.liters)}%, white ${Number(selectedDaySelector.burn) * 100 / Number(selectedDaySelector.liters)}%)`
+          <div className={tr.completeContainer} style={lightModeSelector === 'dark' ? {border: 'solid 2px #aab1f8'} : {border: 'solid 2px #aab1f8'}}>
+            <div className={tr.complete} style={lightModeSelector === 'dark' ? selectedDaySelector.selected ? 
+            {height: '30px', width: '100%', borderRadius: '8px', background: `linear-gradient(to right, #aab1f8 ${Number(selectedDaySelector.burn) * 100 / Number(selectedDaySelector.liters)}%, lightgray ${Number(selectedDaySelector.burn) * 100 / Number(selectedDaySelector.liters)}%)`
+            }: {height: '30px', width: '100%', borderRadius: '8px', background: 'lightgray'}: selectedDaySelector.selected ? 
+            {height: '30px', width: '100%', borderRadius: '8px', background: `linear-gradient(to right, #aab1f8 ${Number(selectedDaySelector.burn) * 100 / Number(selectedDaySelector.liters)}%, white ${Number(selectedDaySelector.burn) * 100 / Number(selectedDaySelector.liters)}%)`
             }: {height: '30px', width: '100%', borderRadius: '8px', background: 'white'}}>
                   <div className={tr.completeTitle}>
                     {selectedDaySelector.selected && `${Math.round(Number(selectedDaySelector.burn) * 100 / Number(selectedDaySelector.liters))}%`} 
@@ -287,13 +291,16 @@ const Tracks: FC = () => {
           </div>  
         </div>
        
-        <div className={tr.monthStatistic}>
+        <div className={tr.monthStatistic} style={lightModeSelector === 'dark' ? {border: 'solid 3px #e7e7f0'} : {border: 'solid 3px #e7e7f0'}}>
 
           <div className={tr.dashboard}>
 
-            <button className={tr.newButt} name= 'new' onClick={openModal} style={selectedDaySelector.selected === false ? {backgroundColor: '#aab1f8',} : {backgroundColor: 'lightgray'}}>{languageSelector === 'En' ? 'New': 'Новий'}</button>
-            <button name='change' onClick={openModal} disabled={selectedDaySelector.selected ? false : true} style={selectedDaySelector.selected !== false ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'lightgray'}}>{languageSelector === 'En' ? 'Change': 'Змінити'}</button>
-            <button name='delete' onClick={deleteElement} disabled={selectedDaySelector.selected ? false : true} style={selectedDaySelector.selected !== false ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'lightgray'}}>{languageSelector === 'En' ? 'Delete': 'Видалити'}</button>
+            <button className={tr.newButt} name= 'new' onClick={openModal} style={lightModeSelector === 'dark' ? selectedDaySelector.selected === false ? {backgroundColor: '#aab1f8',} : {backgroundColor: '#e7e7f0'} :
+              selectedDaySelector.selected === false ? {backgroundColor: '#aab1f8',} : {backgroundColor: 'lightgray'}}>{languageSelector === 'En' ? 'New': 'Новий'}</button>
+            <button name='change' onClick={openModal} disabled={selectedDaySelector.selected ? false : true} style={lightModeSelector === 'dark' ? selectedDaySelector.selected !== false ? {backgroundColor: '#aab1f8'} : {backgroundColor: '#e7e7f0'} : 
+              selectedDaySelector.selected !== false ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'lightgray'}}>{languageSelector === 'En' ? 'Change': 'Змінити'}</button>
+            <button name='delete' onClick={deleteElement} disabled={selectedDaySelector.selected ? false : true} style={lightModeSelector === 'dark' ? selectedDaySelector.selected !== false ? {backgroundColor: '#aab1f8'} : {backgroundColor: '#e7e7f0'} : 
+              selectedDaySelector.selected !== false ? {backgroundColor: '#aab1f8'} : {backgroundColor: 'lightgray'}}>{languageSelector === 'En' ? 'Delete': 'Видалити'}</button>
             
           </div>
 

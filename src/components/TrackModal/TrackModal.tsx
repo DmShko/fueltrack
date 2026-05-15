@@ -37,7 +37,7 @@ const TrackModal: FC<PropsWithChildren<TrackModalProps>> = ({ children, openClos
 return createPortal(
     <div className={trm.backdrop} onClick={clickBackdrob} style={{top: `${window.scrollY}px`}}>
 
-        <div className={trm.container} style={lightModeSelector === 'dark' ? {backgroundColor: 'rgb(39, 29, 92)', border: '2px solid lightgray'} : {backgroundColor: 'white'}}>
+        <div className={trm.container} style={lightModeSelector === 'dark' ? {backgroundColor: 'lightgray', border: '2px solid lightgray'} : {backgroundColor: 'white'}}>
             { children }
         </div>
         

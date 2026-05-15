@@ -207,7 +207,7 @@ const SignUp = () => {
 
       {alertModalToggle && <TrackModal openClose={openModal}>
               
-         <InfoModal openClose={openModal} clearMessages ={ () =>  clearMessages()} props={{messages: signUpMessageSelector,}}/>
+         <InfoModal openClose={openModal} clearIs={() => {}} clearMessages ={ () =>  clearMessages()} props={{messages: signUpMessageSelector,}}/>
 
         </TrackModal>
       }
@@ -261,7 +261,7 @@ const SignUp = () => {
           </div>
 
           <div className={su.passgen}>
-            <a onClick={() => window.open("https://dmshko.github.io/password_generator/", '_blank')}>Password generator</a>
+            <a onClick={() => window.open("https://dmshko.github.io/password_generator/", '_blank')}>{languageSelector === 'En'? "Password generator" : "Генератор паролів"}</a>
             <Pointer/>
           </div>
 
@@ -295,7 +295,7 @@ const SignUp = () => {
 
         </form>
 
-        <p className={su.switch} onClick={() => navigate('/signIn')}>{'Увійти'}</p>
+        <p className={su.switch} onClick={() => navigate('/signIn')}>{languageSelector === 'En'? "SingIn" : "Увійти"}</p>
 
       </div>
 

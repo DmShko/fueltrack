@@ -166,7 +166,7 @@ const SignIn = () => {
 
       {alertModalToggle && <TrackModal openClose={openModal}>
               
-         <InfoModal openClose={openModal} clearMessages ={ () =>  clearMessages()} props={{messages: signInMessageSelector,}}/>
+         <InfoModal openClose={openModal} clearIs={() =>{}} clearMessages ={ () =>  clearMessages()} props={{messages: signInMessageSelector,}}/>
 
         </TrackModal>
       }

@@ -4,6 +4,8 @@ import {useLocation } from "react-router-dom";
 
 import { useTransition, animated } from '@react-spring/web';
 
+import { useAppSelector } from "../../app.hooks"; 
+
 // own dispatch hook
 // import { useAppSelector } from "../../app.hooks";
 
@@ -17,6 +19,8 @@ import pec from './PageContainer.module.scss';
 const PageContainer: FC<any> = ({ children }) => {
       
   const [parameters, setParameters] = useState<parameterStar[]>([]);
+
+  const lightModeSelector = useAppSelector(state => state.ser.lightMode);
   
   const logoRef = useRef<HTMLDivElement>(null);
 
@@ -102,7 +106,7 @@ const PageContainer: FC<any> = ({ children }) => {
 
   return (
    
-    <section className={pec.container} ref={logoRef}>
+    <section className={pec.container} style={lightModeSelector === 'dark' ?  {backgroundColor: 'rgb(71, 60, 121)'} : {backgroundColor: '#e7e7f0'}} ref={logoRef}>
 
       {children}
 

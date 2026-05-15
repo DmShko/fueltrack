@@ -1,7 +1,7 @@
 import { FC, useState, useEffect } from 'react'
 
 // own dispatch hook
-import { useAppDispatch } from "../../app.hooks";
+import { useAppDispatch, useAppSelector } from "../../app.hooks";
 
 import { useSpring, animated, config, easings } from '@react-spring/web';
 
@@ -19,6 +19,8 @@ import { LightModeType } from '../../types/types';
 const DayNight: FC = () => {
 
   const dispatch = useAppDispatch();
+
+  const lightModeSelector = useAppSelector(state => state.ser.lightMode);
 
   const [ lightMode, setLightMode ] = useState<LightModeType>(LightModeType.light);
 
@@ -80,13 +82,12 @@ const DayNight: FC = () => {
   };
   
   return (
-    <div className={dn.container} >
+    <div className={dn.container} style={lightModeSelector === 'dark' ? {backgroundColor: 'lightgray'}: {backgroundColor: '#e7e7f0'}}>
 
          <animated.button
             style={{
               height: `${minWidth}px`, // Фіксована висота кола
               border: 'none',
-              color: 'white',
               cursor: 'pointer',
               outline: 'none',
               display: 'flex',
@@ -96,12 +97,13 @@ const DayNight: FC = () => {
               overflow: 'hidden',
               padding: 0,
               willChange: 'transform, width',
-              background: 'radial-gradient(circle at 33% 33%, #ffffff 0%, #f0f0f0 45%, #d6d6d6 80%, #b8b8b8 100%)',
+              boxShadow: '1px 1px 4px 1px rgb(61, 61, 61)',
+              background: 'radial-gradient(circle at 33% 33%, #ffffff 0%, #f0f0f0 45%, #aab1f8 80%, #b8b8b8 100%)',
               ...styles
             }}
             onClick={handleToggle} // Викликаємо захищену функцію
           >
-            {isMoved ? <Sun width='20px' height='20px'/> : <Moon width='20px' height='20px'/>}
+            {isMoved ? <Sun width='18px' height='18px'/> : <Moon width='18px' height='18px'/>}
         </animated.button>
         
     </div>

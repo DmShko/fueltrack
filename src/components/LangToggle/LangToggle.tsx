@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useSpring, animated, config, easings } from '@react-spring/web';
 
 // own dispatch hook
-import { useAppDispatch } from "../../app.hooks";
+import { useAppDispatch, useAppSelector } from "../../app.hooks";
 
 import lt from './LangToggle.module.scss';
 
@@ -14,6 +14,8 @@ import { LangType } from '../../types/types';
 const LangToggle = () => {
 
   const dispatch = useAppDispatch();
+
+  const lightModeSelector = useAppSelector(state => state.ser.lightMode);
 
   const [langToggle, setLangToggle] = useState<LangType>(LangType.en);
 
@@ -83,7 +85,7 @@ const LangToggle = () => {
   
 
   return (
-    <div className={lt.comtainer}>
+    <div className={lt.comtainer} style={lightModeSelector === 'dark' ? {backgroundColor: 'lightgray'}: {backgroundColor: '#e7e7f0'}}>
        
         <animated.button
             style={{
@@ -97,9 +99,11 @@ const LangToggle = () => {
               whiteSpace: 'nowrap',
               overflow: 'hidden',
               padding: 0,
+              fontSize: '16px', 
               willChange: 'transform, width',
-              background: 'radial-gradient(circle at 33% 33%, #ffffff 0%, #f0f0f0 45%, #d6d6d6 80%, #b8b8b8 100%)',
-              color: '#aab1f8',
+              boxShadow: '1px 1px 4px 1px rgb(61, 61, 61)',
+              background: 'radial-gradient(circle at 33% 33%, #ffffff 0%, #f0f0f0 45%, #aab1f8 80%, #b8b8b8 100%)',
+              color: 'rgb(39, 29, 92)',
               ...styles
             }}
             onClick={handleToggle} // Викликаємо захищену функцію
