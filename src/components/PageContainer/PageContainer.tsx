@@ -19,7 +19,7 @@ import pec from './PageContainer.module.scss';
 const PageContainer: FC<any> = ({ children }) => {
       
   const [parameters, setParameters] = useState<parameterStar[]>([]);
-
+  const [rendomRGBColor, setRendomRGBColor] = useState('0');
   const lightModeSelector = useAppSelector(state => state.ser.lightMode);
   
   const logoRef = useRef<HTMLDivElement>(null);
@@ -54,11 +54,14 @@ const PageContainer: FC<any> = ({ children }) => {
               // radius of '.formWrapper'
               if(checkPoint >  Math.pow((aroundStaraElement.children[0] as HTMLElement).offsetWidth / 2, 2)) {
 
+                setRendomRGBColor(`hsl(${Math.floor(Math.random() * 361)}, ${Math.floor(Math.random() * (65 - 50 + 1)) + 50}%, ${Math.floor(Math.random() * (80 - 70 + 1)) + 70}%)`)
+
                 // 'size' for mobile and tab and desk
                 return {
                   size: randomGenerator(20, 5),
                   x: pointX,
                   y: pointY,
+                  color: `${rendomRGBColor}`,
                 };
 
               }
@@ -77,7 +80,8 @@ const PageContainer: FC<any> = ({ children }) => {
           parameters.length >= 20 
                   ? setParameters(parameters.filter(element => element.size !== randomGenerator(20, 3)))
                   : setParameters([...parameters, newItem]);
-        };
+
+      };
       
       }, randomGenerator(30, 5));
 
@@ -103,7 +107,6 @@ const PageContainer: FC<any> = ({ children }) => {
     },
   });
 
-
   return (
    
     <section className={pec.container} style={lightModeSelector === 'dark' ?  {backgroundColor: 'rgb(71, 60, 121)'} : {backgroundColor: '#e7e7f0'}} ref={logoRef}>
@@ -114,13 +117,13 @@ const PageContainer: FC<any> = ({ children }) => {
                   <animated.div style={style} className={pec.anima}>
                       <Star
                             styleProps={{
-                            position: 'absolute',
-                            width: `${item.size}px`,
-                            height: `${item.size}px`,
-                            left: `${item.x}px`,
-                            top: `${item.y}px`,
-                            borderRadius: '50px',
-                            backgroundColor: 'white',
+                              position: 'absolute',
+                              width: `${item.size}px`,
+                              height: `${item.size}px`,
+                              left: `${item.x}px`,
+                              top: `${item.y}px`,
+                              borderRadius: '50px',
+                              backgroundColor: `${item.color}`,
                           }}
                       />
                   </animated.div>

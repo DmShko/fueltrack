@@ -26,9 +26,9 @@ const DayNight: FC = () => {
 
   const [isMoved, setIsMoved] = useState(false);
 
-  const minWidth = 30;   // Початковий та фінальний діаметр кола
-  const maxWidth = 60;  // Максимальне розтягування в процесі руху
-  const travelDistance = 60; // На яку відстань вправо перелітає кнопка
+  const minWidth = 25;   // Початковий та фінальний діаметр кола
+  const maxWidth = 50;  // Максимальне розтягування в процесі руху
+  const travelDistance = 50; // На яку відстань вправо перелітає кнопка
 
   useEffect(() => {
     dispatch(changeLightMode({ data: lightMode }));
@@ -98,7 +98,7 @@ const DayNight: FC = () => {
               padding: 0,
               willChange: 'transform, width',
               boxShadow: '1px 1px 4px 1px rgb(61, 61, 61)',
-              background: 'radial-gradient(circle at 33% 33%, #ffffff 0%, #f0f0f0 45%, #aab1f8 80%, #b8b8b8 100%)',
+              background: 'radial-gradient(circle at 33% 33%, #ffffff 0%, #f0f0f0 45%, #8a90da 80%, #b8b8b8 100%)',
               ...styles
             }}
             onClick={handleToggle} // Викликаємо захищену функцію

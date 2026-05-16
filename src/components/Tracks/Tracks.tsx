@@ -220,12 +220,12 @@ const Tracks: FC = () => {
 
      switch(buttonClickName) {
           case 'delete':
-            return <ErrorModal openClose={openModal} action={deleteTrack} props={{messages: 'Are you sure you want to delete?', buttonName: buttonClickName,}} />
+            return <ErrorModal openClose={openModal} action={deleteTrack} props={languageSelector === 'En' ? {messages: 'Are you sure you want to delete?', buttonName: buttonClickName,} : {messages: 'Ви впевнені, що хочете видалити?', buttonName: buttonClickName,}} />
           case 'change':
             return <ModalMain openClose={openModal} buttonName={buttonClickName} elementName={selectedDaySelector} value={value} selectedId={selectedDaySelector._id}/>
           case 'new':
             return !selectedDaySelector.selected ? <ModalMain openClose={openModal} buttonName={buttonClickName} elementName={selectedDaySelector} value={value} selectedId={selectedDaySelector._id}/> :
-            <InfoModal clearMessages ={ () =>  clearMessages()}  openClose={openModal} clearIs ={ () =>  clearIs()} props={{messages: 'You cannot create an entry because something is already selected!',}} />;
+            <InfoModal clearMessages ={ () =>  clearMessages()}  openClose={openModal} clearIs ={ () =>  clearIs()} props={languageSelector === 'En' ? {messages: 'You cannot create an entry because something is already selected!',} : {messages: 'Ви не можете створити запис, оскільки щось уже вибрано!',}} />;
           case 'resault':
             return addSelector ? <InfoModal clearMessages ={ () =>  clearMessages()}  openClose={openModal} clearIs ={ () =>  clearIs()} props={{messages: addTrackMessage,}} /> :
             <InfoModal clearMessages ={ () =>  clearMessages()}  openClose={openModal} clearIs ={ () =>  clearIs()}   props={{messages: deleteTrackMessage,}} />; 

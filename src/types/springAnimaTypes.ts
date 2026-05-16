@@ -3,6 +3,7 @@ export interface parameterStar {
     size: number
     x: number
     y: number
+    color: string
 };
 
 export interface StarProps {
