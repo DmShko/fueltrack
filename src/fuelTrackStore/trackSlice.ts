@@ -9,14 +9,14 @@ import {
   LangModeAction,
 } from "../types/types";
 
-const TracksInitialState: TracksInitialState = {
+const TracksInitSt: TracksInitialState = {
   lightMode: LightModeType.light,
   language: LangType.en
 };
 
 const trackSlice = createSlice({
   name: "trackStorage",
-  initialState: TracksInitialState,
+  initialState: TracksInitSt,
   reducers: {
 
         changeLightMode(state, action: PayloadAction<LightModeAction>) {
