@@ -193,7 +193,8 @@ const Collaborators = () => {
       });
 
     const writeSearchCollabs = (evt: React.ChangeEvent<HTMLInputElement>) => {
-      setSerachCollabs(state => state = evt.target.value)
+      // setSerachCollabs(state => state = evt.target.value)
+         setSerachCollabs(evt.target.value)
     };
 
     const toggleCollabDetail = (evt: React.MouseEvent<HTMLLIElement>) => {
