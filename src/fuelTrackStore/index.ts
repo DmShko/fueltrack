@@ -64,7 +64,8 @@ export const store = configureStore({
 
 export const persistor = persistStore(store);
 
-export type RootState = ReturnType<typeof store.getState>;
+// export type RootState = ReturnType<typeof store.getState>;
+export type RootState = ReturnType<typeof rootReducer>;        
 export type AppDispatch = typeof store.dispatch;
 
 // create own dispatch hook - "usePmDispatch" or add type to each useDispatch
