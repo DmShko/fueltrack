@@ -57,17 +57,22 @@ const SharedLayout: FC = () => {
     const [ timeValue, setTimeValue ]= useState({time: new Date()});
     const [ newDateObj, setNewDateObj ]= useState<NewDateType>();
 
+  
     useEffect(() => {
   
       if(tokenSelector !== '') dispatch(changeLogout({operation: 'changeIsLogout', data: false}));
      
     },[tokenSelector]);
-    
+
     useEffect(() => {
-  
-      if(tokenSelector !== '') dispatch(changeLogout({operation: 'changeIsLogout', data: false}));
-     
-    },[tokenSelector]);
+      
+        if(logOutMessageSelector !== '') {
+
+          setAlertModalToggle(true);
+
+        };
+        
+    },[logOutMessageSelector]);
   
     useEffect(() => {
     
