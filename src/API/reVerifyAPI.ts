@@ -4,7 +4,7 @@ import axios from "axios";
 // types
 import { ReVerifyArgs } from '../types/authTypes'
 
-const URL = 'https://fueltrack-server-3ubz.onrender.com';
+const URL = 'https://fueltrack-server-3ubz.onrender.com/api/auth/verify';
 // const URL='http://localhost:3000';
 
 // createAsyncThunk<return data type, arg type, rejectValue type>
