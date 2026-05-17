@@ -8,7 +8,7 @@ const info = (props: React.SVGProps<SVGSVGElement>) => {
           justifyContent: "space-beetwen",
         }}
       >
-        <svg width="25px" height="25px" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
+        <svg width="25px" height="25px" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg" {...props}>
 
         <g fill="none" fillRule="evenodd" stroke="#080341" strokeWidth="1.5px" strokeLinecap="round" strokeLinejoin="round" transform="translate(3 3)">
 
