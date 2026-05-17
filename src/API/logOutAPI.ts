@@ -4,7 +4,7 @@ import axios from "axios";
 // types
 import { LogoutArgs } from '../types/authTypes';
 
-const URL='https://fueltrack-server-3ubz.onrender.com/auth/logout';
+const URL='https://fueltrack-server-3ubz.onrender.com/api/auth/logout';
 // const URL='http://localhost:3000/api/auth/logout';
 
 // createAsyncThunk<return data type, arg type, rejectValue type>
