@@ -153,11 +153,10 @@ const SharedLayout: FC = () => {
     return (
         <>
         
-          {alertModalToggle && <TrackModal openClose={openModalAlert}>
+          {alertModalToggle && 
                   
             <InfoModal openClose={openModal} clearIs={() => {}} clearMessages ={ () =>  clearMessages()} props={{messages: logOutMessageSelector,}}/>
 
-            </TrackModal>
           }
           
           <header className={sh.header}>
