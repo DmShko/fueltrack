@@ -36,7 +36,6 @@ const SignUp = () => {
 
   const isSignUpSelector = useAppSelector(state => state.signUp.isSignUp);
   const signUpMessageSelector = useAppSelector(state => state.signUp.message);
-  const logOutMessageSelector = useAppSelector(state => state.logOut.message);
   const isLogOutSelector = useAppSelector(state => state.logOut.isLogout);
   const reVerifyMessageSelector = useAppSelector(state => state.reVerify.message);
   const lightModeSelector = useAppSelector(state => state.ser.lightMode);
@@ -55,13 +54,13 @@ const SignUp = () => {
 
   useEffect(() => {
 
-    if(signUpMessageSelector !== '' || logOutMessageSelector !== '' || reVerifyMessageSelector !== '' || reVerifyMessage != '') {
+    if(signUpMessageSelector !== '' || reVerifyMessageSelector !== '' || reVerifyMessage != '') {
 
       setAlertModalToggle(true);
 
     };
     
-  },[signUpMessageSelector, logOutMessageSelector, reVerifyMessage, reVerifyMessageSelector]);
+  },[signUpMessageSelector, reVerifyMessage, reVerifyMessageSelector]);
 
   const clearMessages = () => {
 

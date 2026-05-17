@@ -4,6 +4,10 @@ import { Suspense } from "react";
 
 import sh from './SharedLayout.module.scss';
 
+// modals windows
+import TrackModal from "../TrackModal/TrackModal";
+import InfoModal from "../InfoModal/InfoModal";
+
 // own dispatch hook
 import { useAppDispatch, useAppSelector } from "../../app.hooks"; 
 
@@ -39,9 +43,12 @@ const SharedLayout: FC = () => {
     const isLogOutSelector = useAppSelector(state => state.logOut.isLogout);
     const languageSelector = useAppSelector(state => state.ser.language);
     const lightModeSelector = useAppSelector(state => state.ser.lightMode);
+    const logOutMessageSelector = useAppSelector(state => state.logOut.message);
 
     // open/close modal window
     const [modalToggle, setModalToggle] = useState(false);
+    // open/close alert modal window
+    const [alertModalToggle, setAlertModalToggle] = useState(false);
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -122,10 +129,32 @@ const SharedLayout: FC = () => {
     // toggle modal window
     setModalToggle(state => !state);
     
-  }
+    }
+
+    const openModalAlert = () => {
+
+    // toggle modal window
+    setAlertModalToggle(state => !state);
+    
+    }
+
+    const clearMessages = () => {
+    
+      dispatch(changeLogout({operation: 'clearMessage', data: ''}));
+        
+    };
+
 
     return (
         <>
+        
+          {alertModalToggle && <TrackModal openClose={openModalAlert}>
+                  
+            <InfoModal openClose={openModal} clearIs={() => {}} clearMessages ={ () =>  clearMessages()} props={{messages: logOutMessageSelector,}}/>
+
+            </TrackModal>
+          }
+          
           <header className={sh.header}>
 
             <div className={sh.container} style={lightModeSelector === 'dark' ?  {background: 'linear-gradient(rgb(39, 29, 92) 70%, #aab1f8 25%)'} : {background: 'linear-gradient(white 70%, #aab1f8 25%)'}}>

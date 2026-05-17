@@ -35,7 +35,6 @@ const SignIn = () => {
 
   const navigate = useNavigate();
 
-  const logOutMessageSelector = useAppSelector(state => state.logOut.message);
   const signInMessageSelector = useAppSelector(state => state.signIn.message);
   const isSignInSelector = useAppSelector(state => state.signIn.isLogIn);
   const lightModeSelector = useAppSelector(state => state.ser.lightMode);
@@ -65,13 +64,13 @@ const SignIn = () => {
 
   useEffect(() => {
   
-    if(signInMessageSelector !== '' || logOutMessageSelector !== '') {
+    if(signInMessageSelector !== '') {
 
       setAlertModalToggle(true);
 
     };
     
-  },[signInMessageSelector, logOutMessageSelector]);
+  },[signInMessageSelector]);
 
   const clearMessages = () => {
   
