@@ -41,6 +41,7 @@ const getTrackByIdSlice = createSlice({
         state.isLoading = false;
         state.token = action.payload.data.token;
         state.dayById = action.payload.data
+        
         // some actions with 'action'...
       });
             
