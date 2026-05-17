@@ -4,8 +4,8 @@ import axios from "axios";
 // types
 import { DeleteTrackArgs } from '../types/types';
 
-// const URL='https://pill-server.onrender.com/api/auth/logout';
-const URL='http://localhost:3000/api/collabo';
+const URL='https://fueltrack-server-3ubz.onrender.com/api/collabo';
+// const URL='http://localhost:3000/api/collabo';
 
 // createAsyncThunk<return data type, arg type, rejectValue type>
 export const deleteCollabAPI = createAsyncThunk<any, DeleteTrackArgs,{rejectValue: string}>(

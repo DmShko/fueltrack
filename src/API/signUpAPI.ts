@@ -5,8 +5,8 @@ import axios from "axios";
 import { SignUpArgs } from '../types/authTypes'
 import { SignUpRes } from '../types/authTypes'
 
-// const URL = 'https://pill-server.onrender.com/api/auth/signup';
-const URL='http://localhost:3000/api/auth/signup';
+const URL = 'https://fueltrack-server-3ubz.onrender.com/api/auth/signup';
+// const URL='http://localhost:3000/api/auth/signup';
 
 // createAsyncThunk<return data type, arg type, rejectValue type>
 export const singUpAPI = createAsyncThunk<SignUpRes, SignUpArgs, {rejectValue: string}>(
