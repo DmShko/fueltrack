@@ -28,6 +28,7 @@ import InfoModal from "../InfoModal/InfoModal";
 import Info from '../SvgComponents/Info/Info';
 import Enter from '../SvgComponents/Enter/Enter';
 import RoadSign from '../SvgComponents/RoadSign/RoadSign';
+import LoaderEasy from '../SvgComponents/LoaderEasy/LoaderEasy';
 
 const SignIn = () => {
 
@@ -37,6 +38,7 @@ const SignIn = () => {
 
   const signInMessageSelector = useAppSelector(state => state.signIn.message);
   const isSignInSelector = useAppSelector(state => state.signIn.isLogIn);
+  const isSignInLoaderSelector = useAppSelector(state => state.signIn.isLoading);
   const lightModeSelector = useAppSelector(state => state.ser.lightMode);
   const isLogOutSelector = useAppSelector(state => state.logOut.isLogout);
   const languageSelector = useAppSelector(state => state.ser.language);
@@ -74,10 +76,10 @@ const SignIn = () => {
 
   const clearMessages = () => {
   
-        dispatch(changeSingIn({operation: 'clearMessage', data: ''}));
-        dispatch(changeSingUp({operation: 'clearMessage', data: ''}));
-        dispatch(changeLogout({operation: 'clearMessage', data: ''}));
-        dispatch(changeReVerify({operation: 'clearMessage', data: ''}));
+    dispatch(changeSingIn({operation: 'clearMessage', data: ''}));
+    dispatch(changeSingUp({operation: 'clearMessage', data: ''}));
+    dispatch(changeLogout({operation: 'clearMessage', data: ''}));
+    dispatch(changeReVerify({operation: 'clearMessage', data: ''}));
  
   };
 
@@ -165,11 +167,11 @@ const SignIn = () => {
 
       {alertModalToggle && <TrackModal openClose={openModal}>
               
-         <InfoModal openClose={openModal} clearIs={() =>{}} clearMessages ={ () =>  clearMessages()} props={{messages: signInMessageSelector,}}/>
+          <InfoModal openClose={openModal} clearIs={() =>{}} clearMessages ={() =>  clearMessages()} props={{messages: signInMessageSelector,}}/>
 
         </TrackModal>
       }
-
+        
       <div className={si.formWrapper}>
 
         <form onSubmit={formik.handleSubmit}>
@@ -205,7 +207,7 @@ const SignIn = () => {
           />
           </div>
 
-          <button type="submit" className={si.courseButton} title='SignIn' disabled={dis()} style={dis() ?{backgroundColor: "lightcoral"} : {backgroundColor: "lightgreen"}}><Enter/></button>
+          <button type="submit" className={si.courseButton} title='SignIn' disabled={dis()} style={dis() ?{backgroundColor: "lightcoral"} : {backgroundColor: "lightgreen"}}>{isSignInLoaderSelector ? <LoaderEasy className={si.loader}/> : <Enter/>}</button>
 
         </form>
 

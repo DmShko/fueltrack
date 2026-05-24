@@ -27,6 +27,7 @@ import Pointer from '../SvgComponents/Pointer/Pointer';
 import Add from '../SvgComponents/Add/Add';
 import Info from '../SvgComponents/Info/Info';
 import RoadSign from '../SvgComponents/RoadSign/RoadSign';
+import LoaderEasy from '../SvgComponents/LoaderEasy/LoaderEasy';
 
 const SignUp = () => {
 
@@ -40,6 +41,7 @@ const SignUp = () => {
   const reVerifyMessageSelector = useAppSelector(state => state.reVerify.message);
   const lightModeSelector = useAppSelector(state => state.ser.lightMode);
   const languageSelector = useAppSelector(state => state.ser.language);
+  const isSignUpLoaderSelector = useAppSelector(state => state.signUp.isLoading);
 
    // open/close alert modal window
   const [alertModalToggle, setAlertModalToggle] = useState(false);
@@ -290,7 +292,7 @@ const SignUp = () => {
           />
           </div>
 
-          <button type="submit" title='SignUp' disabled={dis()} style={dis() ?{backgroundColor: "lightcoral"} : {backgroundColor: "lightgreen"}}><Add/></button>
+          <button className={su.courseButton} type="submit" title='SignUp' disabled={dis()} style={dis() ?{backgroundColor: "lightcoral"} : {backgroundColor: "lightgreen"}}>{isSignUpLoaderSelector ? <LoaderEasy className={su.loader}/> : <Add/>}</button>
 
         </form>
 

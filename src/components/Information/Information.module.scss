@@ -1,0 +1,27 @@
+.container {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 10px;
+
+    margin: 20px auto;
+    padding: 20px;
+
+    background-color: white;
+
+    .imgBlock {
+
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        background-color: lightgrey;
+
+        box-shadow: 1px 1px 4px 1px rgb(61, 61, 61);
+
+    }
+}

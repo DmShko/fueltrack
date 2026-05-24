@@ -80,8 +80,25 @@
             gap: 5px;
 
             padding: 10px;
-        }
 
+            .courseButton {
+
+                 @keyframes rotate-animation {
+                            from {
+                                transform: rotate(0deg);
+                            }
+                            to {
+                                transform: rotate(360deg);
+                            }
+                            }
+
+                .loader {
+
+                    animation: rotate-animation 1s linear infinite;
+                }
+            }
+        }
+         
         button {
 
             display: flex;

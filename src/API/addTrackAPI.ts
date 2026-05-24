@@ -5,7 +5,7 @@ import axios from "axios";
 import { AddTrackArgs } from '../types/types';
 
 const URL='https://fueltrack-server-3ubz.onrender.com/api/track/';
-//const URL='http://localhost:3000/api/track/';
+// const URL='http://localhost:3000/api/track/';
 
 // createAsyncThunk<return data type, arg type, rejectValue type>
 export const addtrackAPI = createAsyncThunk<any, AddTrackArgs,{rejectValue: string}>(

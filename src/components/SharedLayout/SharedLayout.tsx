@@ -36,7 +36,6 @@ import Menu from '../SvgComponents/Menu/Menu.tsx';
 // types
 import { NewDateType } from '../../types/types'
 
-
 const SharedLayout: FC = () => {  
 
     const tokenSelector = useAppSelector(state => state.signIn.token);
@@ -145,19 +144,19 @@ const SharedLayout: FC = () => {
 
     const clearMessages = () => {
     
-     dispatch(changeSingIn({operation: 'clearMessage', data: ''}));
+      dispatch(changeSingIn({operation: 'clearMessage', data: ''}));
+      dispatch(changeLogout({operation: 'clearMessage', data: ''}));
   
     };
-
 
     return (
         <>
         
           {alertModalToggle && <TrackModal openClose={openModalAlert}>
                   
-            <InfoModal openClose={openModal} clearIs={() => {}} clearMessages ={ () =>  clearMessages()} props={{messages: logOutMessageSelector,}}/>
+            <InfoModal openClose={openModalAlert} clearIs={() => {}} clearMessages ={() =>  clearMessages()} props={{messages: logOutMessageSelector,}}/>
 
-            </TrackModal>
+          </TrackModal>
           }
           
           <header className={sh.header}>

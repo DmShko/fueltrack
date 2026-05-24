@@ -51,7 +51,7 @@ const singInSlice = createSlice({
         state.company = action.payload.data.company;
         state.id = action.payload.data.id;
         state.isLogIn = true;
-        state.message = 'User is logined';
+        // state.message = 'User is logined';
         state.name = action.payload.data.name;
         // some actions with 'action'...
       });
