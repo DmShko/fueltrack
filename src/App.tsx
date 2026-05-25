@@ -8,7 +8,8 @@ import NotFound from './pages/NotFound/NotFound.tsx';
 import Home from './pages/Home/Home.tsx';
 import Tracks from './pages/Tracks/Tracks.tsx';
 import SignIn from './pages/SignIn/SignIn.tsx';
-import SignUp from './pages/SignUp/SignUp.tsx';
+import SignUp from './pages/SignUp/SignUp.tsx'; 
+import About from './pages/About/About.tsx';
 
 import './App.css';
 
@@ -17,6 +18,7 @@ const INFORMATION = '/information';
 const SIGNIN = '/signin';
 const SIGNUP = '/signup';
 const NOTFOUND = '/*';
+const ABOUT = '/about';
 
 const App = () => {
 
@@ -28,6 +30,7 @@ const App = () => {
   {path: SIGNIN, element: <SignIn />,}, 
   {path: SIGNUP, element: <SignUp />,},
   {path: NOTFOUND, element: <NotFound />,},
+  {path: ABOUT, element: <About />,},
   
   ];
   

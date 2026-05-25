@@ -22,7 +22,7 @@ const DayNight: FC = () => {
 
   const lightModeSelector = useAppSelector(state => state.ser.lightMode);
 
-  const [ lightMode, setLightMode ] = useState<LightModeType>(LightModeType.light);
+  const [ lightMode, setLightMode ] = useState<LightModeType>(lightModeSelector);
 
   const [isMoved, setIsMoved] = useState(false);
 
@@ -103,7 +103,7 @@ const DayNight: FC = () => {
             }}
             onClick={handleToggle} // Викликаємо захищену функцію
           >
-            {isMoved ? <Sun width='18px' height='18px'/> : <Moon width='18px' height='18px'/>}
+            {lightModeSelector ===  LightModeType.dark ? <Sun width='18px' height='18px'/> : <Moon width='18px' height='18px'/>}
         </animated.button>
         
     </div>

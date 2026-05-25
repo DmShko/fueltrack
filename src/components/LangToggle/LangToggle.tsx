@@ -17,7 +17,9 @@ const LangToggle = () => {
 
   const lightModeSelector = useAppSelector(state => state.ser.lightMode);
 
-  const [langToggle, setLangToggle] = useState<LangType>(LangType.en);
+  const langeSelector = useAppSelector(state => state.ser.language);
+
+  const [langToggle, setLangToggle] = useState<LangType>(langeSelector);
 
   const [isMoved, setIsMoved] = useState(false);
 
@@ -47,13 +49,15 @@ const LangToggle = () => {
         setLangToggle(LangType.ua);
 
       } else {
-          setLangToggle(LangType.en);
+
+        setLangToggle(LangType.en);
+        
       };
       
       api.start({
         to: async (next) => {
           if (nextState) {
-           
+            
             await next({ 
               width: `${maxWidth}px`, 
               transform: 'translateX(0px)',
@@ -108,7 +112,7 @@ const LangToggle = () => {
             }}
             onClick={handleToggle} // Викликаємо захищену функцію
           >
-            {isMoved ? 'Ua' : 'En'}
+            {langeSelector === LangType.ua ? 'Ua' : 'En'}
         </animated.button>
         
     </div>

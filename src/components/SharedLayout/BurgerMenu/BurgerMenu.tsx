@@ -16,6 +16,10 @@ import Arrow from '../../SvgComponents/Arrow/Arrow';
 // styles
 import bm from './BurgerMenu.module.scss'
 
+import DayNight  from '../../DayNight/DayNight';
+
+import LangToggle from "../../LangToggle/LangToggle.tsx";
+
 const BurgerMenu: FC<PropsWithChildren<BurgerModalPropsTypes>> = ({ openClose, logout }) => {
 
   const tokenSelector = useAppSelector(state => state.signIn.token);
@@ -39,6 +43,8 @@ const BurgerMenu: FC<PropsWithChildren<BurgerModalPropsTypes>> = ({ openClose, l
                 <li className={bm.navItem} style={location.pathname === '/information' ? {color: 'white', borderColor: 'gray'} : {color: 'white'}}>
                   <NavLink to={"/information"} style={{color: 'white'}}>information</NavLink>
                 </li>
+                  <DayNight/>
+                  <LangToggle/>
               </ul>
         </ul>}
 

@@ -17,6 +17,17 @@ header {
 
         //background: linear-gradient(white 70%, #aab1f8 25%);
 
+        .settContainer {
+
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 10px;
+
+        }
+
         .time {
             display: flex;
             flex-direction: row;
@@ -303,6 +314,12 @@ header {
 
         background: linear-gradient(white 70%, #aab1f8 25%);
 
+        .settContainer {
+
+            display: none;
+
+        }
+
         .time {
 
            display: none;
@@ -382,6 +399,12 @@ header {
 
         background: linear-gradient(white 70%, #aab1f8 25%);
 
+        .settContainer {
+
+            display: none;
+
+        }
+
         .time {
 
            display: none;
@@ -414,8 +437,7 @@ header {
    
 }
 
-
-@media screen and (min-width: 768px) and (max-width: 1439px){
+@media screen and (min-width: 768px) and (max-width: 1439px) {
 
        .burger {
 

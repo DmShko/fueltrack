@@ -176,9 +176,11 @@ const SharedLayout: FC = () => {
 
               <div className={sh.time}><p className={sh.today}>{'Today'}</p><p>{newDateObj !== undefined ? `${newDateObj.datedata}.${newDateObj.yeardata} ${newDateObj?.timedata}:${newDateObj.dateSeconds}`: ''}</p></div>
               
-              <LangToggle/>
-              
-              <DayNight/>
+              <div className={sh.settContainer}>
+                <LangToggle/>
+                
+                <DayNight/>
+              </div>
               
               {!tokenSelector && <ul className={sh.navList}>
                 <li className={sh.navItem} style={location.pathname === '/signIn' ? {color: 'white', borderColor: 'gray',} : {color: 'white'}}>
@@ -193,7 +195,7 @@ const SharedLayout: FC = () => {
               {tokenSelector && <button className={sh.out} type="button" onClick={logout}><OpenSpace width={'40px'} height={'40px'} fill="white"/></button>
               }
 
-              {tokenSelector && <button className={sh.burger} onClick={() => setModalToggle(state => !state)}><Menu width={'35px'} height={'35px'} fill="#aab1f8"/></button>}
+              {tokenSelector && <button className={sh.burger} onClick={() => setModalToggle(state => !state)} style={{backgroundColor: lightModeSelector === 'dark' ? '#7c73ce': 'white'}}><Menu width={'35px'} height={'35px'} fill="#aab1f8"/></button>}
 
             </div>
 
@@ -203,7 +205,7 @@ const SharedLayout: FC = () => {
             { 
               <BurgerMenu openClose={openModal} logout={() => logout()}/>
             }
-            </BurgerModal>}
+          </BurgerModal>}
     
           <main>
             <Suspense fallback={"..loading"}>
@@ -221,8 +223,8 @@ const SharedLayout: FC = () => {
 
               <div className={sh.addInfo}>
 
-                <p>{languageSelector === 'En' ? 'Information': 'Інформація'}</p>
-                <p>{languageSelector === 'En' ? 'About resource': 'Про ресурс'}</p> 
+                <NavLink to={"/Information"} style={{color: 'white'}}> {languageSelector === 'En' ? 'Information': 'Інформація'} </NavLink>
+                <NavLink to={"/about"} style={{color: 'white'}}> {languageSelector === 'En' ? 'About resource': 'Про ресурс'} </NavLink>
 
               </div>
 
