@@ -170,7 +170,7 @@ const SharedLayout: FC = () => {
                   <NavLink to={"/tracks"} style={{color: 'white'}}>{languageSelector === 'En' ? 'tracks': 'треки'}</NavLink>
                 </li>}
                 <li className={sh.navItem} style={location.pathname === '/information' ? {color: 'white', borderColor: 'gray'} : {color: 'white'}}>
-                  <NavLink to={"/information"} style={{color: 'white'}}>{languageSelector === 'En' ? 'information': 'інформація'}</NavLink>
+                  <NavLink to={"/information"} style={{color: 'white'}}>{languageSelector === 'En' ? 'info': 'інфо'}</NavLink>
                 </li>
               </ul>
 
